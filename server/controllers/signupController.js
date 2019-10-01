@@ -26,7 +26,7 @@ const signupController = {
         res.status(404).send({ error: error.message })
       })
     console.log(createdUser)
-    res.status(200).send({ message: '登録完了です' })
+    res.status(200).send({ message: '登録完了です', user: createdUser })
   }
 }
 module.exports = signupController

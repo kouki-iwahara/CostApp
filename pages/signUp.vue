@@ -30,7 +30,7 @@
 
             <button
               class="btn btn-lg btn-outline-info btn-block"
-              @click="signup"
+              @click="signUp"
             >
               Sign Up
             </button>
@@ -50,8 +50,6 @@
 </template>
 
 <script>
-import querystring from 'querystring'
-
 export default {
   data() {
     return {
@@ -60,22 +58,19 @@ export default {
     }
   },
   methods: {
-    signup() {
-      const req = {
+    // emailとpasswordでsignup処理
+    async signUp() {
+      const reqUserInfo = {
         email: this.email,
         password: this.password
       }
-      this.$axios
-        .$post('/signup', querystring.stringify(req))
-        .then((res) => {
-          alert(res.message)
-          if (res.message === '登録完了です') {
-            this.$router.push({ path: '/signin' })
-          }
-        })
-        .catch((error) => {
-          console.log(error.message)
-        })
+      // 入力されたデータをpost 成功でresult.userにuser情報が格納される
+      const res = await this.$store.dispatch('user/signUp', reqUserInfo)
+      alert(res.message)
+      // 登録完了ならsigninページに遷移
+      if (res.user) {
+        this.$router.push({ path: '/signin' })
+      }
     }
   }
 }
