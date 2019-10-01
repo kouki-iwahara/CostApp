@@ -65,9 +65,17 @@ export default {
         email: this.email,
         password: this.password
       }
-      this.$axios.$post('/signup', querystring.stringify(req)).then((res) => {
-        alert(res)
-      })
+      this.$axios
+        .$post('/signup', querystring.stringify(req))
+        .then((res) => {
+          alert(res.message)
+          if (res.message === '登録完了です') {
+            this.$router.push({ path: '/signin' })
+          }
+        })
+        .catch((error) => {
+          console.log(error.message)
+        })
     }
   }
 }

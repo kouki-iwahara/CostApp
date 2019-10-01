@@ -1,6 +1,7 @@
 const models = require('../models')
 
 const signupController = {
+  // emailとpasswordでsignup
   async signUp(req, res) {
     console.log(req.body)
     const email = req.body.email
@@ -13,7 +14,7 @@ const signupController = {
       })
     // emailが登録済みならフロントに返す
     if (user) {
-      return res.send('そのEmailは既に使われています')
+      return res.send({ message: 'そのEmailは既に使われています' })
     }
     // emailが使われていなければuser作成
     const createdUser = await models.user
@@ -25,7 +26,7 @@ const signupController = {
         res.status(404).send({ error: error.message })
       })
     console.log(createdUser)
-    res.sendStatus(200)
+    res.status(200).send({ message: '登録完了です' })
   }
 }
 module.exports = signupController
