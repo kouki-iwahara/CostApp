@@ -3,34 +3,34 @@
     <div class="wrapper">
       <div class="login-form row">
         <div class="col-sm-12">
-          <form action="" method="post" name="Login_Form" class="form-signin">
+          <div class="form-signin">
             <h3 class="form-signin-heading">Sign Up</h3>
 
-            <label for="username">Username</label>
+            <label for="email">Email</label>
             <input
-              id="username"
-              type="text"
+              id="email"
+              v-model="email"
+              type="email"
               class="form-control"
-              name="Username"
-              placeholder="Username"
+              name="email"
+              placeholder="Email"
               required=""
               autofocus=""
             />
             <label for="password">password</label>
             <input
               id="password"
+              v-model="password"
               type="password"
               class="form-control"
-              name="Password"
+              name="password"
               placeholder="Password"
               required=""
             />
 
             <button
               class="btn btn-lg btn-outline-info btn-block"
-              name="Submit"
-              value="Login"
-              type="Submit"
+              @click="signup"
             >
               Sign Up
             </button>
@@ -42,7 +42,7 @@
                 Home
               </nuxt-link>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
@@ -50,7 +50,27 @@
 </template>
 
 <script>
-export default {}
+import querystring from 'querystring'
+
+export default {
+  data() {
+    return {
+      email: '',
+      password: ''
+    }
+  },
+  methods: {
+    signup() {
+      const req = {
+        email: this.email,
+        password: this.password
+      }
+      this.$axios.$post('/signup', querystring.stringify(req)).then((res) => {
+        alert(res)
+      })
+    }
+  }
+}
 </script>
 
 <style scoped>
