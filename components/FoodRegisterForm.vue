@@ -81,7 +81,11 @@
     </div>
     <div class="btn-form row offset-3">
       <div class="col-sm-6">
-        <button type="button" class="btn btn-info btn-block btn-lg">
+        <button
+          type="button"
+          class="btn btn-info btn-block btn-lg"
+          @click="registerFood"
+        >
           登録
         </button>
       </div>
@@ -118,6 +122,7 @@ export default {
         amount: '',
         yield: 100,
         unit: '',
+        cost: this.foodCost,
         comment: '',
         image: require('~/assets/pasta.jpg')
       },
@@ -162,6 +167,17 @@ export default {
         this.food.image = fileData.target.result
       }
       reader.readAsDataURL(selectedFile)
+    },
+    async registerFood() {
+      if (!this.food.name || !this.food.value || !this.food.amount) {
+        alert('必須項目を入力してください')
+        return
+      }
+      const res = await this.$store.dispatch('food/registerFood', this.food)
+      alert(res.message)
+      if (res.food) {
+        this.$router.push({ path: '/' })
+      }
     }
   }
 }
