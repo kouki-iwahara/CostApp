@@ -81,7 +81,11 @@
     </div>
     <div class="btn-form row offset-3">
       <div class="col-sm-6">
-        <button type="button" class="btn btn-info btn-block btn-lg">
+        <button
+          type="button"
+          class="btn btn-info btn-block btn-lg"
+          @click="registerFood"
+        >
           登録
         </button>
       </div>
@@ -162,6 +166,54 @@ export default {
         this.food.image = fileData.target.result
       }
       reader.readAsDataURL(selectedFile)
+    },
+    // 画像のアップロード
+    async upLoadImage(selectedFile) {
+      // アップロードされた画像のデータを格納
+      const upLoadedImageData = await this.$store
+        .dispatch('food/upLoadImage', selectedFile)
+        .catch((error) => {
+          console.log(error.message)
+        })
+      // 画像の名前を返す
+      return upLoadedImageData.ref.name
+    },
+    // アップロードされた画像のURLを取得
+    async getDownloadURL(upLoadedImageName) {
+      // 画像URLが格納される
+      const url = await this.$store
+        .dispatch('food/getDownloadURL', upLoadedImageName)
+        .catch((error) => {
+          console.log(error.message)
+        })
+      return url
+    },
+    // 入力されたデータを登録
+    async registerFood() {
+      // 食材の名前、値段、量、単位が必須項目
+      if (
+        !this.food.name ||
+        !this.food.value ||
+        !this.food.amount ||
+        !this.food.unit
+      ) {
+        alert('必須項目を入力してください')
+        return
+      }
+      // 画像が選択されていればアップロード
+      if (this.selectedFile) {
+        const upLoadedImageName = await this.upLoadImage(this.selectedFile)
+        // アップロードされた画像のURLを取得
+        this.food.image = await this.getDownloadURL(upLoadedImageName)
+      }
+      // 食材原価を格納
+      this.food.cost = this.foodCost
+      // 食材データを登録
+      const res = await this.$store.dispatch('food/registerFood', this.food)
+      alert(res.message)
+      if (res.food) {
+        this.$router.push({ path: '/' })
+      }
     }
   }
 }
