@@ -2,7 +2,7 @@
   <div class="content container-fluid">
     <div class="row offset-3">
       <div class="content_image col-sm-12">
-        <food-image :image="food.image">
+        <food-image :image="recipe.image">
           <template slot="input-file">
             <input-file @getFileData="getFileData" />
           </template>
@@ -12,29 +12,57 @@
       <div class="content_form col-sm-12">
         <div class="row">
           <div class="col-sm-12">
-            <input-lg>
-              レシピ名
-            </input-lg>
-            <input-lg>￥売価格</input-lg>
+            <input-form
+              v-model="recipe.name"
+              placeholder="カルボナーラ"
+              type="text"
+              class="content_form_input"
+            >
+              <template slot="content">
+                レシピ名
+              </template>
+            </input-form>
+            <input-form
+              v-model="recipe.value"
+              placeholder="100"
+              type="number"
+              class="content_form_input"
+            >
+              <template slot="content">
+                ￥売価格
+              </template>
+              <div slot="input-append" class="input-group-append">
+                <span
+                  id="inputGroup-sizing-lg"
+                  class="input-group-text rounded-0"
+                >
+                  円
+                </span>
+              </div>
+            </input-form>
             <food-content class="content_form_food-content">
               <template slot="content-label">
                 原価
               </template>
               <template slot="food-content">
-                100円
+                {{ recipe.cost }}
               </template>
             </food-content>
             <food-content class="content_form_food-content">
               <template slot="content-label">
-                原価率
+                原価率(％)
               </template>
               <template slot="food-content">
-                30%
+                {{ recipeCostRate }}
               </template>
             </food-content>
           </div>
           <div class="btn-form col-sm-12">
-            <button type="button" class="btn btn-info btn-block btn-lg">
+            <button
+              type="button"
+              class="btn btn-info btn-block btn-lg"
+              @click="registerRecipe"
+            >
               登録
             </button>
           </div>
@@ -58,13 +86,13 @@
         </nuxt-link>
       </div>
       <div class="food-add-to-menu-form col-sm-12">
-        <add-food-form />
+        <add-food-form v-model="amount" />
       </div>
       <div class="col-sm-12">
         <recipe-table />
       </div>
       <div class="col-sm-12">
-        <comment-form v-model="food.comment" />
+        <comment-form v-model="recipe.comment" />
       </div>
       <div class="btn-form col-sm-6">
         <button type="button" class="btn btn-danger btn-block btn-lg">
@@ -82,26 +110,39 @@ import FoodContent from '~/components/FoodContent.vue'
 import AddFoodForm from '~/components/AddFoodForm.vue'
 import RecipeTable from '~/components/RecipeTable.vue'
 import CommentForm from '~/components/CommentForm.vue'
-import InputLg from '~/components/inputLg.vue'
 import inputFile from '~/components/inputFile.vue'
+import InputForm from '~/components/InputForm.vue'
 
 export default {
   components: {
     FoodImage,
     FoodContent,
-    InputLg,
     CommentForm,
     AddFoodForm,
     RecipeTable,
-    inputFile
+    inputFile,
+    InputForm
   },
   data() {
     return {
-      food: {
+      recipe: {
+        name: '',
+        value: '',
+        cost: '100',
         comment: '',
         image: require('~/assets/pasta.jpg')
       },
+      amount: '',
       selectedFile: ''
+    }
+  },
+  computed: {
+    recipeCostRate() {
+      const costRate = (this.recipe.cost / this.recipe.value) * 100
+      if (isFinite(costRate)) {
+        return Math.round(costRate * 10) / 10
+      }
+      return '表示されます'
     }
   },
   methods: {
@@ -128,6 +169,10 @@ export default {
         this.food.image = fileData.target.result
       }
       reader.readAsDataURL(selectedFile)
+    },
+    registerRecipe() {
+      this.recipe.costRate = this.recipeCostRate
+      console.log(this.recipe)
     }
   }
 }
