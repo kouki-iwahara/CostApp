@@ -1,10 +1,10 @@
 <template>
   <div class="wrapper">
-    <Header>
-      追加する食材
-    </Header>
+    <Header />
     <recipe-register-form />
-    <side-bar />
+    <side-bar>
+      追加する食材
+    </side-bar>
   </div>
 </template>
 
