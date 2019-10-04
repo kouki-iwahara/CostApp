@@ -1,10 +1,10 @@
 <template>
   <div class="wrapper">
-    <Header>
-      <strong>全てのメニュー</strong>
-    </Header>
+    <Header />
     <recipe-display />
-    <side-bar />
+    <side-bar>
+      全てのメニュー
+    </side-bar>
   </div>
 </template>
 

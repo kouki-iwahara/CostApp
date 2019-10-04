@@ -1,26 +1,25 @@
 <template>
   <div>
-    <nav class="header fixed-top navbar navbar-expand-md navbar-dark bg-dark">
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarNav4"
-        aria-controls="navbarNav4"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
+    <b-navbar
+      class="header fixed-top navbar navbar-dark bg-dark"
+      toggleable="md"
+    >
+      <b-navbar-toggle target="nav_collapse" />
+      <b-collapse
+        id="nav_collapse"
+        class="nav-list collapse navbar-collapse bg-dark"
+        is-nav
       >
-        <span class="navbar-toggler-icon" />
-      </button>
-      <div id="navbarNav4" class="nav-list collapse navbar-collapse">
-        <div class="test col-sm-3">
-          <p class="nav-list_info text-dark rounded">
-            <slot>
-              全ての食材
-            </slot>
-          </p>
-        </div>
-        <div class="nav-list_item">
+        <b-nav-form class="nav-form">
+          <b-form-input
+            size="sm"
+            class="mr-sm-2 search-form"
+            type="text"
+            placeholder="Search"
+          />
+          <b-button size="sm" class="my-2 my-sm-0" type="button">検索</b-button>
+        </b-nav-form>
+        <b-navbar-nav class="nav-list_item">
           <ul class="navbar-nav">
             <!-- アクティブつけたい -->
             <li class="nav-item">
@@ -44,23 +43,31 @@
               </nuxt-link>
             </li>
           </ul>
-        </div>
+        </b-navbar-nav>
         <!-- /nav-list_item -->
         <div class="nav-list_item_btn">
-          <button class="btn btn-light" type="button">
-            <nuxt-link to="/signin" class="nav-link">
-              ログイン
-            </nuxt-link>
+          <button
+            class="signin-btn btn btn-light"
+            type="button"
+            @click="toSignin"
+          >
+            ログイン
           </button>
         </div>
-      </div>
+      </b-collapse>
       <!-- /nav-list -->
-    </nav>
+    </b-navbar>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  methods: {
+    toSignin() {
+      this.$router.push('/signin')
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -75,15 +82,7 @@ export default {}
 .nav-list {
   margin: 0 auto;
   max-width: 1024px;
-}
-.nav-list_info {
-  font-size: 20px;
-  font-weight: bold;
-  background-color: #f4f5f7;
-  text-align: center;
-  line-height: 50px;
-  margin: 10px 0px;
-  height: 50px;
+  opacity: 0.9;
 }
 .nav-list_item {
   display: flex;
@@ -93,5 +92,21 @@ export default {}
   padding-right: 15px;
   margin: 0 0 0 auto;
 }
+.mr-sm-2 {
+  margin-left: 15px;
+}
+.nav-form {
+  display: none;
+}
 /* /nav-list */
+@media screen and (min-width: 768px) {
+  .nav-list {
+    margin: 0 auto;
+    height: 70px;
+    max-width: 1024px;
+  }
+  .nav-form {
+    display: block;
+  }
+}
 </style>
