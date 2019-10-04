@@ -151,7 +151,7 @@ export default {
       this.selectedFile = fileData
       // ファイルを選んでなければ初期値に戻す
       if (!this.selectedFile) {
-        this.food.image = require('~/assets/pasta.jpg')
+        this.recipe.image = require('~/assets/pasta.jpg')
         return
       }
       // プレビューを作成
@@ -166,13 +166,44 @@ export default {
       }
       const reader = new FileReader()
       reader.onload = (fileData) => {
-        this.food.image = fileData.target.result
+        this.recipe.image = fileData.target.result
       }
       reader.readAsDataURL(selectedFile)
     },
-    registerRecipe() {
+    // 画像のアップロード
+    async upLoadImage(selectedFile) {
+      // アップロードされた画像のデータを格納
+      const upLoadedImageData = await this.$store
+        .dispatch('food/upLoadImage', selectedFile)
+        .catch((error) => {
+          console.log(error.message)
+        })
+      // 画像の名前を返す
+      return upLoadedImageData.ref.name
+    },
+    // アップロードされた画像のURLを取得
+    async getDownloadURL(upLoadedImageName) {
+      // 画像URLが格納される
+      const url = await this.$store
+        .dispatch('food/getDownloadURL', upLoadedImageName)
+        .catch((error) => {
+          console.log(error.message)
+        })
+      return url
+    },
+    async registerRecipe() {
+      if (!this.recipe.name) {
+        return alert('必須項目を入力してください')
+      }
+      // 画像が選択されていればアップロードとURL取得
+      if (this.selectedFile) {
+        const upLoadedImageName = await this.upLoadImage(this.selectedFile)
+        // アップロードされた画像のURLを取得
+        this.recipe.image = await this.getDownloadURL(upLoadedImageName)
+      }
       this.recipe.costRate = this.recipeCostRate
-      console.log(this.recipe)
+      this.$store.dispatch('recipe/registerRecipe', this.recipe)
+      console.log(this.$store.state.recipe.recipes)
     }
   }
 }
