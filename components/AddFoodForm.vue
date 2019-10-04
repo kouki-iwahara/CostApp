@@ -14,11 +14,12 @@
       </div>
       <div class="input-group input-group-lg">
         <input
-          type="text"
+          type="number"
           class="form-control rounded-0"
-          placeholder=""
-          aria-label="サイズの入力例"
+          placeholder="使用量"
+          min="0"
           aria-describedby="inputGroup-sizing-lg"
+          @input="updateValue"
         />
         <div class="input-group-prepend">
           <span id="inputGroup-sizing-lg" class="input-group-text rounded-0">
@@ -55,7 +56,14 @@
 </template>
 
 <script>
-export default {}
+export default {
+  methods: {
+    updateValue(e) {
+      console.log(e.target)
+      this.$emit('input', e.target.value)
+    }
+  }
+}
 </script>
 
 <style scoped>
