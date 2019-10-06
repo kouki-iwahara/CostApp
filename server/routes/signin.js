@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router()
-// const passport = require('passport')
 const authenticator = require('../auth/authenticator')
 
 router.post('/', (req, res, next) => {

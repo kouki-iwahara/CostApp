@@ -89,9 +89,7 @@ const authenticator = {
   },
   // sessionが切れているかの確認
   isAuthenticated(req, res, next) {
-    console.log('入った')
     if (req.isAuthenticated()) {
-      console.log('認証')
       return next()
     } else {
       res.send({
