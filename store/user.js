@@ -17,5 +17,13 @@ export const actions = {
         console.log(error.message)
       })
     return res
+  },
+  async signIn({ ctx }, reqUserInfo) {
+    const res = await this.$axios
+      .$post('/signin', querystring.stringify(reqUserInfo))
+      .catch((error) => {
+        console.log(error.message)
+      })
+    return res
   }
 }

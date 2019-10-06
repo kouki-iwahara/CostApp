@@ -1,14 +1,10 @@
 const express = require('express')
 const router = express.Router()
-const passport = require('passport')
+// const passport = require('passport')
+const authenticator = require('../auth/authenticator')
 
-router.post(
-  '/',
-  passport.authenticate('local-signin', {
-    successRedirect: '/',
-    failureRedirect: '/signin',
-    session: true
-  })
-)
+router.post('/', (req, res, next) => {
+  authenticator.authenticate(req, res, next)
+})
 
 module.exports = router

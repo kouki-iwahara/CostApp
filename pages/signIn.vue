@@ -10,6 +10,7 @@
             <span>(test@test.com)</span>
             <input
               id="email"
+              v-model="email"
               type="email"
               class="form-control"
               name="email"
@@ -21,6 +22,7 @@
             <span>(123456)</span>
             <input
               id="password"
+              v-model="password"
               type="password"
               class="form-control"
               name="password"
@@ -32,7 +34,8 @@
               class="btn btn-lg btn-outline-info btn-block"
               name="Submit"
               value="Login"
-              type="Submit"
+              type="button"
+              @click="signIn"
             >
               Sign In
             </button>
@@ -52,7 +55,32 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      email: '',
+      password: ''
+    }
+  },
+  methods: {
+    // emailとpwdでsignin
+    async signIn() {
+      const reqUserInfo = {
+        email: this.email,
+        password: this.password
+      }
+      // 入力されたデータで認証処理
+      const res = await this.$store.dispatch('user/signIn', reqUserInfo)
+      // 成功でresにuserIdが格納されている
+      if (res.userId) {
+        alert(res.message)
+        return this.$router.push('/')
+      }
+      // userIdが格納されていなかった＝ emailかpwdの入力ミスなのでその旨を表示する
+      alert(res.message)
+    }
+  }
+}
 </script>
 
 <style scoped>
