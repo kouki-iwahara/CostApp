@@ -5,6 +5,8 @@ const app = express()
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const config = require('../nuxt.config.js')
+const signinRouter = require('./routes/signin')
+const signupRouter = require('./routes/signup')
 const passport = require('./passportAuth').passport
 
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -20,8 +22,6 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 // Import and Set Nuxt.js options
-const signinRouter = require('./routes/signin')
-
 config.dev = process.env.NODE_ENV !== 'production'
 
 async function start() {
@@ -38,6 +38,7 @@ async function start() {
     await nuxt.ready()
   }
   app.use('/signin', signinRouter)
+  app.use('/signup', signupRouter)
   // Give nuxt middleware to express
   app.use(nuxt.render)
 

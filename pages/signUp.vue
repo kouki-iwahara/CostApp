@@ -3,34 +3,34 @@
     <div class="wrapper">
       <div class="login-form row">
         <div class="col-sm-12">
-          <form action="" method="post" name="Login_Form" class="form-signin">
+          <div class="form-signin">
             <h3 class="form-signin-heading">Sign Up</h3>
 
-            <label for="username">Username</label>
+            <label for="email">Email</label>
             <input
-              id="username"
-              type="text"
+              id="email"
+              v-model="email"
+              type="email"
               class="form-control"
-              name="Username"
-              placeholder="Username"
+              name="email"
+              placeholder="Email"
               required=""
               autofocus=""
             />
             <label for="password">password</label>
             <input
               id="password"
+              v-model="password"
               type="password"
               class="form-control"
-              name="Password"
+              name="password"
               placeholder="Password"
               required=""
             />
 
             <button
               class="btn btn-lg btn-outline-info btn-block"
-              name="Submit"
-              value="Login"
-              type="Submit"
+              @click="signUp"
             >
               Sign Up
             </button>
@@ -42,7 +42,7 @@
                 Home
               </nuxt-link>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
@@ -50,7 +50,30 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      email: '',
+      password: ''
+    }
+  },
+  methods: {
+    // emailとpasswordでsignup処理
+    async signUp() {
+      const reqUserInfo = {
+        email: this.email,
+        password: this.password
+      }
+      // 入力されたデータをpost 成功でresult.userにuser情報が格納される
+      const res = await this.$store.dispatch('user/signUp', reqUserInfo)
+      alert(res.message)
+      // 登録完了ならsigninページに遷移
+      if (res.user) {
+        this.$router.push({ path: '/signin' })
+      }
+    }
+  }
+}
 </script>
 
 <style scoped>
