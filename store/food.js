@@ -43,8 +43,11 @@ export const actions = {
       .catch((error) => {
         console.log(error.message)
       })
-    // stateにデータ格納
-    commit('setFood', res)
+    console.log(res)
+    // 食材データが返ってくればstateに格納
+    if (res.food) {
+      commit('setFood', res.food)
+    }
     return res
   }
 }
