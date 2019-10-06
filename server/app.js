@@ -5,13 +5,13 @@ const app = express()
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const config = require('../nuxt.config.js')
+const authenticator = require('./auth/authenticator')
 const indexRouter = require('./routes/index')
 const signinRouter = require('./routes/signin')
 const signupRouter = require('./routes/signup')
 const foodRegisterRouter = require('./routes/foodRegister')
 const recipeRegisterRouter = require('./routes/recipeRegister')
 const recipeCheckRouter = require('./routes/recipeCheck')
-const passport = require('./passportAuth').passport
 
 app.use(bodyParser.urlencoded({ extended: false }))
 // sessionの設定
@@ -22,9 +22,8 @@ app.use(
     saveUninitialized: true
   })
 )
-app.use(passport.initialize())
-app.use(passport.session())
-
+authenticator.initialize(app)
+authenticator.setStrategy()
 // Import and Set Nuxt.js options
 config.dev = process.env.NODE_ENV !== 'production'
 
