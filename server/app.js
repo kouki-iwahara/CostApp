@@ -5,8 +5,12 @@ const app = express()
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const config = require('../nuxt.config.js')
+const indexRouter = require('./routes/index')
 const signinRouter = require('./routes/signin')
 const signupRouter = require('./routes/signup')
+const foodRegisterRouter = require('./routes/foodRegister')
+const recipeRegisterRouter = require('./routes/recipeRegister')
+const recipeCheckRouter = require('./routes/recipeCheck')
 const passport = require('./passportAuth').passport
 
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -37,8 +41,12 @@ async function start() {
   } else {
     await nuxt.ready()
   }
+  app.use('/', indexRouter)
   app.use('/signin', signinRouter)
   app.use('/signup', signupRouter)
+  app.use('/foodRegisterPage', foodRegisterRouter)
+  app.use('/recipeRegisterPage', recipeRegisterRouter)
+  app.use('/recipeCheckPage', recipeCheckRouter)
   // Give nuxt middleware to express
   app.use(nuxt.render)
 
