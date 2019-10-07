@@ -1,105 +1,124 @@
 <template>
-  <div class="content container-fluid">
-    <div class="row offset-3">
-      <div class="content_image col-sm-12">
-        <food-image :image="food.image">
-          <template slot="input-file">
-            <input-file @getFileData="getFileData" />
-          </template>
-        </food-image>
+  <div>
+    <div class="content container-fluid">
+      <div class="row offset-3">
+        <div class="content_image col-sm-12">
+          <food-image :image="food.image">
+            <template slot="input-file">
+              <input-file @getFileData="getFileData" />
+            </template>
+          </food-image>
+        </div>
+        <div class="content_form col-sm-12">
+          <input-form
+            v-model="food.name"
+            placeholder="小麦粉"
+            type="text"
+            class="content_form_input"
+          >
+            <template slot="content">
+              食材名
+            </template>
+          </input-form>
+          <input-form
+            v-model="food.value"
+            placeholder="100"
+            type="number"
+            class="content_form_input"
+          >
+            <template slot="content">
+              ￥価格
+            </template>
+            <div slot="input-append" class="input-group-append">
+              <span
+                id="inputGroup-sizing-lg"
+                class="input-group-text rounded-0"
+              >
+                円
+              </span>
+            </div>
+          </input-form>
+          <input-form
+            v-model="food.amount"
+            placeholder="100"
+            type="number"
+            class="content_form_input"
+          >
+            <div slot="input-append" class="input-group-append">
+              <select
+                id="validationCustom04"
+                v-model="food.unit"
+                style="height: 48px;"
+                class="custom-select"
+                required
+              >
+                <option selected disabled value="">単位</option>
+                <option>g</option>
+                <option>ml</option>
+              </select>
+            </div>
+            <template slot="content">
+              食材量
+            </template>
+          </input-form>
+          <label for="customRange1"
+            >歩留まり{{ food.yield }}<span>％</span></label
+          >
+          <input
+            id="customRange1"
+            v-model="food.yield"
+            type="range"
+            class="custom-range"
+          />
+          <food-content>
+            <template slot="content-label">
+              原価
+            </template>
+            <template slot="food-content">
+              {{ foodCost }}
+            </template>
+          </food-content>
+        </div>
+        <div class="col-sm-12">
+          <comment-form v-model="food.comment" />
+        </div>
       </div>
-      <div class="content_form col-sm-12">
-        <input-form
-          v-model="food.name"
-          placeholder="小麦粉"
-          type="text"
-          class="content_form_input"
-        >
-          <template slot="content">
-            食材名
-          </template>
-        </input-form>
-        <input-form
-          v-model="food.value"
-          placeholder="100"
-          type="number"
-          class="content_form_input"
-        >
-          <template slot="content">
-            ￥価格
-          </template>
-          <div slot="input-append" class="input-group-append">
-            <span id="inputGroup-sizing-lg" class="input-group-text rounded-0">
-              円
-            </span>
-          </div>
-        </input-form>
-        <input-form
-          v-model="food.amount"
-          placeholder="100"
-          type="number"
-          class="content_form_input"
-        >
-          <div slot="input-append" class="input-group-append">
-            <select
-              id="validationCustom04"
-              v-model="food.unit"
-              style="height: 48px;"
-              class="custom-select"
-              required
-            >
-              <option selected disabled value="">単位</option>
-              <option>g</option>
-              <option>ml</option>
-            </select>
-          </div>
-          <template slot="content">
-            食材量
-          </template>
-        </input-form>
-        <label for="customRange1"
-          >歩留まり{{ food.yield }}<span>％</span></label
-        >
-        <input
-          id="customRange1"
-          v-model="food.yield"
-          type="range"
-          class="custom-range"
-        />
-        <food-content>
-          <template slot="content-label">
-            原価
-          </template>
-          <template slot="food-content">
-            {{ foodCost }}
-          </template>
-        </food-content>
-      </div>
-      <div class="col-sm-12">
-        <comment-form v-model="food.comment" />
+      <div class="btn-form row offset-3">
+        <div class="col-sm-6">
+          <button
+            type="button"
+            class="btn btn-info btn-block btn-lg"
+            @click="registerFood"
+          >
+            登録
+          </button>
+        </div>
+        <div class="col-sm-6">
+          <button type="button" class="btn btn-danger btn-block btn-lg">
+            削除
+          </button>
+        </div>
       </div>
     </div>
-    <div class="btn-form row offset-3">
-      <div class="col-sm-6">
-        <button
-          type="button"
-          class="btn btn-info btn-block btn-lg"
-          @click="registerFood"
-        >
-          登録
-        </button>
-      </div>
-      <div class="col-sm-6">
-        <button type="button" class="btn btn-danger btn-block btn-lg">
-          削除
-        </button>
-      </div>
-    </div>
+    <side-bar>
+      <ul
+        v-for="item in foods"
+        slot="content-list"
+        :key="item.id"
+        class="list-group list-group-flush"
+      >
+        <li class="food-list_item list-group-item border-bottom border-info">
+          {{ item.name }}
+        </li>
+      </ul>
+    </side-bar>
   </div>
+
   <!-- /content -->
 </template>
 
 <script>
+import SideBar from '~/components/SideBar.vue'
 import FoodImage from '~/components/FoodImage.vue'
 import CommentForm from '~/components/CommentForm.vue'
 import FoodContent from '~/components/FoodContent.vue'
@@ -108,6 +127,7 @@ import InputForm from '~/components/InputForm.vue'
 
 export default {
   components: {
+    SideBar,
     FoodImage,
     CommentForm,
     FoodContent,
@@ -129,6 +149,9 @@ export default {
     }
   },
   computed: {
+    foods() {
+      return this.$store.getters['food/foods']
+    },
     foodCost() {
       // 計算結果が有理数(Finite)なら表示
       if (isFinite(this.food.value / this.food.amount)) {
@@ -211,7 +234,7 @@ export default {
       // 食材データを登録
       const res = await this.$store.dispatch('food/registerFood', this.food)
       alert(res.message)
-      if (res.food) {
+      if (res.result) {
         this.$router.push({ path: '/' })
       }
     }

@@ -4,45 +4,24 @@
       <div class="sidebar_search col-sm-3 hidden-xs  bg-dark">
         <div class="nav-list_info bg-info text-dark">
           <p>
-            <slot>
+            <slot name="cotent">
               全ての食材
             </slot>
           </p>
         </div>
       </div>
       <div class="sidebar_list col-sm-3 hidden-xs bg-dark">
-        <ul
-          v-for="item in foodList"
-          :key="item.id"
-          class="list-group list-group-flush"
-        >
-          <li class="food-list_item list-group-item border-bottom border-info">
-            {{ item.sample }}
-          </li>
-        </ul>
+        <slot name="content-list" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      foodList: [],
-      category: 'food'
-    }
-  },
-  created() {
-    for (let i = 1; i < 50; i++) {
-      const sample = { sample: 'sampleData' }
-      this.foodList.push(sample)
-    }
-  }
-}
+export default {}
 </script>
 
-<style>
+<style scoped>
 /* sidebar */
 .sidebar_search,
 .sidebar_list {
@@ -51,7 +30,7 @@ export default {
 .sidebar_list ul {
   text-align: center;
 }
-.sidebar_list li:hover {
+.food-list_item:hover {
   cursor: pointer;
   opacity: 0.5;
   -webkit-filter: brightness(0.9);
@@ -83,6 +62,12 @@ export default {
     display: block;
     overflow-x: hidden;
     overflow-y: auto;
+  }
+  .food-list_item:hover {
+    cursor: pointer;
+    opacity: 0.5;
+    -webkit-filter: brightness(0.9);
+    filter: brightness(0.9);
   }
 }
 </style>

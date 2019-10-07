@@ -6,7 +6,10 @@ export const state = () => ({
 })
 
 export const mutations = {
-  setFood(state, food) {
+  setFoods(state, allFoodData) {
+    state.foods = allFoodData.slice()
+  },
+  addFood(state, food) {
     state.foods.push(food)
   }
 }
@@ -34,19 +37,29 @@ export const actions = {
     const url = await storageRef.child(`images/${file}`).getDownloadURL()
     return url
   },
+  // 全ての食材データ取得
+  async getFoodData({ commit }) {
+    // 全ての食材データが格納される
+    const res = await this.$axios.$get('/food').catch((error) => {
+      console.log(error.message)
+    })
+    const allFoodData = res.result.slice()
+    // stateに食材データを格納
+    commit('setFoods', allFoodData)
+  },
   // DBに食材を登録しstateにデータ格納
   async registerFood({ commit }, reqFoodInfo) {
     console.log(reqFoodInfo)
     // DBに登録
     const res = await this.$axios
-      .$post('/foodRegisterPage', querystring.stringify(reqFoodInfo))
+      .$post('/food', querystring.stringify(reqFoodInfo))
       .catch((error) => {
         console.log(error.message)
       })
     console.log(res)
     // 食材データが返ってくればstateに格納
-    if (res.food) {
-      commit('setFood', res.food)
+    if (res.result) {
+      commit('addFood', res.result)
     }
     return res
   }

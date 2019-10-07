@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
       yield: DataTypes.STRING,
       unit: DataTypes.STRING,
       cost: DataTypes.DECIMAL,
-      comment: DataTypes.STRING
+      comment: DataTypes.STRING,
+      image: DataTypes.STRING
     },
     {
       underscored: true
