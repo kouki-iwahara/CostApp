@@ -113,8 +113,6 @@
       </ul>
     </side-bar>
   </div>
-
-  <!-- /content -->
 </template>
 
 <script>

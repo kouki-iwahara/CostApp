@@ -6,7 +6,7 @@
 
     <div class="food-content col-sm-3">
       <span>食材名</span>
-      <strong>表示されます</strong>
+      <strong>{{ foodName }}</strong>
     </div>
     <div class="food-content col-sm-3">
       <div class="food-content_amount">
@@ -15,6 +15,7 @@
       <div class="input-group input-group-lg">
         <input
           type="number"
+          :value="value"
           class="form-control rounded-0"
           placeholder="使用量"
           min="0"
@@ -23,14 +24,14 @@
         />
         <div class="input-group-prepend">
           <span id="inputGroup-sizing-lg" class="input-group-text rounded-0">
-            g
+            {{ foodUnit }}
           </span>
         </div>
       </div>
     </div>
     <div class="food-content col-sm-3">
       <span>原価</span>
-      <strong>表示されます</strong>
+      <strong>{{ foodCost }}</strong>
     </div>
     <div class="add-btn col-sm-3">
       <div class="row">
@@ -38,6 +39,7 @@
           <button
             type="button"
             class="btn btn-outline-success btn-block btn-sm"
+            @click="addFoodToRecipe"
           >
             追加
           </button>
@@ -57,10 +59,31 @@
 
 <script>
 export default {
+  props: {
+    value: {
+      type: String,
+      required: true
+    },
+    foodName: {
+      type: String,
+      required: true
+    },
+    foodCost: {
+      type: Number,
+      required: true
+    },
+    foodUnit: {
+      type: String,
+      required: true
+    }
+  },
   methods: {
     updateValue(e) {
       console.log(e.target)
       this.$emit('input', e.target.value)
+    },
+    addFoodToRecipe() {
+      this.$emit('addFoodToRecipe')
     }
   }
 }

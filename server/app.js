@@ -10,8 +10,7 @@ const indexRouter = require('./routes/index')
 const signinRouter = require('./routes/signin')
 const signupRouter = require('./routes/signup')
 const foodRouter = require('./routes/food')
-const recipeRegisterRouter = require('./routes/recipeRegister')
-const recipeCheckRouter = require('./routes/recipeCheck')
+const recipeRouter = require('./routes/recipe')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 // sessionの設定
@@ -44,8 +43,7 @@ async function start() {
   app.use('/signin', signinRouter)
   app.use('/signup', signupRouter)
   app.use('/food', foodRouter)
-  app.use('/recipeRegisterPage', recipeRegisterRouter)
-  app.use('/recipeCheckPage', recipeCheckRouter)
+  app.use('/recipe', recipeRouter)
   // Give nuxt middleware to express
   app.use(nuxt.render)
 

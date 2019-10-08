@@ -1,107 +1,129 @@
 <template>
-  <div class="content container-fluid">
-    <div class="row offset-3">
-      <div class="content_image col-sm-12">
-        <food-image :image="recipe.image">
-          <template slot="input-file">
-            <input-file @getFileData="getFileData" />
-          </template>
-        </food-image>
-      </div>
-      <!-- /content_image -->
-      <div class="content_form col-sm-12">
-        <div class="row">
-          <div class="col-sm-12">
-            <input-form
-              v-model="recipe.name"
-              placeholder="カルボナーラ"
-              type="text"
-              class="content_form_input"
-            >
-              <template slot="content">
-                レシピ名
-              </template>
-            </input-form>
-            <input-form
-              v-model="recipe.value"
-              placeholder="100"
-              type="number"
-              class="content_form_input"
-            >
-              <template slot="content">
-                ￥売価格
-              </template>
-              <div slot="input-append" class="input-group-append">
-                <span
-                  id="inputGroup-sizing-lg"
-                  class="input-group-text rounded-0"
-                >
-                  円
-                </span>
-              </div>
-            </input-form>
-            <food-content class="content_form_food-content">
-              <template slot="content-label">
-                原価
-              </template>
-              <template slot="food-content">
-                {{ recipe.cost }}
-              </template>
-            </food-content>
-            <food-content class="content_form_food-content">
-              <template slot="content-label">
-                原価率(％)
-              </template>
-              <template slot="food-content">
-                {{ recipeCostRate }}
-              </template>
-            </food-content>
-          </div>
-          <div class="btn-form col-sm-12">
-            <button
-              type="button"
-              class="btn btn-info btn-block btn-lg"
-              @click="registerRecipe"
-            >
-              登録
-            </button>
+  <div>
+    <div class="content container-fluid">
+      <div class="row offset-3">
+        <div class="content_image col-sm-12">
+          <food-image :image="recipe.image">
+            <template slot="input-file">
+              <input-file @getFileData="getFileData" />
+            </template>
+          </food-image>
+        </div>
+        <!-- /content_image -->
+        <div class="content_form col-sm-12">
+          <div class="row">
+            <div class="col-sm-12">
+              <input-form
+                v-model="recipe.name"
+                placeholder="カルボナーラ"
+                type="text"
+                class="content_form_input"
+              >
+                <template slot="content">
+                  レシピ名
+                </template>
+              </input-form>
+              <input-form
+                v-model="recipe.value"
+                placeholder="100"
+                type="number"
+                class="content_form_input"
+              >
+                <template slot="content">
+                  ￥売価格
+                </template>
+                <div slot="input-append" class="input-group-append">
+                  <span
+                    id="inputGroup-sizing-lg"
+                    class="input-group-text rounded-0"
+                  >
+                    円
+                  </span>
+                </div>
+              </input-form>
+              <food-content class="content_form_food-content">
+                <template slot="content-label">
+                  原価
+                </template>
+                <template slot="food-content">
+                  {{ recipe.cost }}
+                </template>
+              </food-content>
+              <food-content class="content_form_food-content">
+                <template slot="content-label">
+                  原価率(％)
+                </template>
+                <template slot="food-content">
+                  {{ recipeCostRate }}
+                </template>
+              </food-content>
+            </div>
+            <div class="btn-form col-sm-12">
+              <button
+                type="button"
+                class="btn btn-info btn-block btn-lg"
+                @click="registerRecipe"
+              >
+                登録
+              </button>
+            </div>
           </div>
         </div>
+        <!-- /content_form -->
       </div>
-      <!-- /content_form -->
+      <!-- row -->
+      <div class="row offset-3">
+        <div class="plus-btn col-sm-12">
+          <button
+            type="button"
+            class="btn btn-success rounded-circle p-0"
+            style="width:2rem;height:2rem;"
+          >
+            ＋
+          </button>
+          <span>食材を登録</span>
+          <nuxt-link to="/addFoodToRecipePage" class="nav-link">
+            ボタン押下でここに遷移する
+          </nuxt-link>
+        </div>
+        <div class="food-add-to-menu-form col-sm-12">
+          <add-food-form
+            v-model="food.amount"
+            :food-name="food.name"
+            :food-cost="totalFoodCost"
+            :food-unit="food.unit"
+            @addFoodToRecipe="addFoodToRecipe"
+          />
+        </div>
+        <div class="col-sm-12">
+          <recipe-table />
+        </div>
+        <div class="col-sm-12">
+          <comment-form v-model="recipe.comment" />
+        </div>
+        <div class="btn-form col-sm-6">
+          <button type="button" class="btn btn-danger btn-block btn-lg">
+            削除
+          </button>
+        </div>
+      </div>
     </div>
-    <!-- row -->
-    <div class="row offset-3">
-      <div class="plus-btn col-sm-12">
-        <button
-          type="button"
-          class="btn btn-success rounded-circle p-0"
-          style="width:2rem;height:2rem;"
+    <side-bar>
+      <ul
+        v-for="item in foods"
+        slot="content-list"
+        :key="item.id"
+        class="list-group list-group-flush"
+      >
+        <li
+          class="food-list_item list-group-item border-bottom border-info"
+          @click="selectFood($store.getters['food/foods'].indexOf(item))"
         >
-          ＋
-        </button>
-        <span>食材を登録</span>
-        <nuxt-link to="/addFoodToRecipePage" class="nav-link">
-          ボタン押下でここに遷移する
-        </nuxt-link>
-      </div>
-      <div class="food-add-to-menu-form col-sm-12">
-        <add-food-form v-model="amount" />
-      </div>
-      <div class="col-sm-12">
-        <recipe-table />
-      </div>
-      <div class="col-sm-12">
-        <comment-form v-model="recipe.comment" />
-      </div>
-      <div class="btn-form col-sm-6">
-        <button type="button" class="btn btn-danger btn-block btn-lg">
-          削除
-        </button>
-      </div>
-    </div>
+          {{ item.name }}
+        </li>
+      </ul>
+    </side-bar>
   </div>
-  <!-- /container-fluid -->
 </template>
 
 <script>
@@ -112,6 +134,7 @@ import RecipeTable from '~/components/RecipeTable.vue'
 import CommentForm from '~/components/CommentForm.vue'
 import inputFile from '~/components/inputFile.vue'
 import InputForm from '~/components/InputForm.vue'
+import SideBar from '~/components/SideBar.vue'
 
 export default {
   components: {
@@ -121,7 +144,8 @@ export default {
     AddFoodForm,
     RecipeTable,
     inputFile,
-    InputForm
+    InputForm,
+    SideBar
   },
   data() {
     return {
@@ -132,7 +156,13 @@ export default {
         comment: '',
         image: require('~/assets/pasta.jpg')
       },
-      amount: '',
+      food: {
+        name: '表示されます',
+        amount: '',
+        unit: '単位',
+        cost: '',
+        totalCost: ''
+      },
       selectedFile: ''
     }
   },
@@ -141,6 +171,16 @@ export default {
       const costRate = (this.recipe.cost / this.recipe.value) * 100
       if (isFinite(costRate)) {
         return Math.round(costRate * 10) / 10
+      }
+      return '表示されます'
+    },
+    foods() {
+      return this.$store.getters['food/foods']
+    },
+    totalFoodCost() {
+      const cost = this.food.cost * this.food.amount
+      if (isFinite(cost)) {
+        return Math.round(cost * 10) / 10
       }
       return '表示されます'
     }
@@ -190,6 +230,20 @@ export default {
           console.log(error.message)
         })
       return url
+    },
+    // サイドバーから食材を選択して表示する
+    selectFood(index) {
+      const food = this.$store.getters['food/foods'][index]
+      this.food.amount = ''
+      this.food.name = food.name
+      this.food.unit = food.unit
+      this.food.cost = food.cost
+    },
+    // レシピに食材追加 AddFoodFormの関数
+    addFoodToRecipe() {
+      this.food.totalCost = this.totalFoodCost
+      console.log(this.food)
+      // 配列にしてテーブルに渡す
     },
     async registerRecipe() {
       if (!this.recipe.name) {
