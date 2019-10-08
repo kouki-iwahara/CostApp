@@ -55,15 +55,17 @@
             </p>
           </div>
         </div>
+        <div class="update-btn col-sm-6 ">
+          <button
+            type="button"
+            class="btn btn-info btn-block btn-lg"
+            @click="toUpdatePage"
+          >
+            {{ food.updateBtn }}
+          </button>
+        </div>
       </div>
       <!-- /content row -->
-      <div class="row offset-3">
-        <slot>
-          <div class="update-btn col-sm-6 ">
-            <update-btn />
-          </div>
-        </slot>
-      </div>
     </div>
     <side-bar>
       <ul
@@ -85,14 +87,12 @@
 import SideBar from '~/components/SideBar.vue'
 import FoodImage from '~/components/FoodImage.vue'
 import FoodContent from '~/components/FoodContent.vue'
-import UpdateBtn from '~/components/UpdateBtn.vue'
 
 export default {
   components: {
     SideBar,
     FoodImage,
-    FoodContent,
-    UpdateBtn
+    FoodContent
   },
   data() {
     const food = this.$store.getters['food/foods'][0]
@@ -105,9 +105,11 @@ export default {
         unit: food.unit,
         cost: food.cost,
         comment: food.comment,
+        updateBtn: food.updateBtn,
         image: require('~/assets/pasta.jpg')
       },
-      selectedFile: ''
+      selectedFile: '',
+      foodIndex: 0
     }
   },
   computed: {
@@ -118,6 +120,7 @@ export default {
   methods: {
     showFood(index) {
       const food = this.$store.getters['food/foods'][index]
+      console.log(food)
       this.food.name = food.name
       this.food.value = food.value
       this.food.amount = food.amount
@@ -126,6 +129,10 @@ export default {
       this.food.cost = food.cost
       this.food.comment = food.comment
       this.food.image = food.image
+      this.foodIndex = index
+    },
+    toUpdatePage() {
+      this.$router.push({ path: `/food/${this.foodIndex}` })
     }
   }
 }

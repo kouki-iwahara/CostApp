@@ -44,6 +44,11 @@ export const actions = {
       console.log(error.message)
     })
     const allFoodData = res.result.slice()
+    if (allFoodData) {
+      allFoodData.forEach((food) => {
+        food.updateBtn = '変更'
+      })
+    }
     // stateに食材データを格納
     commit('setFoods', allFoodData)
   },

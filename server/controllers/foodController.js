@@ -23,7 +23,6 @@ const foodrRegisterController = {
     // sessionがあればuser情報が格納される
     const user = req.user
     const food = req.body
-    console.log(food.image, 'これだよ')
     // 食材データを登録処理、成功でデータが格納される
     const createdFood = await models.foods
       .create({
