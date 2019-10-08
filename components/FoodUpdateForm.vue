@@ -88,9 +88,9 @@
           <button
             type="button"
             class="btn btn-info btn-block btn-lg"
-            @click="registerFood"
+            @click="updateFood"
           >
-            登録
+            更新
           </button>
         </div>
         <div class="col-sm-6">
@@ -135,15 +135,18 @@ export default {
     InputForm
   },
   data() {
+    const index = this.$route.params.foodId
+    const food = this.$store.getters['food/foods'][index]
     return {
       food: {
-        name: '',
-        value: '',
-        amount: '',
-        yield: 100,
-        unit: '',
-        comment: '',
-        image: require('~/assets/pasta.jpg')
+        id: food.id,
+        name: food.name,
+        value: food.value,
+        amount: food.amount,
+        yield: food.yield,
+        unit: food.unit,
+        comment: food.comment,
+        image: food.image
       },
       selectedFile: ''
     }
@@ -171,7 +174,6 @@ export default {
       this.selectedFile = fileData
       // ファイルを選んでなければ初期値に戻す
       if (!this.selectedFile) {
-        this.food.image = require('~/assets/pasta.jpg')
         return
       }
       // プレビューを作成
@@ -212,7 +214,7 @@ export default {
       return url
     },
     // 入力されたデータを登録
-    async registerFood() {
+    async updateFood() {
       // 食材の名前、値段、量、単位が必須項目
       if (
         !this.food.name ||
@@ -232,7 +234,8 @@ export default {
       // 食材原価を格納
       this.food.cost = this.foodCost
       // 食材データを登録
-      const res = await this.$store.dispatch('food/registerFood', this.food)
+      const res = await this.$store.dispatch('food/updateFood', this.food)
+      console.log(res.message)
       alert(res.message)
       if (res.result) {
         this.$router.push({ path: '/' })

@@ -1,9 +1,8 @@
 'use strict'
 module.exports = (sequelize, DataTypes) => {
-  const food = sequelize.define(
-    'food',
+  const foods = sequelize.define(
+    'foods',
     {
-      foodId: DataTypes.INTEGER,
       userId: DataTypes.INTEGER,
       name: DataTypes.STRING,
       value: DataTypes.STRING,
@@ -11,14 +10,15 @@ module.exports = (sequelize, DataTypes) => {
       yield: DataTypes.STRING,
       unit: DataTypes.STRING,
       cost: DataTypes.DECIMAL,
-      comment: DataTypes.STRING
+      comment: DataTypes.STRING,
+      image: DataTypes.STRING
     },
     {
       underscored: true
     }
   )
-  food.associate = function(models) {
+  foods.associate = function(models) {
     // associations can be defined here
   }
-  return food
+  return foods
 }

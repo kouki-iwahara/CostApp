@@ -4,7 +4,6 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('food', [
       {
-        food_id: 1,
         user_id: 1,
         name: '玉ねぎ',
         value: 100,
@@ -17,7 +16,6 @@ module.exports = {
         updated_at: new Date()
       },
       {
-        food_id: 2,
         user_id: 2,
         name: 'きゅうり',
         value: 100,

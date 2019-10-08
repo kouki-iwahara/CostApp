@@ -1,19 +1,18 @@
 <template>
   <div class="wrapper">
-    <!-- 読み込む順番でサイドバーが動かないことがある -->
-    <food-display />
     <Header />
+    <food-update-form />
   </div>
 </template>
 
 <script>
 import Header from '~/components/Header.vue'
-import FoodDisplay from '~/components/FoodDisplay.vue'
+import FoodUpdateForm from '~/components/FoodUpdateForm.vue'
 
 export default {
   components: {
     Header,
-    FoodDisplay
+    FoodUpdateForm
   },
   async asyncData({ store }) {
     await store.dispatch('food/getFoodData').catch((error) => {

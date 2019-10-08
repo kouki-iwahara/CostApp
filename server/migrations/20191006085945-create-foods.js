@@ -1,8 +1,8 @@
 'use strict'
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('food', {
-      food_id: {
+    return queryInterface.createTable('foods', {
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -33,6 +33,9 @@ module.exports = {
       comment: {
         type: Sequelize.STRING
       },
+      image: {
+        type: Sequelize.STRING
+      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE
@@ -44,6 +47,6 @@ module.exports = {
     })
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('food')
+    return queryInterface.dropTable('foods')
   }
 }

@@ -1,86 +1,138 @@
 <template>
-  <div class="content container-fluid">
-    <div class="row offset-3">
-      <div class="content_image col-sm-12">
-        <food-image :image="food.image" />
-      </div>
-      <div class="content_form col-sm-12">
-        <food-content class="content_form_food-content">
-          <template slot="content-label">
-            食材名
-          </template>
-          <template slot="food-content">
-            パスタ
-          </template>
-        </food-content>
-        <food-content class="content_form_food-content">
-          <template slot="content-label">
-            ￥価格
-          </template>
-          <template slot="food-content">
-            300
-          </template>
-        </food-content>
-        <food-content class="content_form_food-content">
-          <template slot="content-label">
-            食材量
-          </template>
-          <template slot="food-content">
-            500g
-          </template>
-        </food-content>
-        <food-content class="content_form_food-content">
-          <template slot="content-label">
-            歩留り
-          </template>
-          <template slot="food-content">
-            100％
-          </template>
-        </food-content>
-        <food-content class="content_form_food-content">
-          <template slot="content-label">
-            原価
-          </template>
-          <template slot="food-content">
-            100円
-          </template>
-        </food-content>
-      </div>
-      <div class="content_text col-sm-12">
-        <div class="content_text_box border border-dark">
-          <p>
-            コメントが入ります コメントが入ります コメントが入ります
-          </p>
+  <div>
+    <div class="content container-fluid">
+      <div class="row offset-3">
+        <div class="content_image col-sm-12">
+          <food-image :image="food.image" />
         </div>
-      </div>
-    </div>
-    <!-- /content row -->
-    <div class="row offset-3">
-      <slot>
+        <div class="content_form col-sm-12">
+          <food-content class="content_form_food-content">
+            <template slot="content-label">
+              食材名
+            </template>
+            <template slot="food-content">
+              {{ food.name }}
+            </template>
+          </food-content>
+          <food-content class="content_form_food-content">
+            <template slot="content-label">
+              ￥価格
+            </template>
+            <template slot="food-content">
+              {{ food.value }}
+            </template>
+          </food-content>
+          <food-content class="content_form_food-content">
+            <template slot="content-label">
+              食材量
+            </template>
+            <template slot="food-content">
+              {{ food.amount }}
+              {{ food.unit }}
+            </template>
+          </food-content>
+          <food-content class="content_form_food-content">
+            <template slot="content-label">
+              歩留り
+            </template>
+            <template slot="food-content">
+              {{ food.yield }}
+            </template>
+          </food-content>
+          <food-content class="content_form_food-content">
+            <template slot="content-label">
+              原価
+            </template>
+            <template slot="food-content">
+              {{ food.cost }}
+            </template>
+          </food-content>
+        </div>
+        <div class="content_text col-sm-12">
+          <div class="content_text_box border border-dark">
+            <p>
+              {{ food.comment }}
+            </p>
+          </div>
+        </div>
         <div class="update-btn col-sm-6 ">
-          <update-btn />
+          <button
+            type="button"
+            class="btn btn-info btn-block btn-lg"
+            @click="toUpdatePage"
+          >
+            {{ food.updateBtn }}
+          </button>
         </div>
-      </slot>
+      </div>
+      <!-- /content row -->
     </div>
+    <side-bar>
+      <ul
+        v-for="item in foods"
+        slot="content-list"
+        :key="item.id"
+        class="list-group list-group-flush"
+        @click="showFood($store.getters['food/foods'].indexOf(item))"
+      >
+        <li class="food-list_item list-group-item border-bottom border-info">
+          {{ item.name }}
+        </li>
+      </ul>
+    </side-bar>
   </div>
 </template>
 
 <script>
+import SideBar from '~/components/SideBar.vue'
 import FoodImage from '~/components/FoodImage.vue'
 import FoodContent from '~/components/FoodContent.vue'
-import UpdateBtn from '~/components/UpdateBtn.vue'
 
 export default {
   components: {
+    SideBar,
     FoodImage,
-    FoodContent,
-    UpdateBtn
+    FoodContent
   },
   data() {
+    const food = this.$store.getters['food/foods'][0]
     return {
       food: {
-        image: require('~/assets/pasta.jpg')
-      }
+        name: food.name,
+        value: food.value,
+        amount: food.amount,
+        yield: food.yield,
+        unit: food.unit,
+        cost: food.cost,
+        comment: food.comment,
+        updateBtn: food.updateBtn,
+        image: food.image
+      },
+      selectedFile: '',
+      foodIndex: 0
+    }
+  },
+  computed: {
+    foods() {
+      return this.$store.getters['food/foods']
+    }
+  },
+  methods: {
+    showFood(index) {
+      const food = this.$store.getters['food/foods'][index]
+      console.log(food)
+      this.food.name = food.name
+      this.food.value = food.value
+      this.food.amount = food.amount
+      this.food.yield = food.yield
+      this.food.unit = food.unit
+      this.food.cost = food.cost
+      this.food.comment = food.comment
+      this.food.image = food.image
+      this.foodIndex = index
+    },
+    toUpdatePage() {
+      this.$router.push({ path: `/food/${this.foodIndex}` })
     }
   }
 }
