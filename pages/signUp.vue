@@ -69,7 +69,7 @@ export default {
       alert(res.message)
       // 登録完了ならsigninページに遷移
       if (res.user) {
-        this.$router.push({ path: '/signin' })
+        return this.$router.push({ path: '/signin' })
       }
     }
   }

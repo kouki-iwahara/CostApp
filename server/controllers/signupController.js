@@ -1,11 +1,14 @@
+const bcrypt = require('bcrypt')
 const models = require('../models')
 
 const signupController = {
   // emailとpasswordでsignup
   async signUp(req, res) {
     console.log(req.body)
+    const plaintextPassword = req.body.password
+    const hashpassword = bcrypt.hashSync(plaintextPassword, 10)
+    console.log(hashpassword)
     const email = req.body.email
-    const password = req.body.password
     // emailに重複禁止設定をした為フィルターをかける
     const user = await models.user
       .findOne({ where: { email } })
@@ -20,7 +23,7 @@ const signupController = {
     const createdUser = await models.user
       .create({
         email,
-        password
+        password: hashpassword
       })
       .catch((error) => {
         res.status(404).send({ error: error.message })
