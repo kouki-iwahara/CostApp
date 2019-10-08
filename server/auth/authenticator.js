@@ -2,6 +2,7 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const bcrypt = require('bcrypt')
 const models = require('../models')
+const SALT_ROUNDS = 10
 
 const authenticator = {
   // 初期化とシリアライズ・デシリアライズ処理
@@ -41,7 +42,7 @@ const authenticator = {
         },
         (req, email, password, done) => {
           console.log(req.body)
-          bcrypt.hash(password, 10, () => {
+          bcrypt.hash(password, SALT_ROUNDS, () => {
             // 入力されたemailからuser情報を取得
             models.user
               .findOne({ where: { email } })
