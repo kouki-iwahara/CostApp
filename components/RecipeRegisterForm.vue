@@ -93,6 +93,7 @@
             :food-cost="totalFoodCost"
             :food-unit="food.unit"
             @addFoodToRecipe="addFoodToRecipe"
+            @initializeForm="initializeForm"
           />
         </div>
         <div class="col-sm-12">
@@ -157,9 +158,11 @@ export default {
         image: require('~/assets/pasta.jpg')
       },
       food: {
+        id: '',
+        userId: '',
         name: '表示されます',
         amount: '',
-        unit: '単位',
+        unit: 'g',
         cost: '',
         totalCost: ''
       },
@@ -178,11 +181,11 @@ export default {
       return this.$store.getters['food/foods']
     },
     totalFoodCost() {
-      const cost = this.food.cost * this.food.amount
-      if (isFinite(cost)) {
-        return Math.round(cost * 10) / 10
+      if (!this.food.amount) {
+        return '表示されます'
       }
-      return '表示されます'
+      const cost = this.food.cost * this.food.amount
+      return Math.round(cost * 10) / 10
     }
   },
   methods: {
@@ -234,16 +237,49 @@ export default {
     // サイドバーから食材を選択して表示する
     selectFood(index) {
       const food = this.$store.getters['food/foods'][index]
+      const addedFoods = this.$store.getters['recipe/foodContents']
+      // 食材の重複禁止の為、idで検索
+      const overlapId = addedFoods.find((addedFood) => {
+        return addedFood.id === food.id
+      })
+      if (overlapId) {
+        alert('その食材は使われています')
+        return
+      }
       this.food.amount = ''
+      this.food.userId = food.userId
+      this.food.id = food.id
       this.food.name = food.name
       this.food.unit = food.unit
       this.food.cost = food.cost
     },
     // レシピに食材追加 AddFoodFormの関数
     addFoodToRecipe() {
+      if (this.food.name === '表示されます' || !this.food.amount) {
+        return alert('食材と使用量を入力してください')
+      }
       this.food.totalCost = this.totalFoodCost
-      console.log(this.food)
-      // 配列にしてテーブルに渡す
+      const foodContent = {
+        id: this.food.id,
+        userId: this.food.userId,
+        name: this.food.name,
+        amount: this.food.amount,
+        unit: this.food.unit,
+        totalCost: this.food.totalCost,
+        delBtn: 'ー'
+      }
+      // 入力された食材をテーブルに追加
+      this.$store.dispatch('recipe/addFoodToRecipe', foodContent)
+      // formの初期化
+      this.initializeForm()
+    },
+    // 食材追加フォームの初期化
+    initializeForm() {
+      this.food.id = ''
+      this.food.amount = ''
+      this.food.name = '表示されます'
+      this.food.unit = 'g'
+      this.food.cost = ''
     },
     async registerRecipe() {
       if (!this.recipe.name) {

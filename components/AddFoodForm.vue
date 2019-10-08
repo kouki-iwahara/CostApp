@@ -48,6 +48,7 @@
           <button
             type="button"
             class="btn btn-outline-warning btn-block btn-sm"
+            @click="initializeForm"
           >
             やめる
           </button>
@@ -69,7 +70,7 @@ export default {
       required: true
     },
     foodCost: {
-      type: Number,
+      type: [Number, String],
       required: true
     },
     foodUnit: {
@@ -78,12 +79,18 @@ export default {
     }
   },
   methods: {
+    // input入力値の更新
     updateValue(e) {
       console.log(e.target)
       this.$emit('input', e.target.value)
     },
+    // 入力された食材をテーブルに追加する
     addFoodToRecipe() {
       this.$emit('addFoodToRecipe')
+    },
+    // 入力フォームの初期化
+    initializeForm() {
+      this.$emit('initializeForm')
     }
   }
 }
