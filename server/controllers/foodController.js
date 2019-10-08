@@ -43,6 +43,34 @@ const foodrRegisterController = {
     console.log(createdFood)
     // 成功で食材データを返す
     res.status(200).send({ message: '登録完了です', result: createdFood })
+  },
+  async updateFood(req, res) {
+    console.log(req.params.id)
+    console.log(req.body)
+    const food = await models.foods
+      .findOne({
+        where: { id: req.params.id }
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    const updatedFood = await food
+      .update({
+        name: req.body.name,
+        value: req.body.value,
+        amount: req.body.amount,
+        yield: req.body.yield,
+        unit: req.body.unit,
+        comment: req.body.comment,
+        image: req.body.image,
+        cost: req.body.cost
+      })
+      .catch((error) => {
+        console.log(error)
+        return res.status(404).send({ error: error.message })
+      })
+    console.log(updatedFood)
+    res.status(200).send({ message: '更新しました', result: updatedFood })
   }
 }
 

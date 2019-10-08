@@ -67,5 +67,15 @@ export const actions = {
       commit('addFood', res.result)
     }
     return res
+  },
+  async updateFood({ commit }, food) {
+    console.log(food)
+    const res = await this.$axios
+      .$put(`/food/${food.id}`, querystring.stringify(food))
+      .catch((error) => {
+        console.log(error)
+      })
+    console.log(res)
+    return res
   }
 }

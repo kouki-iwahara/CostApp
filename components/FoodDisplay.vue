@@ -106,7 +106,7 @@ export default {
         cost: food.cost,
         comment: food.comment,
         updateBtn: food.updateBtn,
-        image: require('~/assets/pasta.jpg')
+        image: food.image
       },
       selectedFile: '',
       foodIndex: 0
