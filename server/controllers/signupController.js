@@ -1,12 +1,13 @@
 const bcrypt = require('bcrypt')
 const models = require('../models')
+const SALT_ROUNDS = 10
 
 const signupController = {
   // emailとpasswordでsignup
   async signUp(req, res) {
     console.log(req.body)
     const plaintextPassword = req.body.password
-    const hashpassword = bcrypt.hashSync(plaintextPassword, 10)
+    const hashpassword = bcrypt.hashSync(plaintextPassword, SALT_ROUNDS)
     console.log(hashpassword)
     const email = req.body.email
     // emailに重複禁止設定をした為フィルターをかける
