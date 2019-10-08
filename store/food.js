@@ -6,9 +6,11 @@ export const state = () => ({
 })
 
 export const mutations = {
+  // 全ての食材をstateに格納
   setFoods(state, allFoodData) {
     state.foods = allFoodData.slice()
   },
+  // 食材を追加
   addFood(state, food) {
     state.foods.push(food)
   }
@@ -43,6 +45,7 @@ export const actions = {
     const res = await this.$axios.$get('/food').catch((error) => {
       console.log(error.message)
     })
+    // 変更ボタンを付与
     const allFoodData = res.result.slice()
     if (allFoodData) {
       allFoodData.forEach((food) => {
@@ -67,8 +70,10 @@ export const actions = {
     }
     return res
   },
-  async updateFood({ commit }, food) {
+  // 食材を更新
+  async updateFood({ ctx }, food) {
     console.log(food)
+    // 成功で更新された食材が格納される
     const res = await this.$axios
       .$put(`/food/${food.id}`, querystring.stringify(food))
       .catch((error) => {
@@ -77,8 +82,10 @@ export const actions = {
     console.log(res)
     return res
   },
+  // 食材の削除
   async deleteFood({ ctx }, foodId) {
     console.log(foodId)
+    // 成功で削除された食材が格納される
     const res = await this.$axios.$delete(`/food/${foodId}`).catch((error) => {
       console.log(error.message)
     })
