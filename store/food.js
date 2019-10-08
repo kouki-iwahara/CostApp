@@ -61,7 +61,6 @@ export const actions = {
       .catch((error) => {
         console.log(error.message)
       })
-    console.log(res)
     // 食材データが返ってくればstateに格納
     if (res.result) {
       commit('addFood', res.result)
@@ -75,6 +74,14 @@ export const actions = {
       .catch((error) => {
         console.log(error)
       })
+    console.log(res)
+    return res
+  },
+  async deleteFood({ ctx }, foodId) {
+    console.log(foodId)
+    const res = await this.$axios.$delete(`/food/${foodId}`).catch((error) => {
+      console.log(error.message)
+    })
     console.log(res)
     return res
   }

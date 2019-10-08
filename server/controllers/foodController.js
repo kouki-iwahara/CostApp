@@ -71,6 +71,21 @@ const foodrRegisterController = {
       })
     console.log(updatedFood)
     res.status(200).send({ message: '更新しました', result: updatedFood })
+  },
+  async deleteFood(req, res) {
+    const food = await models.foods
+      .findOne({
+        where: { id: req.params.id }
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    // 取得したタスクを消去
+    const deletedFood = await food.destroy({ force: true }).catch((error) => {
+      console.log(error)
+      res.status(404).send({ error: error.message })
+    })
+    res.status(200).send({ message: '削除しました', result: deletedFood })
   }
 }
 
