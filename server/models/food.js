@@ -1,7 +1,7 @@
 'use strict'
 module.exports = (sequelize, DataTypes) => {
-  const foods = sequelize.define(
-    'foods',
+  const food = sequelize.define(
+    'food',
     {
       userId: DataTypes.INTEGER,
       name: DataTypes.STRING,
@@ -17,8 +17,13 @@ module.exports = (sequelize, DataTypes) => {
       underscored: true
     }
   )
-  foods.associate = function(models) {
+  food.associate = function(models) {
     // associations can be defined here
+    food.belongsTo(models.user)
+    food.belongsToMany(models.recipe, {
+      through: 'food_recipde',
+      foreignKey: 'foodId'
+    })
   }
-  return foods
+  return food
 }

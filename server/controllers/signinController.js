@@ -1,4 +1,3 @@
-// const passport = require('passport')
 const authenticator = require('../auth/authenticator')
 const signinController = {
   signIn(req, res, next) {

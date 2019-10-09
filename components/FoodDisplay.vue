@@ -108,6 +108,17 @@ export default {
         updateBtn: food.updateBtn,
         image: food.image
       },
+      // food: {
+      //   name: 'koko',
+      //   value: '121',
+      //   amount: '1221',
+      //   yield: '89',
+      //   unit: 'g',
+      //   cost: 43,
+      //   comment: 'jij',
+      //   updateBtn: '変更',
+      //   image: require('~/assets/pasta.jpg')
+      // },
       selectedFile: '',
       foodIndex: 0
     }

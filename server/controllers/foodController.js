@@ -1,18 +1,29 @@
 const models = require('../models')
 
 const foodrRegisterController = {
+  test(req, res) {
+    models.user
+      .findOne({
+        where: { id: 1 },
+        include: [{ model: models.food, required: false }]
+      })
+      .then((user) => {
+        console.log(JSON.stringify(user))
+        res.json(user)
+      })
+  },
   // 全ての食材データ取得
   async getFoodData(req, res) {
     // if (!req.user) {
     //   res.send({ result: '' })
     //   return
     // }
-    // const allFoodData = await models.foods
-    //   .findAll({ where: { userId: req.user.userId } })
+    // const allFoodData = await models.food
+    //   .findAll({ where: { userId: req.user.id } })
     //   .catch((error) => {
     //     res.status(404).send({ error: error.message })
     //   })
-    const allFoodData = await models.foods.findAll().catch((error) => {
+    const allFoodData = await models.food.findAll().catch((error) => {
       res.status(404).send({ error: error.message })
     })
     console.log(allFoodData)
@@ -24,9 +35,9 @@ const foodrRegisterController = {
     const user = req.user
     const food = req.body
     // 食材データを登録処理、成功でデータが格納される
-    const createdFood = await models.foods
+    const createdFood = await models.food
       .create({
-        userId: user.userId,
+        userId: user.id,
         name: food.name,
         value: food.value,
         amount: food.amount,
@@ -47,7 +58,7 @@ const foodrRegisterController = {
   async updateFood(req, res) {
     console.log(req.params.id)
     console.log(req.body)
-    const food = await models.foods
+    const food = await models.food
       .findOne({
         where: { id: req.params.id }
       })
@@ -73,7 +84,7 @@ const foodrRegisterController = {
     res.status(200).send({ message: '更新しました', result: updatedFood })
   },
   async deleteFood(req, res) {
-    const food = await models.foods
+    const food = await models.food
       .findOne({
         where: { id: req.params.id }
       })
