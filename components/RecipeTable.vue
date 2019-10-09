@@ -21,6 +21,9 @@
             type="button"
             class="btn btn-success rounded-circle p-0"
             style="width:2rem;height:2rem;"
+            @click="
+              deleteFood($store.getters['recipe/foodContents'].indexOf(food))
+            "
           >
             {{ food.delBtn }}
           </button>
@@ -35,6 +38,12 @@ export default {
   computed: {
     foodContents() {
       return this.$store.getters['recipe/foodContents']
+    }
+  },
+  methods: {
+    // テーブルから食材を削除
+    deleteFood(index) {
+      this.$emit('deleteFood', index)
     }
   }
 }

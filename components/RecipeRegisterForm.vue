@@ -58,15 +58,6 @@
                 </template>
               </food-content>
             </div>
-            <div class="btn-form col-sm-12">
-              <button
-                type="button"
-                class="btn btn-info btn-block btn-lg"
-                @click="registerRecipe"
-              >
-                登録
-              </button>
-            </div>
           </div>
         </div>
         <!-- /content_form -->
@@ -97,10 +88,15 @@
           />
         </div>
         <div class="col-sm-12">
-          <recipe-table />
+          <recipe-table @deleteFood="deleteFood" />
         </div>
         <div class="col-sm-12">
           <comment-form v-model="recipe.comment" />
+        </div>
+        <div class="btn-form col-sm-6">
+          <button type="button" class="btn btn-info btn-block btn-lg">
+            登録
+          </button>
         </div>
         <div class="btn-form col-sm-6">
           <button type="button" class="btn btn-danger btn-block btn-lg">
@@ -163,13 +159,13 @@ export default {
         name: '表示されます',
         amount: '',
         unit: 'g',
-        cost: '',
-        totalCost: ''
+        cost: ''
       },
       selectedFile: ''
     }
   },
   computed: {
+    // レシピの原価
     recipeCostRate() {
       const costRate = (this.recipe.cost / this.recipe.value) * 100
       if (isFinite(costRate)) {
@@ -177,9 +173,11 @@ export default {
       }
       return '表示されます'
     },
+    // 全ての食材
     foods() {
       return this.$store.getters['food/foods']
     },
+    // 食材の使用量に対しての原価
     totalFoodCost() {
       if (!this.food.amount) {
         return '表示されます'
@@ -237,11 +235,12 @@ export default {
     // サイドバーから食材を選択して表示する
     selectFood(index) {
       const food = this.$store.getters['food/foods'][index]
-      const addedFoods = this.$store.getters['recipe/foodContents']
-      // 食材の重複禁止の為、idで検索
-      const overlapId = addedFoods.find((addedFood) => {
-        return addedFood.id === food.id
+      const foodContents = this.$store.getters['recipe/foodContents']
+      // 食材の重複禁止の為、idが重複しているか調べる
+      const overlapId = foodContents.find((foodContent) => {
+        return foodContent.id === food.id
       })
+      // idが重複していた場合
       if (overlapId) {
         alert('その食材は使われています')
         return
@@ -253,26 +252,6 @@ export default {
       this.food.unit = food.unit
       this.food.cost = food.cost
     },
-    // レシピに食材追加 AddFoodFormの関数
-    addFoodToRecipe() {
-      if (this.food.name === '表示されます' || !this.food.amount) {
-        return alert('食材と使用量を入力してください')
-      }
-      this.food.totalCost = this.totalFoodCost
-      const foodContent = {
-        id: this.food.id,
-        userId: this.food.userId,
-        name: this.food.name,
-        amount: this.food.amount,
-        unit: this.food.unit,
-        totalCost: this.food.totalCost,
-        delBtn: 'ー'
-      }
-      // 入力された食材をテーブルに追加
-      this.$store.dispatch('recipe/addFoodToRecipe', foodContent)
-      // formの初期化
-      this.initializeForm()
-    },
     // 食材追加フォームの初期化
     initializeForm() {
       this.food.id = ''
@@ -281,19 +260,29 @@ export default {
       this.food.unit = 'g'
       this.food.cost = ''
     },
-    async registerRecipe() {
-      if (!this.recipe.name) {
-        return alert('必須項目を入力してください')
+    // レシピに食材追加
+    addFoodToRecipe() {
+      if (this.food.name === '表示されます' || !this.food.amount) {
+        return alert('食材と使用量を入力してください')
       }
-      // 画像が選択されていればアップロードとURL取得
-      if (this.selectedFile) {
-        const upLoadedImageName = await this.upLoadImage(this.selectedFile)
-        // アップロードされた画像のURLを取得
-        this.recipe.image = await this.getDownloadURL(upLoadedImageName)
+      // 追加する食材情報
+      const foodContent = {
+        id: this.food.id,
+        userId: this.food.userId,
+        name: this.food.name,
+        amount: this.food.amount,
+        unit: this.food.unit,
+        totalCost: this.totalFoodCost,
+        delBtn: 'ー'
       }
-      this.recipe.costRate = this.recipeCostRate
-      this.$store.dispatch('recipe/registerRecipe', this.recipe)
-      console.log(this.$store.state.recipe.recipes)
+      // 入力された食材をテーブルに追加
+      this.$store.dispatch('recipe/addFoodToRecipe', foodContent)
+      // formの初期化
+      this.initializeForm()
+    },
+    // テーブルから食材を削除
+    deleteFood(index) {
+      this.$store.dispatch('recipe/deleteFood', index)
     }
   }
 }
