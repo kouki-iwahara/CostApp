@@ -15,7 +15,7 @@
           {{ food.amount }}
           {{ food.unit }}
         </td>
-        <td>{{ food.totalCost }}</td>
+        <td>{{ food.amountCost }}</td>
         <td>
           <button
             type="button"

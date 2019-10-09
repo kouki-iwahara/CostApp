@@ -46,7 +46,7 @@
                   原価
                 </template>
                 <template slot="food-content">
-                  {{ recipe.cost }}
+                  {{ recipeCost }}
                 </template>
               </food-content>
               <food-content class="content_form_food-content">
@@ -81,7 +81,7 @@
           <add-food-form
             v-model="food.amount"
             :food-name="food.name"
-            :food-cost="totalFoodCost"
+            :food-cost="amountCost"
             :food-unit="food.unit"
             @addFoodToRecipe="addFoodToRecipe"
             @initializeForm="initializeForm"
@@ -94,7 +94,11 @@
           <comment-form v-model="recipe.comment" />
         </div>
         <div class="btn-form col-sm-6">
-          <button type="button" class="btn btn-info btn-block btn-lg">
+          <button
+            type="button"
+            class="btn btn-info btn-block btn-lg"
+            @click="registerRecipe"
+          >
             登録
           </button>
         </div>
@@ -149,7 +153,6 @@ export default {
       recipe: {
         name: '',
         value: '',
-        cost: '100',
         comment: '',
         image: require('~/assets/pasta.jpg')
       },
@@ -165,9 +168,9 @@ export default {
     }
   },
   computed: {
-    // レシピの原価
+    // レシピの原価率
     recipeCostRate() {
-      const costRate = (this.recipe.cost / this.recipe.value) * 100
+      const costRate = (this.recipeCost / this.recipe.value) * 100
       if (isFinite(costRate)) {
         return Math.round(costRate * 10) / 10
       }
@@ -178,12 +181,21 @@ export default {
       return this.$store.getters['food/foods']
     },
     // 食材の使用量に対しての原価
-    totalFoodCost() {
+    amountCost() {
       if (!this.food.amount) {
         return '表示されます'
       }
       const cost = this.food.cost * this.food.amount
       return Math.round(cost * 10) / 10
+    },
+    // レシピの原価（食材原価の合計）
+    recipeCost() {
+      let cost = 0
+      const foodContents = this.$store.getters['recipe/foodContents']
+      foodContents.forEach((content) => {
+        cost += parseFloat(content.amountCost)
+      })
+      return cost
     }
   },
   methods: {
@@ -272,7 +284,7 @@ export default {
         name: this.food.name,
         amount: this.food.amount,
         unit: this.food.unit,
-        totalCost: this.totalFoodCost,
+        amountCost: this.amountCost,
         delBtn: 'ー'
       }
       // 入力された食材をテーブルに追加
@@ -283,6 +295,24 @@ export default {
     // テーブルから食材を削除
     deleteFood(index) {
       this.$store.dispatch('recipe/deleteFood', index)
+    },
+    // レシピ登録
+    async registerRecipe() {
+      if (!this.recipe.name) {
+        return alert('必須項目を入力してください')
+      }
+      // 画像が選択されていればアップロードとURL取得
+      if (this.selectedFile) {
+        const upLoadedImageName = await this.upLoadImage(this.selectedFile) // アップロードされた画像のURLを取得
+        this.recipe.image = await this.getDownloadURL(upLoadedImageName)
+      }
+      // レシピの原価と原価率を格納
+      this.recipe.cost = this.recipeCost
+      this.recipe.costRate = this.recipeCostRate
+      // レシピを登録
+      console.log(this.recipe)
+      this.$store.dispatch('recipe/registerRecipe', this.recipe)
+      console.log(this.$store.state.recipe.recipes)
     }
   }
 }
