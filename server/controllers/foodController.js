@@ -1,28 +1,8 @@
 const models = require('../models')
 
 const foodrRegisterController = {
-  test(req, res) {
-    models.user
-      .findOne({
-        where: { id: 1 },
-        include: [{ model: models.food, required: false }]
-      })
-      .then((user) => {
-        console.log(JSON.stringify(user))
-        res.json(user)
-      })
-  },
   // 全ての食材データ取得
   async getFoodData(req, res) {
-    // if (!req.user) {
-    //   res.send({ result: '' })
-    //   return
-    // }
-    // const allFoodData = await models.food
-    //   .findAll({ where: { userId: req.user.id } })
-    //   .catch((error) => {
-    //     res.status(404).send({ error: error.message })
-    //   })
     const allFoodData = await models.food.findAll().catch((error) => {
       res.status(404).send({ error: error.message })
     })
@@ -55,6 +35,7 @@ const foodrRegisterController = {
     // 成功で食材データを返す
     res.status(200).send({ message: '登録完了です', result: createdFood })
   },
+  // 食材データの更新
   async updateFood(req, res) {
     console.log(req.params.id)
     console.log(req.body)
@@ -83,6 +64,7 @@ const foodrRegisterController = {
     console.log(updatedFood)
     res.status(200).send({ message: '更新しました', result: updatedFood })
   },
+  // 食材データを消去
   async deleteFood(req, res) {
     const food = await models.food
       .findOne({
