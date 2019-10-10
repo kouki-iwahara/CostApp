@@ -3,20 +3,8 @@ module.exports = (sequelize, DataTypes) => {
   const user = sequelize.define(
     'user',
     {
-      userId: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: DataTypes.INTEGER
-      },
-      email: {
-        allowNull: false,
-        type: DataTypes.STRING
-      },
-      password: {
-        allowNull: false,
-        type: DataTypes.STRING
-      }
+      email: DataTypes.STRING,
+      password: DataTypes.STRING
     },
     {
       underscored: true
@@ -24,6 +12,8 @@ module.exports = (sequelize, DataTypes) => {
   )
   user.associate = function(models) {
     // associations can be defined here
+    user.hasMany(models.food, { foreignKey: 'userId' })
+    user.hasMany(models.recipe, { foreignKey: 'userId' })
   }
   return user
 }

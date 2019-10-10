@@ -94,7 +94,11 @@
           </button>
         </div>
         <div class="col-sm-6">
-          <button type="button" class="btn btn-danger btn-block btn-lg">
+          <button
+            type="button"
+            class="btn btn-danger btn-block btn-lg"
+            @click="deleteFood"
+          >
             削除
           </button>
         </div>
@@ -233,8 +237,18 @@ export default {
       }
       // 食材原価を格納
       this.food.cost = this.foodCost
-      // 食材データを登録
+      // 食材データを更新
       const res = await this.$store.dispatch('food/updateFood', this.food)
+      console.log(res.message)
+      alert(res.message)
+      if (res.result) {
+        this.$router.push({ path: '/' })
+      }
+    },
+    // 食材の削除
+    async deleteFood() {
+      // 成功で削除された食材が格納される
+      const res = await this.$store.dispatch('food/deleteFood', this.food.id)
       console.log(res.message)
       alert(res.message)
       if (res.result) {
