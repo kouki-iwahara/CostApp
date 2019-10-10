@@ -2,7 +2,9 @@ import querystring from 'querystring'
 
 export const state = () => ({
   // レシピの食材
-  foodContents: []
+  foodContents: [],
+  // レシピのデータ
+  recipes: []
 })
 
 export const mutations = {
@@ -11,12 +13,18 @@ export const mutations = {
   },
   deleteFood(state, index) {
     state.foodContents.splice(index, 1)
+  },
+  setRecipes(state, recipe) {
+    state.recipes.push(recipe)
   }
 }
 
 export const getters = {
   foodContents(state) {
     return state.foodContents
+  },
+  recipes(state) {
+    return state.recipes
   }
 }
 
@@ -38,6 +46,8 @@ export const actions = {
         console.log(error.message)
       })
     console.log(res)
+    // stateに格納
+    commit('setRecipes', res.result)
     return res
   }
 }
