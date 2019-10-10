@@ -154,6 +154,7 @@ export default {
         name: '',
         value: '',
         comment: '',
+        foods: [],
         image: require('~/assets/pasta.jpg')
       },
       food: {
@@ -258,7 +259,6 @@ export default {
         return
       }
       this.food.amount = ''
-      this.food.userId = food.userId
       this.food.id = food.id
       this.food.name = food.name
       this.food.unit = food.unit
@@ -272,7 +272,7 @@ export default {
       this.food.unit = 'g'
       this.food.cost = ''
     },
-    // レシピに食材追加
+    // テーブルに食材追加表示
     addFoodToRecipe() {
       if (this.food.name === '表示されます' || !this.food.amount) {
         return alert('食材と使用量を入力してください')
@@ -280,7 +280,6 @@ export default {
       // 追加する食材情報
       const foodContent = {
         id: this.food.id,
-        userId: this.food.userId,
         name: this.food.name,
         amount: this.food.amount,
         unit: this.food.unit,
@@ -298,6 +297,7 @@ export default {
     },
     // レシピ登録
     async registerRecipe() {
+      // レシピ名が必須登録
       if (!this.recipe.name) {
         return alert('必須項目を入力してください')
       }
@@ -309,10 +309,26 @@ export default {
       // レシピの原価と原価率を格納
       this.recipe.cost = this.recipeCost
       this.recipe.costRate = this.recipeCostRate
+      // 食材を選んでいたらサーバーに送る為にjson型に変換
+      const foodContents = this.$store.getters['recipe/foodContents']
+      // if文の条件を'foodContents'にしたら意図した条件分岐をしなかった
+      if (foodContents.length !== 0) {
+        foodContents.forEach((foodContent) => {
+          const jsonFoodContent = JSON.stringify(foodContent)
+          this.recipe.foods.push(jsonFoodContent)
+        })
+      }
+      console.log(this.recipe.foods)
       // レシピを登録
-      console.log(this.recipe)
-      this.$store.dispatch('recipe/registerRecipe', this.recipe)
-      console.log(this.$store.state.recipe.recipes)
+      const res = await this.$store.dispatch(
+        'recipe/registerRecipe',
+        this.recipe
+      )
+      alert(res.message)
+      // 成功すれば画面遷移
+      if (res.result) {
+        this.$router.push({ path: '/' })
+      }
     }
   }
 }

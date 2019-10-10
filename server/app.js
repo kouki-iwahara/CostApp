@@ -12,7 +12,8 @@ const signupRouter = require('./routes/signup')
 const foodRouter = require('./routes/food')
 const recipeRouter = require('./routes/recipe')
 
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 // sessionの設定
 app.use(
   session({

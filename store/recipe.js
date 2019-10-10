@@ -1,3 +1,5 @@
+import querystring from 'querystring'
+
 export const state = () => ({
   // レシピの食材
   foodContents: []
@@ -27,5 +29,15 @@ export const actions = {
   // 食材データをテーブルから削除
   deleteFood({ commit }, index) {
     commit('deleteFood', index)
+  },
+  // レシピデータを登録
+  async registerRecipe({ commit }, reqRecipe) {
+    const res = await this.$axios
+      .$post('/recipe', querystring.stringify(reqRecipe))
+      .catch((error) => {
+        console.log(error.message)
+      })
+    console.log(res)
+    return res
   }
 }

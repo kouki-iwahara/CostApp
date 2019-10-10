@@ -25,7 +25,7 @@ module.exports = {
       cost: {
         type: Sequelize.STRING
       },
-      costRate: {
+      cost_rate: {
         type: Sequelize.STRING
       },
       comment: {
