@@ -88,7 +88,7 @@
           />
         </div>
         <div class="col-sm-12">
-          <recipe-table @deleteFood="deleteFood" />
+          <recipe-register-table @deleteFood="deleteFood" />
         </div>
         <div class="col-sm-12">
           <comment-form v-model="recipe.comment" />
@@ -131,7 +131,7 @@
 import FoodImage from '~/components/FoodImage.vue'
 import FoodContent from '~/components/FoodContent.vue'
 import AddFoodForm from '~/components/AddFoodForm.vue'
-import RecipeTable from '~/components/RecipeTable.vue'
+import RecipeRegisterTable from '~/components/RecipeRegisterTable.vue'
 import CommentForm from '~/components/CommentForm.vue'
 import inputFile from '~/components/inputFile.vue'
 import InputForm from '~/components/InputForm.vue'
@@ -143,7 +143,7 @@ export default {
     FoodContent,
     CommentForm,
     AddFoodForm,
-    RecipeTable,
+    RecipeRegisterTable,
     inputFile,
     InputForm,
     SideBar
@@ -327,7 +327,7 @@ export default {
       alert(res.message)
       // 成功すれば画面遷移
       if (res.result) {
-        this.$router.push({ path: '/' })
+        this.$router.push({ path: '/recipe/recipeCheckPage' })
       }
     }
   }
