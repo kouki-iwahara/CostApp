@@ -45,6 +45,7 @@ const recipeController = {
       await foodContents.forEachAsync(async (foodContent) => {
         const createdFoodContent = await models.foodRecipe
           .create({
+            userId: user.id,
             foodId: foodContent.id,
             recipeId: createdRecipe.id,
             foodName: foodContent.name,
@@ -65,8 +66,9 @@ const recipeController = {
     else {
       const jsonFood = JSON.parse(recipe.foods)
       // レシピ食材を登録
-      const createdFoodContent = await models.food_recipe
+      const createdFoodContent = await models.foodRecipe
         .create({
+          userId: user.id,
           foodId: jsonFood.id,
           recipeId: createdRecipe.id,
           foodName: jsonFood.name,
@@ -86,6 +88,28 @@ const recipeController = {
       message: '登録完了です',
       result: createdRecipe
     })
+  },
+  // レシピデータを取得
+  async getRecipes(req, res) {
+    // userIdに紐づけられているレシピとレシピ食材を取得
+    const recipes = await models.user
+      .findOne({
+        where: { id: req.user.id },
+        include: [
+          {
+            model: models.recipe,
+            required: false
+          },
+          {
+            model: models.foodRecipe,
+            required: false
+          }
+        ]
+      })
+      .catch((error) => {
+        res.status(404).json({ error: error.message })
+      })
+    res.status(200).json({ result: recipes })
   }
 }
 
