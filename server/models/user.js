@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     user.hasMany(models.food, { foreignKey: 'userId' })
     user.hasMany(models.recipe, { foreignKey: 'userId' })
+    user.hasMany(models.foodRecipe, { foreignKey: 'userId' })
   }
   return user
 }
