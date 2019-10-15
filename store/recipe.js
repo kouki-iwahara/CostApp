@@ -2,7 +2,9 @@ import querystring from 'querystring'
 
 export const state = () => ({
   // レシピの食材
-  foodContents: []
+  foodContents: [],
+  // レシピのデータ
+  recipes: []
 })
 
 export const mutations = {
@@ -11,12 +13,21 @@ export const mutations = {
   },
   deleteFood(state, index) {
     state.foodContents.splice(index, 1)
+  },
+  setRecipes(state, recipes) {
+    state.recipes = recipes.slice()
+  },
+  addRecipes(state, recipe) {
+    state.recipes.push(recipe)
   }
 }
 
 export const getters = {
   foodContents(state) {
     return state.foodContents
+  },
+  recipes(state) {
+    return state.recipes
   }
 }
 
@@ -38,6 +49,34 @@ export const actions = {
         console.log(error.message)
       })
     console.log(res)
+    // stateに格納
+    commit('addRecipes', res.result)
     return res
+  },
+  // 全てのレシピデータ取得
+  async getRecipeData({ commit }) {
+    // 全てのレシピデータとレシピの食材が格納される
+    const res = await this.$axios.$get('/recipe').catch((error) => {
+      console.log(error.message)
+    })
+    const allRecipes = res.result.recipes.slice()
+    const foodRecipes = res.result.foodRecipes.slice()
+    // レシピとレシピ食材データがある場合
+    if (allRecipes && foodRecipes) {
+      // 変更ボタンの値とレシピに対応する食材を取得、格納
+      allRecipes.forEach((recipe) => {
+        recipe.updateBtn = '変更'
+        // レシピに対応する食材を取得
+        const foodData = foodRecipes.filter((foodContent) => {
+          return recipe.id === foodContent.recipeId
+        })
+        // 食材が取得できたら格納
+        if (foodData) {
+          recipe.foods = foodData.slice()
+        }
+      })
+    }
+    // stateに食材データを格納
+    commit('setRecipes', allRecipes)
   }
 }

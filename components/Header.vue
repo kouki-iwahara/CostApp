@@ -33,7 +33,7 @@
               </nuxt-link>
             </li>
             <li class="nav-item">
-              <nuxt-link to="/recipeCheckPage" class="nav-link">
+              <nuxt-link to="/recipe/recipeCheckPage" class="nav-link">
                 メニュー表示
               </nuxt-link>
             </li>

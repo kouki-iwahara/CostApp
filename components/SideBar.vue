@@ -3,11 +3,9 @@
     <div class="sidebar row">
       <div class="sidebar_search col-sm-3 hidden-xs  bg-dark">
         <div class="nav-list_info bg-info text-dark">
-          <p>
-            <slot name="cotent">
-              全ての食材
-            </slot>
-          </p>
+          <slot name="content">
+            <p>全ての食材</p>
+          </slot>
         </div>
       </div>
       <div class="sidebar_list col-sm-3 hidden-xs bg-dark">
