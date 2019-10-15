@@ -39,14 +39,6 @@
               {{ recipe.costRate }}
             </template>
           </food-content>
-          <!-- 登録ボタン -->
-          <div class="row">
-            <div class="btn-form col-sm-12">
-              <button type="button" class="btn btn-info btn-block btn-lg">
-                {{ recipe.updateBtn }}
-              </button>
-            </div>
-          </div>
         </div>
         <!-- コメント欄 -->
         <div class="content_text col-sm-12">
@@ -61,7 +53,16 @@
       <!-- row -->
       <div class="row offset-3">
         <div class="col-sm-12">
-          <recipe-display-table />
+          <recipe-display-table :recipe-foods="recipe.foods" />
+        </div>
+        <div class="btn-form col-sm-6">
+          <button
+            type="button"
+            class="btn btn-info btn-block btn-lg"
+            @click="toUpdatePage"
+          >
+            変更
+          </button>
         </div>
       </div>
     </div>
@@ -75,6 +76,7 @@
         slot="content-list"
         :key="item.id"
         class="list-group list-group-flush"
+        @click="showRecipe($store.getters['recipe/recipes'].indexOf(item))"
       >
         <li class="food-list_item list-group-item border-bottom border-info">
           {{ item.name }}
@@ -100,11 +102,13 @@ export default {
   data() {
     return {
       recipe: {
+        index: 0,
         name: '',
         value: '',
         cost: '',
         costRate: '',
         comment: '',
+        foods: [],
         image: require('~/assets/pasta.jpg')
       }
     }
@@ -130,8 +134,25 @@ export default {
       this.recipe.cost = recipe.cost
       this.recipe.costRate = recipe.costRate
       this.recipe.comment = recipe.comment
+      this.recipe.foods = recipe.foods.slice()
       this.recipe.image = recipe.image
-      this.recipe.updateBtn = recipe.updateBtn
+    }
+  },
+  methods: {
+    showRecipe(index) {
+      const recipe = this.$store.getters['recipe/recipes'][index]
+      console.log(recipe)
+      this.recipe.index = index
+      this.recipe.name = recipe.name
+      this.recipe.value = recipe.value
+      this.recipe.cost = recipe.cost
+      this.recipe.costRate = recipe.costRate
+      this.recipe.comment = recipe.comment
+      this.recipe.foods = recipe.foods.slice()
+      this.recipe.image = recipe.image
+    },
+    toUpdatePage() {
+      this.$router.push({ path: `/recipe/${this.recipe.index}` })
     }
   }
 }
