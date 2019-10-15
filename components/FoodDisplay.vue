@@ -95,30 +95,18 @@ export default {
     FoodContent
   },
   data() {
-    const food = this.$store.getters['food/foods'][0]
     return {
       food: {
-        name: food.name,
-        value: food.value,
-        amount: food.amount,
-        yield: food.yield,
-        unit: food.unit,
-        cost: food.cost,
-        comment: food.comment,
-        updateBtn: food.updateBtn,
-        image: food.image
+        name: '',
+        value: '',
+        amount: '',
+        yield: '',
+        unit: '',
+        cost: '',
+        comment: '',
+        updateBtn: '変更',
+        image: require('~/assets/pasta.jpg')
       },
-      // food: {
-      //   name: 'koko',
-      //   value: '121',
-      //   amount: '1221',
-      //   yield: '89',
-      //   unit: 'g',
-      //   cost: 43,
-      //   comment: 'jij',
-      //   updateBtn: '変更',
-      //   image: require('~/assets/pasta.jpg')
-      // },
       selectedFile: '',
       foodIndex: 0
     }
@@ -126,6 +114,20 @@ export default {
   computed: {
     foods() {
       return this.$store.getters['food/foods']
+    }
+  },
+  created() {
+    const food = this.$store.getters['food/foods'][0]
+    if (food) {
+      this.food.name = food.name
+      this.food.value = food.value
+      this.food.amount = food.amount
+      this.food.yield = food.yield
+      this.food.unit = food.unit
+      this.food.cost = food.cost
+      this.food.comment = food.comment
+      this.food.updateBtn = food.updateBtn
+      this.food.image = food.image
     }
   },
   methods: {
@@ -160,6 +162,9 @@ export default {
   overflow-x: hidden;
   overflow-y: auto;
 }
+.content_form {
+  margin-top: 30px;
+}
 .content_form_food-content {
   margin-bottom: 15px;
 }
@@ -170,7 +175,6 @@ export default {
   margin-left: 5px;
 }
 
-/* comment-form */
 .content_text {
   margin: 20px 0;
 }

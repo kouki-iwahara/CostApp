@@ -108,7 +108,7 @@ export default {
   display: block;
   font-size: 1.25em;
   border-bottom: 1px darkslategray solid;
-  color: #a8aeb5e9;
+  /* color: #a8aeb5e9; */
   opacity: 0.8;
   position: absolute;
   bottom: 0;

@@ -54,7 +54,10 @@
               >
                 <option selected disabled value="">単位</option>
                 <option>g</option>
+                <option>kg</option>
                 <option>ml</option>
+                <option>L</option>
+                <option>cc</option>
               </select>
             </div>
             <template slot="content">
@@ -253,6 +256,9 @@ export default {
 }
 .content_image_file {
   margin: 10px 0;
+}
+.content_form {
+  margin-top: 30px;
 }
 .content_form_input {
   margin-bottom: 15px;

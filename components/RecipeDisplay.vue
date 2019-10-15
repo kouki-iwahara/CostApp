@@ -151,6 +151,9 @@ export default {
 .content_image_file {
   margin: 10px 0;
 }
+.content_form {
+  margin-top: 30px;
+}
 .content_form_food-content {
   margin-bottom: 10px;
 }
