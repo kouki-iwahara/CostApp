@@ -8,7 +8,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="recipeFood in recipeFoods" :key="recipeFood.id">
+      <tr v-for="recipeFood in recipeTableFoods" :key="recipeFood.id">
         <td>{{ recipeFood.foodName }}</td>
         <td>
           {{ recipeFood.foodAmount }}
@@ -23,7 +23,7 @@
 <script>
 export default {
   props: {
-    recipeFoods: {
+    recipeTableFoods: {
       type: Array,
       required: true
     }

@@ -29,7 +29,7 @@ const recipeController = {
       res.status(200).send({ message: '登録完了です', result: createdRecipe })
       return
     }
-    // ここから
+    // ここからfoodRecipeテーブルの処理
     // req.body.foodsは、食材を複数選んでいたら配列、１つなら連想配列になっている
     // 食材を複数選んでいた場合
     if (Array.isArray(recipe.foods)) {
@@ -48,10 +48,10 @@ const recipeController = {
             userId: user.id,
             foodId: foodContent.id,
             recipeId: createdRecipe.id,
-            foodName: foodContent.name,
-            foodAmount: foodContent.amount,
-            foodUnit: foodContent.unit,
-            foodAmountCost: foodContent.amountCost
+            foodName: foodContent.foodName,
+            foodAmount: foodContent.foodAmount,
+            foodUnit: foodContent.foodUnit,
+            foodAmountCost: foodContent.foodAmountCost
           })
           .catch((error) => {
             console.log(error.message)
@@ -71,10 +71,10 @@ const recipeController = {
           userId: user.id,
           foodId: jsonFood.id,
           recipeId: createdRecipe.id,
-          foodName: jsonFood.name,
-          foodAmount: jsonFood.amount,
-          foodUnit: jsonFood.unit,
-          foodAmountCost: jsonFood.amountCost
+          foodName: jsonFood.foodName,
+          foodAmount: jsonFood.foodAmount,
+          foodUnit: jsonFood.foodUnit,
+          foodAmountCost: jsonFood.foodAmountCost
         })
         .catch((error) => {
           console.log(error.message)

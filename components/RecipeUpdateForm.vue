@@ -97,12 +97,8 @@
           <comment-form v-model="recipe.comment" />
         </div>
         <div class="btn-form col-sm-6">
-          <button
-            type="button"
-            class="btn btn-info btn-block btn-lg"
-            @click="registerRecipe"
-          >
-            登録
+          <button type="button" class="btn btn-info btn-block btn-lg">
+            修正
           </button>
         </div>
         <div class="btn-form col-sm-6">
@@ -158,7 +154,6 @@ export default {
         value: '',
         comment: '',
         tableFoods: [],
-        foods: [],
         image: require('~/assets/pasta.jpg')
       },
       food: {
@@ -196,11 +191,26 @@ export default {
     // レシピの原価（食材原価の合計）
     recipeCost() {
       let cost = 0
+      // const foodContents = this.$store.getters['recipe/foodContents']
       this.recipe.tableFoods.forEach((tableFood) => {
         cost += parseFloat(tableFood.foodAmountCost)
       })
       return Math.round(cost * 10) / 10
     }
+  },
+  created() {
+    const index = this.$route.params.recipeId
+    const recipe = this.$store.getters['recipe/recipes'][index]
+    console.log(recipe)
+    this.recipe.name = recipe.name
+    this.recipe.value = recipe.value
+    this.recipe.comment = recipe.comment
+    this.recipe.image = recipe.image
+    recipe.foods.forEach((food) => {
+      food.foodDelBtn = 'ー'
+      this.recipe.tableFoods.push(food)
+    })
+    console.log(this.recipe.tableFoods)
   },
   methods: {
     // イメージ画像データを取得し、プレビューを作成
@@ -253,7 +263,7 @@ export default {
       const food = this.$store.getters['food/foods'][index]
       // 食材の重複禁止の為、idが重複しているか調べる
       const overlapId = this.recipe.tableFoods.find((tableFood) => {
-        return tableFood.id === food.id
+        return tableFood.foodId === food.id
       })
       // idが重複していた場合
       if (overlapId) {
@@ -290,12 +300,12 @@ export default {
       }
       // 入力された食材をテーブルに追加
       this.recipe.tableFoods.push(foodContent)
-
       // formの初期化
       this.initializeForm()
     },
     // テーブルから食材を削除
     deleteFood(index) {
+      // this.$store.dispatch('recipe/deleteFood', index)
       this.recipe.tableFoods.splice(index, 1)
     },
     // レシピ登録
@@ -314,8 +324,8 @@ export default {
       this.recipe.costRate = this.recipeCostRate
       // 食材を選んでいたらサーバーに送る為にjson型に変換
       // if文の条件を'foodContents'にしたら意図した条件分岐をしなかった
-      if (this.recipe.tableFoods.length !== 0) {
-        this.recipe.tableFoods.forEach((tableFood) => {
+      if (this.recipe.tableFood.length !== 0) {
+        this.recipe.tableFood.forEach((tableFood) => {
           const jsonFood = JSON.stringify(tableFood)
           this.recipe.foods.push(jsonFood)
         })

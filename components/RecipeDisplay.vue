@@ -53,7 +53,7 @@
       <!-- row -->
       <div class="row offset-3">
         <div class="col-sm-12">
-          <recipe-display-table :recipe-foods="recipe.foods" />
+          <recipe-display-table :recipe-table-foods="recipe.tableFoods" />
         </div>
         <div class="btn-form col-sm-6">
           <button
@@ -108,7 +108,7 @@ export default {
         cost: '',
         costRate: '',
         comment: '',
-        foods: [],
+        tableFoods: [],
         image: require('~/assets/pasta.jpg')
       }
     }
@@ -134,7 +134,7 @@ export default {
       this.recipe.cost = recipe.cost
       this.recipe.costRate = recipe.costRate
       this.recipe.comment = recipe.comment
-      this.recipe.foods = recipe.foods.slice()
+      this.recipe.tableFoods = recipe.foods.slice()
       this.recipe.image = recipe.image
     }
   },
@@ -148,8 +148,9 @@ export default {
       this.recipe.cost = recipe.cost
       this.recipe.costRate = recipe.costRate
       this.recipe.comment = recipe.comment
-      this.recipe.foods = recipe.foods.slice()
+      this.recipe.tableFoods = recipe.foods.slice()
       this.recipe.image = recipe.image
+      console.log(this.recipe.tableFoods)
     },
     toUpdatePage() {
       this.$router.push({ path: `/recipe/${this.recipe.index}` })
