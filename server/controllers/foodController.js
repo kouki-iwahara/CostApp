@@ -44,7 +44,7 @@ const foodrRegisterController = {
         where: { id: req.params.id }
       })
       .catch((error) => {
-        console.log(error)
+        console.log(error.message)
       })
     const updatedFood = await food
       .update({
@@ -72,6 +72,7 @@ const foodrRegisterController = {
       })
       .catch((error) => {
         console.log(error)
+        res.status(404).send({ error: error.message })
       })
     // 取得したタスクを消去
     const deletedFood = await food.destroy({ force: true }).catch((error) => {

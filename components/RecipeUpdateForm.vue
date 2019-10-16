@@ -97,7 +97,11 @@
           <comment-form v-model="recipe.comment" />
         </div>
         <div class="btn-form col-sm-6">
-          <button type="button" class="btn btn-info btn-block btn-lg">
+          <button
+            type="button"
+            class="btn btn-info btn-block btn-lg"
+            @click="updateRecipe"
+          >
             修正
           </button>
         </div>
@@ -150,10 +154,12 @@ export default {
   data() {
     return {
       recipe: {
+        id: '',
         name: '',
         value: '',
         comment: '',
         tableFoods: [],
+        foods: [],
         image: require('~/assets/pasta.jpg')
       },
       food: {
@@ -202,6 +208,7 @@ export default {
     const index = this.$route.params.recipeId
     const recipe = this.$store.getters['recipe/recipes'][index]
     console.log(recipe)
+    this.recipe.id = recipe.id
     this.recipe.name = recipe.name
     this.recipe.value = recipe.value
     this.recipe.comment = recipe.comment
@@ -291,7 +298,7 @@ export default {
       }
       // 追加する食材情報
       const foodContent = {
-        id: this.food.id,
+        foodId: this.food.id,
         foodName: this.food.name,
         foodAmount: this.food.amount,
         foodUnit: this.food.unit,
@@ -309,7 +316,7 @@ export default {
       this.recipe.tableFoods.splice(index, 1)
     },
     // レシピ登録
-    async registerRecipe() {
+    async updateRecipe() {
       // レシピ名が必須登録
       if (!this.recipe.name) {
         return alert('必須項目を入力してください')
@@ -323,19 +330,18 @@ export default {
       this.recipe.cost = this.recipeCost
       this.recipe.costRate = this.recipeCostRate
       // 食材を選んでいたらサーバーに送る為にjson型に変換
-      // if文の条件を'foodContents'にしたら意図した条件分岐をしなかった
-      if (this.recipe.tableFood.length !== 0) {
-        this.recipe.tableFood.forEach((tableFood) => {
+      // if文の条件を'!this.recipe.tableFoods'にしたら意図した条件分岐をしなかった
+      console.log(this.recipe.tableFoods)
+      if (this.recipe.tableFoods.length !== 0) {
+        this.recipe.tableFoods.forEach((tableFood) => {
           const jsonFood = JSON.stringify(tableFood)
           this.recipe.foods.push(jsonFood)
         })
       }
-      console.log(this.recipe.foods)
-      // レシピを登録
-      const res = await this.$store.dispatch(
-        'recipe/registerRecipe',
-        this.recipe
-      )
+      console.log(this.recipe)
+      // レシピを更新
+      const res = await this.$store.dispatch('recipe/updateRecipe', this.recipe)
+      console.log(res)
       alert(res.message)
       // 成功すれば画面遷移
       if (res.result) {

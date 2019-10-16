@@ -78,5 +78,16 @@ export const actions = {
     }
     // stateに食材データを格納
     commit('setRecipes', allRecipes)
+  },
+  async updateRecipe({ ctx }, recipe) {
+    console.log(recipe)
+    // 成功で更新された食材が格納される
+    const res = await this.$axios
+      .$put(`/recipe/${recipe.id}`, querystring.stringify(recipe))
+      .catch((error) => {
+        console.log(error)
+      })
+    console.log(res)
+    return res
   }
 }
