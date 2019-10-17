@@ -89,5 +89,17 @@ export const actions = {
       })
     console.log(res)
     return res
+  },
+  // 食材の削除
+  async deleteRecipe({ ctx }, recipeId) {
+    console.log(recipeId)
+    // 成功で削除された食材が格納される
+    const res = await this.$axios
+      .$delete(`/recipe/${recipeId}`)
+      .catch((error) => {
+        console.log(error.message)
+      })
+    console.log(res)
+    return res
   }
 }

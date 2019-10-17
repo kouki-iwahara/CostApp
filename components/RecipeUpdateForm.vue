@@ -106,7 +106,11 @@
           </button>
         </div>
         <div class="btn-form col-sm-6">
-          <button type="button" class="btn btn-danger btn-block btn-lg">
+          <button
+            type="button"
+            class="btn btn-danger btn-block btn-lg"
+            @click="deleteRecipe"
+          >
             削除
           </button>
         </div>
@@ -341,6 +345,20 @@ export default {
       console.log(this.recipe)
       // レシピを更新
       const res = await this.$store.dispatch('recipe/updateRecipe', this.recipe)
+      console.log(res)
+      alert(res.message)
+      // 成功すれば画面遷移
+      if (res.result) {
+        this.$router.push({ path: '/recipe/recipeCheckPage' })
+      }
+    },
+    // レシピを削除
+    async deleteRecipe() {
+      // 成功で削除されたレシピが格納される
+      const res = await this.$store.dispatch(
+        'recipe/deleteRecipe',
+        this.recipe.id
+      )
       console.log(res)
       alert(res.message)
       // 成功すれば画面遷移

@@ -235,6 +235,48 @@ const recipeController = {
     // 更新されたレシピに食材データを格納しフロントに返す
     updatedRecipe.dataValues.foods = updatedFoodRecipes
     res.status(200).json({ message: '更新しました', result: updatedRecipe })
+  },
+  // レシピと登録してある食材を削除
+  async deleteRecipe(req, res) {
+    console.log(req.params.id)
+    // レシピに登録されていた食材を取得
+    const foodRecipes = await models.foodRecipe
+      .findAll({ where: { recipeId: req.params.id } })
+      .catch((error) => {
+        console.log(error)
+        return res.status(404).json({ error: error.message })
+      })
+    console.log('食材', foodRecipes)
+    // 取得したレシピ食材があるなら削除
+    if (foodRecipes) {
+      await foodRecipes.forEachAsync(async (foodrecipe) => {
+        const deletedFoodRecipe = await foodrecipe
+          .destroy({ force: true })
+          .catch((error) => {
+            console.log(error)
+            res.status(404).send({ error: error.message })
+          })
+        console.log('食材消す', deletedFoodRecipe)
+      })
+    }
+    // 削除するレシピの取得
+    const recipe = await models.recipe
+      .findOne({
+        where: { id: req.params.id }
+      })
+      .catch((error) => {
+        console.log(error)
+        res.status(404).send({ error: error.message })
+      })
+    // 取得したレシピを削除
+    const deletedRecipe = await recipe
+      .destroy({ force: true })
+      .catch((error) => {
+        console.log(error)
+        res.status(404).send({ error: error.message })
+      })
+    console.log(deletedRecipe)
+    res.status(200).send({ message: '削除しました', result: deletedRecipe })
   }
 }
 
