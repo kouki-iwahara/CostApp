@@ -9,23 +9,21 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="food in foodContents" :key="food.id">
-        <td>{{ food.name }}</td>
+      <tr v-for="food in recipeTableFoods" :key="food.id">
+        <td>{{ food.foodName }}</td>
         <td>
-          {{ food.amount }}
-          {{ food.unit }}
+          {{ food.foodAmount }}
+          {{ food.foodUnit }}
         </td>
-        <td>{{ food.amountCost }}</td>
+        <td>{{ food.foodAmountCost }}</td>
         <td>
           <button
             type="button"
             class="btn btn-success rounded-circle p-0"
             style="width:2rem;height:2rem;"
-            @click="
-              deleteFood($store.getters['recipe/foodContents'].indexOf(food))
-            "
+            @click="deleteFood(recipeTableFoods.indexOf(food))"
           >
-            {{ food.delBtn }}
+            {{ food.foodDelBtn }}
           </button>
         </td>
       </tr>
@@ -35,9 +33,10 @@
 
 <script>
 export default {
-  computed: {
-    foodContents() {
-      return this.$store.getters['recipe/foodContents']
+  props: {
+    recipeTableFoods: {
+      type: Array,
+      default: null
     }
   },
   methods: {

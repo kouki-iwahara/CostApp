@@ -100,9 +100,9 @@
           <button
             type="button"
             class="btn btn-info btn-block btn-lg"
-            @click="registerRecipe"
+            @click="updateRecipe"
           >
-            登録
+            修正
           </button>
         </div>
         <div class="btn-form col-sm-6">
@@ -154,6 +154,7 @@ export default {
   data() {
     return {
       recipe: {
+        id: '',
         name: '',
         value: '',
         comment: '',
@@ -196,11 +197,27 @@ export default {
     // レシピの原価（食材原価の合計）
     recipeCost() {
       let cost = 0
+      // const foodContents = this.$store.getters['recipe/foodContents']
       this.recipe.tableFoods.forEach((tableFood) => {
         cost += parseFloat(tableFood.foodAmountCost)
       })
       return Math.round(cost * 10) / 10
     }
+  },
+  created() {
+    const index = this.$route.params.recipeId
+    const recipe = this.$store.getters['recipe/recipes'][index]
+    console.log(recipe)
+    this.recipe.id = recipe.id
+    this.recipe.name = recipe.name
+    this.recipe.value = recipe.value
+    this.recipe.comment = recipe.comment
+    this.recipe.image = recipe.image
+    recipe.foods.forEach((food) => {
+      food.foodDelBtn = 'ー'
+      this.recipe.tableFoods.push(food)
+    })
+    console.log(this.recipe.tableFoods)
   },
   methods: {
     // イメージ画像データを取得し、プレビューを作成
@@ -253,7 +270,7 @@ export default {
       const food = this.$store.getters['food/foods'][index]
       // 食材の重複禁止の為、idが重複しているか調べる
       const overlapId = this.recipe.tableFoods.find((tableFood) => {
-        return tableFood.id === food.id
+        return tableFood.foodId === food.id
       })
       // idが重複していた場合
       if (overlapId) {
@@ -281,7 +298,7 @@ export default {
       }
       // 追加する食材情報
       const foodContent = {
-        id: this.food.id,
+        foodId: this.food.id,
         foodName: this.food.name,
         foodAmount: this.food.amount,
         foodUnit: this.food.unit,
@@ -290,16 +307,16 @@ export default {
       }
       // 入力された食材をテーブルに追加
       this.recipe.tableFoods.push(foodContent)
-
       // formの初期化
       this.initializeForm()
     },
     // テーブルから食材を削除
     deleteFood(index) {
+      // this.$store.dispatch('recipe/deleteFood', index)
       this.recipe.tableFoods.splice(index, 1)
     },
     // レシピ登録
-    async registerRecipe() {
+    async updateRecipe() {
       // レシピ名が必須登録
       if (!this.recipe.name) {
         return alert('必須項目を入力してください')
@@ -313,19 +330,18 @@ export default {
       this.recipe.cost = this.recipeCost
       this.recipe.costRate = this.recipeCostRate
       // 食材を選んでいたらサーバーに送る為にjson型に変換
-      // if文の条件を'foodContents'にしたら意図した条件分岐をしなかった
+      // if文の条件を'!this.recipe.tableFoods'にしたら意図した条件分岐をしなかった
+      console.log(this.recipe.tableFoods)
       if (this.recipe.tableFoods.length !== 0) {
         this.recipe.tableFoods.forEach((tableFood) => {
           const jsonFood = JSON.stringify(tableFood)
           this.recipe.foods.push(jsonFood)
         })
       }
-      console.log(this.recipe.foods)
-      // レシピを登録
-      const res = await this.$store.dispatch(
-        'recipe/registerRecipe',
-        this.recipe
-      )
+      console.log(this.recipe)
+      // レシピを更新
+      const res = await this.$store.dispatch('recipe/updateRecipe', this.recipe)
+      console.log(res)
       alert(res.message)
       // 成功すれば画面遷移
       if (res.result) {

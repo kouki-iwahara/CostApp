@@ -8,13 +8,13 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="foodContent in foodContents" :key="foodContent.id">
-        <td>{{ foodContent.foodName }}</td>
+      <tr v-for="recipeFood in recipeTableFoods" :key="recipeFood.id">
+        <td>{{ recipeFood.foodName }}</td>
         <td>
-          {{ foodContent.foodAmount }}
-          {{ foodContent.foodUnit }}
+          {{ recipeFood.foodAmount }}
+          {{ recipeFood.foodUnit }}
         </td>
-        <td>{{ foodContent.foodAmountCost }}</td>
+        <td>{{ recipeFood.foodAmountCost }}</td>
       </tr>
     </tbody>
   </table>
@@ -22,13 +22,10 @@
 
 <script>
 export default {
-  computed: {
-    foodContents() {
-      const recipe = this.$store.getters['recipe/recipes'][0]
-      if (!recipe.foods) {
-        return
-      }
-      return recipe.foods
+  props: {
+    recipeTableFoods: {
+      type: Array,
+      required: true
     }
   }
 }
