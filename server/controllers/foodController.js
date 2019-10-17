@@ -66,20 +66,41 @@ const foodrRegisterController = {
   },
   // 食材データを消去
   async deleteFood(req, res) {
+    // レシピに登録されていた食材を取得
+    const foodRecipes = await models.foodRecipe
+      .findAll({ where: { foodId: req.params.id } })
+      .catch((error) => {
+        console.log(error)
+        return res.status(404).json({ error: error.message })
+      })
+    console.log('食材', foodRecipes)
+    // 取得したレシピ食材があるなら削除
+    if (foodRecipes) {
+      await foodRecipes.forEachAsync(async (foodrecipe) => {
+        const deletedFoodRecipe = await foodrecipe
+          .destroy({ force: true })
+          .catch((error) => {
+            console.log(error)
+            res.status(404).json({ error: error.message })
+          })
+        console.log('食材消す', deletedFoodRecipe)
+      })
+    }
+    // 食材データを削除
     const food = await models.food
       .findOne({
         where: { id: req.params.id }
       })
       .catch((error) => {
         console.log(error)
-        res.status(404).send({ error: error.message })
+        res.status(404).json({ error: error.message })
       })
     // 取得したタスクを消去
     const deletedFood = await food.destroy({ force: true }).catch((error) => {
       console.log(error)
-      res.status(404).send({ error: error.message })
+      res.status(404).json({ error: error.message })
     })
-    res.status(200).send({ message: '削除しました', result: deletedFood })
+    res.status(200).json({ message: '削除しました', result: deletedFood })
   }
 }
 
