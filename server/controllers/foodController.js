@@ -4,13 +4,17 @@ const foodrRegisterController = {
   // 全ての食材データ取得
   async getFoodData(req, res) {
     const allFoodData = await models.food.findAll().catch((error) => {
-      res.status(404).send({ error: error.message })
+      res.status(404).json({ error: error.message })
     })
     console.log(allFoodData)
-    res.status(200).send({ result: allFoodData })
+    res.status(200).json({ result: allFoodData })
   },
   // 食材データをDBに登録
   async registerFood(req, res) {
+    // sessionが切れていたらフロントに返す
+    if (!req.user) {
+      return res.json({ error: 'ユーザー認証が切れています' })
+    }
     // sessionがあればuser情報が格納される
     const user = req.user
     const food = req.body
@@ -37,6 +41,10 @@ const foodrRegisterController = {
   },
   // 食材データの更新
   async updateFood(req, res) {
+    // sessionが切れていたらフロントに返す
+    if (!req.user) {
+      return res.json({ error: 'ユーザー認証が切れています' })
+    }
     console.log(req.params.id)
     console.log(req.body)
     const food = await models.food
@@ -66,6 +74,9 @@ const foodrRegisterController = {
   },
   // 食材データを消去
   async deleteFood(req, res) {
+    if (!req.user) {
+      return res.json({ error: 'ユーザー認証が切れています' })
+    }
     // レシピに登録されていた食材を取得
     const foodRecipes = await models.foodRecipe
       .findAll({ where: { foodId: req.params.id } })

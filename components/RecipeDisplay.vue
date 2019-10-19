@@ -124,7 +124,19 @@ export default {
       return recipes
     }
   },
-  created() {
+  async created() {
+    const res = await this.$store
+      .dispatch('recipe/getRecipeData')
+      .catch((error) => {
+        console.log(error)
+      })
+    // ユーザー認証が切れていたらsigninに遷移
+    console.log(res)
+    if (res.error) {
+      alert(res.error)
+      this.$router.push({ path: '/signin' })
+      return
+    }
     // レシピ配列の先頭を表示
     console.log(this.$store.getters['recipe/recipes'][0])
     const recipe = this.$store.getters['recipe/recipes'][0]

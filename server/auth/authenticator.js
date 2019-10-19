@@ -93,9 +93,7 @@ const authenticator = {
     if (req.isAuthenticated()) {
       return next()
     } else {
-      res.send({
-        error: 'ユーザー認証が切れたのでサインインページに戻ります'
-      })
+      return res.redirect('/signin')
     }
   }
 }

@@ -54,6 +54,7 @@ export const actions = {
     }
     // stateに食材データを格納
     commit('setFoods', allFoodData)
+    return res
   },
   // DBに食材を登録しstateにデータ格納
   async registerFood({ commit }, reqFoodInfo) {
@@ -64,6 +65,10 @@ export const actions = {
       .catch((error) => {
         console.log(error.message)
       })
+    // ユーザー認証が切れていたら格納されている
+    if (res.error) {
+      return res
+    }
     // 食材データが返ってくればstateに格納
     if (res.result) {
       commit('addFood', res.result)
