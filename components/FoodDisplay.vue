@@ -116,10 +116,19 @@ export default {
       return this.$store.getters['food/foods']
     }
   },
-  created() {
-    // await this.$store.dispatch('food/getFoodData').catch((error) => {
-    //   console.log(error)
-    // })
+  async created() {
+    const res = await this.$store
+      .dispatch('food/getFoodData')
+      .catch((error) => {
+        console.log(error)
+      })
+    console.log(res)
+    // ユーザー認証が切れていたらsigninに遷移
+    if (res.error) {
+      alert(res.error)
+      this.$router.push({ path: '/signin' })
+      return
+    }
     const food = this.$store.getters['food/foods'][0]
     if (food) {
       this.food.name = food.name

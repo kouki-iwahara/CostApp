@@ -3,9 +3,18 @@ const models = require('../models')
 const foodrRegisterController = {
   // 全ての食材データ取得
   async getFoodData(req, res) {
-    const allFoodData = await models.food.findAll().catch((error) => {
-      res.status(404).json({ error: error.message })
-    })
+    // sessionが切れていたらフロントに返す
+    if (!req.user) {
+      return res.json({ error: 'ユーザー認証が切れています' })
+    }
+    console.log(req.user.id)
+    const allFoodData = await models.food
+      .findAll({
+        where: { userId: req.user.id }
+      })
+      .catch((error) => {
+        res.status(404).json({ error: error.message })
+      })
     console.log(allFoodData)
     res.status(200).json({ result: allFoodData })
   },
