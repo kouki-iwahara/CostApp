@@ -1,17 +1,17 @@
 <template>
   <div class="wrapper">
-    <Header />
+    <my-page-header />
     <recipe-display />
   </div>
 </template>
 
 <script>
-import Header from '~/components/Header.vue'
+import myPageHeader from '~/components/myPageHeader.vue'
 import RecipeDisplay from '~/components/RecipeDisplay.vue'
 
 export default {
   components: {
-    Header,
+    myPageHeader,
     RecipeDisplay
   }
 }
