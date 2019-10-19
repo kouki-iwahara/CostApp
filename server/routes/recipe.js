@@ -3,6 +3,8 @@ const router = express.Router()
 const recipeController = require('../controllers/recipeController')
 const authenticator = require('../auth/authenticator')
 
+router.get('/allRecipes', recipeController.getAllUsersRecipes)
+
 router.get('/', recipeController.getRecipes)
 router.post('/', recipeController.registerRecipe)
 

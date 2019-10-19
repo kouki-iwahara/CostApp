@@ -1,46 +1,33 @@
 import querystring from 'querystring'
 
 export const state = () => ({
-  // レシピの食材
-  foodContents: [],
+  allUsersRecipes: [],
   // レシピのデータ
   recipes: []
 })
 
 export const mutations = {
-  setFoodContents(state, food) {
-    state.foodContents.push(food)
-  },
-  deleteFood(state, index) {
-    state.foodContents.splice(index, 1)
-  },
   setRecipes(state, recipes) {
     state.recipes = recipes.slice()
   },
   addRecipes(state, recipe) {
     state.recipes.push(recipe)
+  },
+  setAllUsersRecipes(state, recipes) {
+    state.allUsersRecipes = recipes.slice()
   }
 }
 
 export const getters = {
-  foodContents(state) {
-    return state.foodContents
-  },
   recipes(state) {
     return state.recipes
+  },
+  allUsersRecipes(state) {
+    return state.allUsersRecipes
   }
 }
 
 export const actions = {
-  // 食材データをテーブルに追加
-  addFoodToRecipe({ commit }, food) {
-    console.log(food)
-    commit('setFoodContents', food)
-  },
-  // 食材データをテーブルから削除
-  deleteFood({ commit }, index) {
-    commit('deleteFood', index)
-  },
   // レシピデータを登録
   async registerRecipe({ commit }, reqRecipe) {
     const res = await this.$axios
@@ -53,7 +40,7 @@ export const actions = {
     commit('addRecipes', res.result)
     return res
   },
-  // 全てのレシピデータ取得
+  // ユーザーのレシピデータ取得
   async getRecipeData({ commit }) {
     // 全てのレシピデータとレシピの食材が格納される
     const res = await this.$axios.$get('/recipe').catch((error) => {
@@ -104,6 +91,20 @@ export const actions = {
         console.log(error.message)
       })
     console.log(res)
+    return res
+  },
+  // ユーザー全員の公開レシピ取得
+  async getAllUsersRecipes({ commit, state }) {
+    // 全てのレシピデータとレシピの食材が格納される
+    const res = await this.$axios.$get('/recipe/allRecipes').catch((error) => {
+      console.log(error.message)
+    })
+    console.log(res)
+    // res.resultがない場合も作る
+
+    // stateに食材データを格納
+    commit('setAllUsersRecipes', res.result)
+    console.log(state.allUsersRecipes)
     return res
   }
 }

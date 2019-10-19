@@ -293,6 +293,24 @@ const recipeController = {
       })
     console.log(deletedRecipe)
     res.status(200).send({ message: '削除しました', result: deletedRecipe })
+  },
+  // ユーザー全ての公開レシピデータを取得
+  async getAllUsersRecipes(req, res) {
+    const recipes = await models.recipe.findAll().catch((error) => {
+      res.status(404).json({ error: error.message })
+    })
+    // レシピに紐づいている食材データを取得し格納する
+    await recipes.forEachAsync(async (recipe) => {
+      const foodRecipes = await models.foodRecipe
+        .findAll({
+          where: { recipeId: recipe.id }
+        })
+        .catch((error) => {
+          res.status(404).json({ error: error.message })
+        })
+      recipe.dataValues.foods = foodRecipes.slice()
+    })
+    res.status(200).json({ result: recipes })
   }
 }
 
