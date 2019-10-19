@@ -208,7 +208,18 @@ export default {
       return Math.round(cost * 10) / 10
     }
   },
-  created() {
+  async created() {
+    const res = await this.$store.dispatch('recipe/getRecipeData')
+    console.log(res)
+    if (res.error) {
+      alert(res.error)
+      this.$router.push({ path: '/signin' })
+      return
+    }
+    await this.$store.dispatch('food/getFoodData').catch((error) => {
+      console.log(error)
+    })
+
     const index = this.$route.params.recipeId
     const recipe = this.$store.getters['recipe/recipes'][index]
     console.log(recipe)
@@ -346,6 +357,12 @@ export default {
       // レシピを更新
       const res = await this.$store.dispatch('recipe/updateRecipe', this.recipe)
       console.log(res)
+      // ユーザー認証が切れていたらsigninに遷移
+      if (res.error) {
+        alert(res.error)
+        this.$router.push({ path: '/signin' })
+        return
+      }
       alert(res.message)
       // 成功すれば画面遷移
       if (res.result) {
@@ -360,6 +377,12 @@ export default {
         this.recipe.id
       )
       console.log(res)
+      // ユーザー認証が切れていたらsigninに遷移
+      if (res.error) {
+        alert(res.error)
+        this.$router.push({ path: '/signin' })
+        return
+      }
       alert(res.message)
       // 成功すれば画面遷移
       if (res.result) {

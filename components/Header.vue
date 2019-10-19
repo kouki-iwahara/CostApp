@@ -28,7 +28,7 @@
               </nuxt-link>
             </li>
             <li class="nav-item">
-              <nuxt-link to="/foodRegisterPage" class="nav-link">
+              <nuxt-link to="/food/foodRegisterPage" class="nav-link">
                 食材登録
               </nuxt-link>
             </li>
@@ -38,7 +38,7 @@
               </nuxt-link>
             </li>
             <li class="nav-item">
-              <nuxt-link to="/recipeRegisterPage" class="nav-link">
+              <nuxt-link to="/recipe/recipeRegisterPage" class="nav-link">
                 メニュー登録
               </nuxt-link>
             </li>

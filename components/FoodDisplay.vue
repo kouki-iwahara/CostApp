@@ -117,6 +117,9 @@ export default {
     }
   },
   created() {
+    // await this.$store.dispatch('food/getFoodData').catch((error) => {
+    //   console.log(error)
+    // })
     const food = this.$store.getters['food/foods'][0]
     if (food) {
       this.food.name = food.name

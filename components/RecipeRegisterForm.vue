@@ -105,11 +105,6 @@
             登録
           </button>
         </div>
-        <div class="btn-form col-sm-6">
-          <button type="button" class="btn btn-danger btn-block btn-lg">
-            削除
-          </button>
-        </div>
       </div>
     </div>
     <side-bar>
@@ -201,6 +196,14 @@ export default {
       })
       return Math.round(cost * 10) / 10
     }
+  },
+  async created() {
+    const res = await this.$store
+      .dispatch('food/getFoodData')
+      .catch((error) => {
+        console.log(error)
+      })
+    console.log(res)
   },
   methods: {
     // イメージ画像データを取得し、プレビューを作成
@@ -326,6 +329,12 @@ export default {
         'recipe/registerRecipe',
         this.recipe
       )
+      // ユーザー認証が切れていたらsigninに遷移
+      if (res.error) {
+        alert(res.error)
+        this.$router.push({ path: '/signin' })
+        return
+      }
       alert(res.message)
       // 成功すれば画面遷移
       if (res.result) {

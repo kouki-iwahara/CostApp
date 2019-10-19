@@ -13,11 +13,6 @@ export default {
   components: {
     Header,
     RecipeRegisterForm
-  },
-  async asyncData({ store }) {
-    await store.dispatch('food/getFoodData').catch((error) => {
-      console.log(error)
-    })
   }
 }
 </script>

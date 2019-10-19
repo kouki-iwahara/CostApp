@@ -239,7 +239,12 @@ export default {
       this.food.cost = this.foodCost
       // 食材データを更新
       const res = await this.$store.dispatch('food/updateFood', this.food)
-      console.log(res.message)
+      // ユーザー認証が切れていたらsigninに遷移
+      if (res.error) {
+        alert(res.error)
+        this.$router.push({ path: '/signin' })
+        return
+      }
       alert(res.message)
       if (res.result) {
         this.$router.push({ path: '/' })
@@ -249,7 +254,13 @@ export default {
     async deleteFood() {
       // 成功で削除された食材が格納される
       const res = await this.$store.dispatch('food/deleteFood', this.food.id)
-      console.log(res.message)
+      console.log(res)
+      // ユーザー認証が切れていたらsigninに遷移
+      if (res.error) {
+        alert(res.error)
+        this.$router.push({ path: '/signin' })
+        return
+      }
       alert(res.message)
       if (res.result) {
         this.$router.push({ path: '/' })

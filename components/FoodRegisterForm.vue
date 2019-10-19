@@ -85,20 +85,13 @@
         <div class="col-sm-12">
           <comment-form v-model="food.comment" />
         </div>
-      </div>
-      <div class="btn-form row offset-3">
-        <div class="col-sm-6">
+        <div class="btn-form col-sm-6">
           <button
             type="button"
             class="btn btn-info btn-block btn-lg"
             @click="registerFood"
           >
             登録
-          </button>
-        </div>
-        <div class="col-sm-6">
-          <button type="button" class="btn btn-danger btn-block btn-lg">
-            削除
           </button>
         </div>
       </div>
@@ -234,6 +227,13 @@ export default {
       this.food.cost = this.foodCost
       // 食材データを登録
       const res = await this.$store.dispatch('food/registerFood', this.food)
+      console.log(res)
+      // ユーザー認証が切れていたらsigninに遷移
+      if (res.error) {
+        alert(res.error)
+        this.$router.push({ path: '/signin' })
+        return
+      }
       alert(res.message)
       if (res.result) {
         this.$router.push({ path: '/' })
@@ -277,5 +277,8 @@ export default {
 }
 .input-group-append select {
   margin-left: 5px;
+}
+.btn-form {
+  margin: 0 auto;
 }
 </style>

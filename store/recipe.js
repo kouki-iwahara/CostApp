@@ -59,6 +59,9 @@ export const actions = {
     const res = await this.$axios.$get('/recipe').catch((error) => {
       console.log(error.message)
     })
+    if (res.error) {
+      return res
+    }
     const allRecipes = res.result.recipes.slice()
     const foodRecipes = res.result.foodRecipes.slice()
     // レシピとレシピ食材データがある場合
@@ -78,6 +81,7 @@ export const actions = {
     }
     // stateに食材データを格納
     commit('setRecipes', allRecipes)
+    return res
   },
   async updateRecipe({ ctx }, recipe) {
     console.log(recipe)

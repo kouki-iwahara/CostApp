@@ -4,6 +4,10 @@ const models = require('../models')
 const recipeController = {
   // レシピ情報を登録
   async registerRecipe(req, res) {
+    // sessionが切れていたらフロントに返す
+    if (!req.user) {
+      return res.json({ error: 'ユーザー認証が切れています' })
+    }
     // sessionがあればreq.userにuser情報が格納される
     const user = req.user
     const recipe = req.body
@@ -91,6 +95,10 @@ const recipeController = {
   },
   // レシピデータを取得
   async getRecipes(req, res) {
+    // sessionが切れていたらフロントに返す
+    if (!req.user) {
+      return res.json({ error: 'ユーザー認証が切れています' })
+    }
     // userIdに紐づけられているレシピとレシピ食材を取得
     const recipes = await models.user
       .findOne({
@@ -113,6 +121,10 @@ const recipeController = {
   },
   // レシピの更新
   async updateRecipe(req, res) {
+    // sessionが切れていたらフロントに返す
+    if (!req.user) {
+      return res.json({ error: 'ユーザー認証が切れています' })
+    }
     console.log(req.params.id)
     console.log(req.body)
     // 更新するレシピを取得
@@ -238,6 +250,10 @@ const recipeController = {
   },
   // レシピと登録してある食材を削除
   async deleteRecipe(req, res) {
+    // sessionが切れていたらフロントに返す
+    if (!req.user) {
+      return res.json({ error: 'ユーザー認証が切れています' })
+    }
     console.log(req.params.id)
     // レシピに登録されていた食材を取得
     const foodRecipes = await models.foodRecipe

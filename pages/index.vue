@@ -15,7 +15,8 @@ export default {
     Header,
     FoodDisplay
   },
-  async asyncData({ store }) {
+  // 全ての食材データを取得
+  async asyncData({ app, store }) {
     await store.dispatch('food/getFoodData').catch((error) => {
       console.log(error)
     })
