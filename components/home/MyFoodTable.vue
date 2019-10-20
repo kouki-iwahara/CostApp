@@ -9,7 +9,7 @@
         <thead class="">
           <tr>
             <th scope="col">食材名</th>
-            <th scope="col">原価</th>
+            <th scope="col">原価(円)</th>
             <th scope="col">作成日</th>
             <th scope="col">最終更新</th>
           </tr>
@@ -21,7 +21,7 @@
             @click="toFoodIdPage($store.getters['food/foods'].indexOf(food))"
           >
             <td>{{ food.name }}</td>
-            <td>{{ food.cost }}</td>
+            <td>{{ food.cost }}{{ `/${food.unit}` }}</td>
             <td>{{ food.createdAt.substring(0, 10) }}</td>
             <td>{{ food.updatedAt.substring(0, 10) }}</td>
           </tr>

@@ -9,8 +9,8 @@
         <thead class="">
           <tr>
             <th scope="col">レシピ名</th>
-            <th scope="col">原価</th>
-            <th scope="col">原価率</th>
+            <th scope="col">原価(円)</th>
+            <th scope="col">原価率(％)</th>
             <th scope="col">作成日</th>
             <th scope="col">最終更新</th>
           </tr>

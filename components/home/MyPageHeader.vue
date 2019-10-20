@@ -33,18 +33,8 @@
               </nuxt-link>
             </li>
             <li class="nav-item">
-              <nuxt-link to="/food/foodCeckPage" class="nav-link active">
-                食材表示
-              </nuxt-link>
-            </li>
-            <li class="nav-item">
               <nuxt-link to="/food/foodRegisterPage" class="nav-link">
                 食材登録
-              </nuxt-link>
-            </li>
-            <li class="nav-item">
-              <nuxt-link to="/recipe/recipeCheckPage" class="nav-link">
-                メニュー表示
               </nuxt-link>
             </li>
             <li class="nav-item">
