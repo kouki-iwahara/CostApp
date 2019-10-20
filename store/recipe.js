@@ -94,7 +94,7 @@ export const actions = {
     return res
   },
   // ユーザー全員の公開レシピ取得
-  async getAllUsersRecipes({ commit, state }) {
+  async getAllUsersRecipes({ commit }) {
     // 全てのレシピデータとレシピの食材が格納される
     const res = await this.$axios.$get('/recipe/allRecipes').catch((error) => {
       console.log(error.message)
@@ -104,7 +104,6 @@ export const actions = {
 
     // stateに食材データを格納
     commit('setAllUsersRecipes', res.result)
-    console.log(state.allUsersRecipes)
     return res
   }
 }

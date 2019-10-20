@@ -15,7 +15,7 @@
             size="sm"
             class="mr-sm-2 search-form"
             type="text"
-            placeholder="Search"
+            placeholder="レシピを検索"
           />
           <b-button size="sm" class="my-2 my-sm-0" type="button">検索</b-button>
         </b-nav-form>
@@ -24,22 +24,7 @@
             <!-- アクティブつけたい -->
             <li class="nav-item">
               <nuxt-link to="/" class="nav-link active">
-                食材表示
-              </nuxt-link>
-            </li>
-            <li class="nav-item">
-              <nuxt-link to="/food/foodRegisterPage" class="nav-link">
-                食材登録
-              </nuxt-link>
-            </li>
-            <li class="nav-item">
-              <nuxt-link to="/recipe/recipeCheckPage" class="nav-link">
-                メニュー表示
-              </nuxt-link>
-            </li>
-            <li class="nav-item">
-              <nuxt-link to="/recipe/recipeRegisterPage" class="nav-link">
-                メニュー登録
+                みんなのレシピ
               </nuxt-link>
             </li>
           </ul>

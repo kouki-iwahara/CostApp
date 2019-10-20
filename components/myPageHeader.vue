@@ -23,12 +23,17 @@
           <ul class="navbar-nav">
             <!-- アクティブつけたい -->
             <li class="nav-item">
-              <nuxt-link to="/" class="nav-link active">
+              <nuxt-link to="/" class="nav-link">
                 みんなのレシピ
               </nuxt-link>
             </li>
             <li class="nav-item">
-              <nuxt-link to="/user/myPage" class="nav-link active">
+              <nuxt-link to="/home/food" class="nav-link">
+                マイページ
+              </nuxt-link>
+            </li>
+            <li class="nav-item">
+              <nuxt-link to="/food/foodCeckPage" class="nav-link active">
                 食材表示
               </nuxt-link>
             </li>
@@ -72,7 +77,9 @@ export default {}
   height: 70px;
   line-height: 70px;
 }
-
+.navbar-nav {
+  font-size: 0.95em;
+}
 /* nav-list */
 .nav-list {
   margin: 0 auto;

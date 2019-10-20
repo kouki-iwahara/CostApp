@@ -124,7 +124,6 @@ export default {
         console.log(error)
       })
     console.log(res)
-    console.log('これ', this.$store.getters['recipe/allUsersRecipes'])
     // レシピ配列の先頭を表示
     const recipe = this.$store.getters['recipe/allUsersRecipes'][0]
     if (recipe) {
