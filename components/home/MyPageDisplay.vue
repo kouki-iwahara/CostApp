@@ -17,6 +17,19 @@ import BreadCrumb from '~/components/home/BreadCrumb.vue'
 export default {
   components: {
     BreadCrumb
+  },
+  async created() {
+    const res = await this.$store
+      .dispatch('food/getFoodData')
+      .catch((error) => {
+        console.log(error)
+      })
+    console.log(res)
+    // ユーザー認証が切れていたらsigninに遷移
+    if (res.error) {
+      alert(res.error)
+      this.$router.push({ path: '/signin' })
+    }
   }
 }
 </script>

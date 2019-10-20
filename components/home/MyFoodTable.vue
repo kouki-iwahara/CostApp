@@ -15,29 +15,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>jijijsd</td>
-            <td>jijijsd</td>
-            <td>jijijsd</td>
-            <td>jijijsd</td>
-          </tr>
-          <tr>
-            <td>jijijsd</td>
-            <td>jijijsd</td>
-            <td>jijijsd</td>
-            <td>jijijsd</td>
-          </tr>
-          <tr>
-            <td>jijijsd</td>
-            <td>jijijsd</td>
-            <td>jijijsd</td>
-            <td>jijijsd</td>
-          </tr>
-          <tr>
-            <td>jijijsd</td>
-            <td>jijijsd</td>
-            <td>jijijsd</td>
-            <td>jijijsd</td>
+          <tr v-for="food in foods" :key="food.id">
+            <td>{{ food.name }}</td>
+            <td>{{ food.cost }}</td>
+            <td>{{ food.createdAt.substring(0, 10) }}</td>
+            <td>{{ food.updatedAt.substring(0, 10) }}</td>
           </tr>
         </tbody>
       </table>
@@ -55,6 +37,11 @@ export default {
   data() {
     return {
       isFoodActive: true
+    }
+  },
+  computed: {
+    foods() {
+      return this.$store.getters['food/foods']
     }
   }
 }
