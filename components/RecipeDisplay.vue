@@ -89,8 +89,8 @@
 <script>
 import SideBar from '~/components/SideBar.vue'
 import FoodImage from '~/components/FoodImage.vue'
-import FoodContent from '~/components/FoodContent.vue'
 import RecipeDisplayTable from '~/components/RecipeDisplayTable.vue'
+import FoodContent from '~/components/FoodContent.vue'
 
 export default {
   components: {
@@ -124,22 +124,14 @@ export default {
       return recipes
     }
   },
-  async created() {
-    const res = await this.$store
-      .dispatch('recipe/getRecipeData')
-      .catch((error) => {
-        console.log(error)
-      })
-    // ユーザー認証が切れていたらsigninに遷移
-    console.log(res)
-    if (res.error) {
-      alert(res.error)
-      this.$router.push({ path: '/signin' })
-      return
-    }
-    // レシピ配列の先頭を表示
-    console.log(this.$store.getters['recipe/recipes'][0])
-    const recipe = this.$store.getters['recipe/recipes'][0]
+  created() {
+    // 受け取ったクエリを整数に変換
+    const recipeId = parseInt(this.$route.query.recipeId)
+    const recipes = this.$store.getters['recipe/recipes']
+    // 一致するidのデータを取得
+    const recipe = recipes.find((recipe) => {
+      return recipe.id === recipeId
+    })
     if (recipe) {
       this.recipe.name = recipe.name
       this.recipe.value = recipe.value

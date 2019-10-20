@@ -16,7 +16,13 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="recipe in recipes" :key="recipe.id">
+          <tr
+            v-for="recipe in recipes"
+            :key="recipe.id"
+            @click="
+              toRecipeIdPage($store.getters['recipe/recipes'].indexOf(recipe))
+            "
+          >
             <td>{{ recipe.name }}</td>
             <td>{{ recipe.cost }}</td>
             <td>{{ recipe.costRate }}</td>
@@ -44,6 +50,16 @@ export default {
   computed: {
     recipes() {
       return this.$store.getters['recipe/recipes']
+    }
+  },
+  methods: {
+    // 画面遷移時にfoodIdを渡す
+    toRecipeIdPage(index) {
+      const recipe = this.$store.getters['recipe/recipes'][index]
+      console.log(recipe)
+      this.$router.push({
+        path: `/recipe/recipeCheckPage?recipeId=${recipe.id}`
+      })
     }
   }
 }

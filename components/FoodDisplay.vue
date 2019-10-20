@@ -122,7 +122,6 @@ export default {
     const foods = this.$store.getters['food/foods']
     // 一致するidのデータを取得
     const food = foods.find((food) => {
-      console.log(food.id)
       return food.id === foodId
     })
     console.log(food)
