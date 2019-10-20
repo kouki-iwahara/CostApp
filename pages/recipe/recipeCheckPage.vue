@@ -6,12 +6,12 @@
 </template>
 
 <script>
-import myPageHeader from '~/components/myPageHeader.vue'
+import MyPageHeader from '~/components/home/MyPageHeader.vue'
 import RecipeDisplay from '~/components/RecipeDisplay.vue'
 
 export default {
   components: {
-    myPageHeader,
+    MyPageHeader,
     RecipeDisplay
   }
 }

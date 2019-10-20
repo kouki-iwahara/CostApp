@@ -6,12 +6,12 @@
 </template>
 
 <script>
-import myPageHeader from '~/components/myPageHeader.vue'
+import MyPageHeader from '~/components/home/MyPageHeader.vue'
 import FoodUpdateForm from '~/components/FoodUpdateForm.vue'
 
 export default {
   components: {
-    myPageHeader,
+    MyPageHeader,
     FoodUpdateForm
   },
   async asyncData({ store }) {

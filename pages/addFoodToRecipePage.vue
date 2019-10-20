@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <!-- 読み込む順番でサイドバーが動かないことがある -->
-    <Header />
+    <my-page-header />
     <food-display>
       <div class="update-btn col-sm-6 ">
         <button type="button" class="btn btn-success btn-block btn-lg">
@@ -17,13 +17,13 @@
 </template>
 
 <script>
-import Header from '~/components/Header.vue'
+import MyPageHeader from '~/components/home/MyPageHeader.vue'
 import SideBar from '~/components/SideBar.vue'
 import FoodDisplay from '~/components/FoodDisplay.vue'
 
 export default {
   components: {
-    Header,
+    MyPageHeader,
     FoodDisplay,
     SideBar
   }

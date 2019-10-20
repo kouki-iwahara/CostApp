@@ -3,20 +3,20 @@
     <div class="content container-fluid">
       <div class="row">
         <div class="col-sm-12">
-          <my-food-table />
+          <bread-crumb />
+          <slot name="my-table" />
         </div>
       </div>
-      <!-- /content row -->
     </div>
   </div>
 </template>
 
 <script>
-import MyFoodTable from '~/components/MyFoodTable.vue'
+import BreadCrumb from '~/components/home/BreadCrumb.vue'
 
 export default {
   components: {
-    MyFoodTable
+    BreadCrumb
   }
 }
 </script>

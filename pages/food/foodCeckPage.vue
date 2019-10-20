@@ -7,12 +7,12 @@
 </template>
 
 <script>
-import myPageHeader from '~/components/myPageHeader.vue'
+import MyPageHeader from '~/components/home/MyPageHeader.vue'
 import FoodDisplay from '~/components/FoodDisplay.vue'
 
 export default {
   components: {
-    myPageHeader,
+    MyPageHeader,
     FoodDisplay
   }
 }

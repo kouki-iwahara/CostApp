@@ -6,12 +6,12 @@
 </template>
 
 <script>
-import myPageHeader from '~/components/myPageHeader.vue'
+import MyPageHeader from '~/components/home/MyPageHeader.vue'
 import FoodRegisterForm from '~/components/FoodRegisterForm.vue'
 
 export default {
   components: {
-    myPageHeader,
+    MyPageHeader,
     FoodRegisterForm
   },
   // 全ての食材データを取得
