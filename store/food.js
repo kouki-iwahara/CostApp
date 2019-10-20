@@ -45,6 +45,11 @@ export const actions = {
     const res = await this.$axios.$get('/food').catch((error) => {
       console.log(error.message)
     })
+    console.log(res)
+    // ユーザー認証が切れていたら格納されている
+    if (res.error) {
+      return res
+    }
     // 変更ボタンを付与
     const allFoodData = res.result.slice()
     if (allFoodData) {

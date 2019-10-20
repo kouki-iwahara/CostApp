@@ -117,10 +117,14 @@ export default {
     }
   },
   created() {
-    // await this.$store.dispatch('food/getFoodData').catch((error) => {
-    //   console.log(error)
-    // })
-    const food = this.$store.getters['food/foods'][0]
+    // 受け取ったクエリを整数に変換
+    const foodId = parseInt(this.$route.query.foodId)
+    const foods = this.$store.getters['food/foods']
+    // 一致するidのデータを取得
+    const food = foods.find((food) => {
+      return food.id === foodId
+    })
+    console.log(food)
     if (food) {
       this.food.name = food.name
       this.food.value = food.value

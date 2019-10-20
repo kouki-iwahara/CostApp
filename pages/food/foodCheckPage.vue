@@ -1,22 +1,23 @@
 <template>
   <div class="wrapper">
+    <!-- 読み込む順番でサイドバーが動かないことがある -->
+    <food-display />
     <my-page-header />
-    <recipe-display />
   </div>
 </template>
 
 <script>
 import MyPageHeader from '~/components/home/MyPageHeader.vue'
-import RecipeDisplay from '~/components/RecipeDisplay.vue'
+import FoodDisplay from '~/components/FoodDisplay.vue'
 
 export default {
   components: {
     MyPageHeader,
-    RecipeDisplay
+    FoodDisplay
   },
   async asyncData({ store, redirect }) {
-    // レシピデータの取得
-    const res = await store.dispatch('recipe/getRecipeData').catch((error) => {
+    // 食材データの取得
+    const res = await store.dispatch('food/getFoodData').catch((error) => {
       console.log(error)
     })
     // ユーザー認証がなかったらsigninへ遷移

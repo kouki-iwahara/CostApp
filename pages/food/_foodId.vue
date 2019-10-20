@@ -1,17 +1,17 @@
 <template>
   <div class="wrapper">
-    <Header />
+    <my-page-header />
     <food-update-form />
   </div>
 </template>
 
 <script>
-import Header from '~/components/Header.vue'
+import MyPageHeader from '~/components/home/MyPageHeader.vue'
 import FoodUpdateForm from '~/components/FoodUpdateForm.vue'
 
 export default {
   components: {
-    Header,
+    MyPageHeader,
     FoodUpdateForm
   },
   async asyncData({ store }) {

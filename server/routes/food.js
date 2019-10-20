@@ -9,5 +9,6 @@ router.put('/:id', foodController.updateFood)
 router.delete('/:id', foodController.deleteFood)
 
 router.get('/foodRegisterPage', authenticator.isAuthenticated)
+router.get('/foodCheckPage', authenticator.isAuthenticated)
 
 module.exports = router

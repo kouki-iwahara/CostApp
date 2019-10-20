@@ -15,7 +15,7 @@
             size="sm"
             class="mr-sm-2 search-form"
             type="text"
-            placeholder="レシピを検索"
+            placeholder="Search"
           />
           <b-button size="sm" class="my-2 my-sm-0" type="button">検索</b-button>
         </b-nav-form>
@@ -23,20 +23,31 @@
           <ul class="navbar-nav">
             <!-- アクティブつけたい -->
             <li class="nav-item">
-              <nuxt-link to="/" class="nav-link active">
+              <nuxt-link to="/" class="nav-link">
                 みんなのレシピ
+              </nuxt-link>
+            </li>
+            <li class="nav-item">
+              <nuxt-link to="/home/food" class="nav-link">
+                マイページ
+              </nuxt-link>
+            </li>
+            <li class="nav-item">
+              <nuxt-link to="/food/foodRegisterPage" class="nav-link">
+                食材登録
+              </nuxt-link>
+            </li>
+            <li class="nav-item">
+              <nuxt-link to="/recipe/recipeRegisterPage" class="nav-link">
+                メニュー登録
               </nuxt-link>
             </li>
           </ul>
         </b-navbar-nav>
         <!-- /nav-list_item -->
         <div class="nav-list_item_btn">
-          <button
-            class="signin-btn btn btn-light"
-            type="button"
-            @click="toSignin"
-          >
-            ログイン
+          <button class="signin-btn btn btn-light" type="button">
+            ログアウト
           </button>
         </div>
       </b-collapse>
@@ -46,13 +57,7 @@
 </template>
 
 <script>
-export default {
-  methods: {
-    toSignin() {
-      this.$router.push('/signin')
-    }
-  }
-}
+export default {}
 </script>
 
 <style scoped>
@@ -62,7 +67,9 @@ export default {
   height: 70px;
   line-height: 70px;
 }
-
+.navbar-nav {
+  font-size: 0.95em;
+}
 /* nav-list */
 .nav-list {
   margin: 0 auto;

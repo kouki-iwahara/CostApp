@@ -55,15 +55,6 @@
         <div class="col-sm-12">
           <recipe-display-table :recipe-table-foods="recipe.tableFoods" />
         </div>
-        <div class="btn-form col-sm-6">
-          <button
-            type="button"
-            class="btn btn-info btn-block btn-lg"
-            @click="toUpdatePage"
-          >
-            変更
-          </button>
-        </div>
       </div>
     </div>
     <!-- /container-fluid -->
@@ -72,11 +63,13 @@
         全てのレシピ
       </p>
       <ul
-        v-for="item in recipes"
+        v-for="item in allUsersRecipes"
         slot="content-list"
         :key="item.id"
         class="list-group list-group-flush"
-        @click="showRecipe($store.getters['recipe/recipes'].indexOf(item))"
+        @click="
+          showRecipe($store.getters['recipe/allUsersRecipes'].indexOf(item))
+        "
       >
         <li class="food-list_item list-group-item border-bottom border-info">
           {{ item.name }}
@@ -89,8 +82,8 @@
 <script>
 import SideBar from '~/components/SideBar.vue'
 import FoodImage from '~/components/FoodImage.vue'
-import RecipeDisplayTable from '~/components/RecipeDisplayTable.vue'
 import FoodContent from '~/components/FoodContent.vue'
+import RecipeDisplayTable from '~/components/RecipeDisplayTable.vue'
 
 export default {
   components: {
@@ -115,8 +108,8 @@ export default {
   },
   computed: {
     // レシピが登録されていたらサイドバーに表示する
-    recipes() {
-      const recipes = this.$store.getters['recipe/recipes']
+    allUsersRecipes() {
+      const recipes = this.$store.getters['recipe/allUsersRecipes']
       // 取得できなければ何も表示しない
       if (!recipes) {
         return
@@ -124,14 +117,15 @@ export default {
       return recipes
     }
   },
-  created() {
-    // 受け取ったクエリを整数に変換
-    const recipeId = parseInt(this.$route.query.recipeId)
-    const recipes = this.$store.getters['recipe/recipes']
-    // 一致するidのデータを取得
-    const recipe = recipes.find((recipe) => {
-      return recipe.id === recipeId
-    })
+  async created() {
+    const res = await this.$store
+      .dispatch('recipe/getAllUsersRecipes')
+      .catch((error) => {
+        console.log(error)
+      })
+    console.log(res)
+    // レシピ配列の先頭を表示
+    const recipe = this.$store.getters['recipe/allUsersRecipes'][0]
     if (recipe) {
       this.recipe.name = recipe.name
       this.recipe.value = recipe.value
@@ -144,7 +138,7 @@ export default {
   },
   methods: {
     showRecipe(index) {
-      const recipe = this.$store.getters['recipe/recipes'][index]
+      const recipe = this.$store.getters['recipe/allUsersRecipes'][index]
       console.log(recipe)
       this.recipe.index = index
       this.recipe.name = recipe.name
@@ -154,10 +148,6 @@ export default {
       this.recipe.comment = recipe.comment
       this.recipe.tableFoods = recipe.foods.slice()
       this.recipe.image = recipe.image
-      console.log(this.recipe.tableFoods)
-    },
-    toUpdatePage() {
-      this.$router.push({ path: `/recipe/${this.recipe.index}` })
     }
   }
 }

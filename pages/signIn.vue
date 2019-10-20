@@ -74,7 +74,7 @@ export default {
       // 成功でresにuserIdが格納されている
       if (res.userId) {
         alert(res.message)
-        return this.$router.push('/')
+        return this.$router.push({ path: '/home/food' })
       }
       // userIdが格納されていなかった＝ emailかpwdの入力ミスなのでその旨を表示する
       alert(res.message)

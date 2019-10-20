@@ -1,17 +1,17 @@
 <template>
   <div class="wrapper">
-    <Header />
+    <my-page-header />
     <recipe-register-form />
   </div>
 </template>
 
 <script>
-import Header from '~/components/Header.vue'
+import MyPageHeader from '~/components/home/MyPageHeader.vue'
 import RecipeRegisterForm from '~/components/RecipeRegisterForm.vue'
 
 export default {
   components: {
-    Header,
+    MyPageHeader,
     RecipeRegisterForm
   }
 }
