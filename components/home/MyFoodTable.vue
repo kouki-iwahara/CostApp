@@ -43,6 +43,19 @@ export default {
     foods() {
       return this.$store.getters['food/foods']
     }
+  },
+  async created() {
+    const res = await this.$store
+      .dispatch('food/getFoodData')
+      .catch((error) => {
+        console.log(error)
+      })
+    console.log(res)
+    // ユーザー認証が切れていたらsigninに遷移
+    if (res.error) {
+      alert(res.error)
+      this.$router.push({ path: '/signin' })
+    }
   }
 }
 </script>

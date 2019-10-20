@@ -16,33 +16,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>jijijsd</td>
-            <td>jijijsd</td>
-            <td>jijijsd</td>
-            <td>jijijsd</td>
-            <td>jijijsd</td>
-          </tr>
-          <tr>
-            <td>jijijsd</td>
-            <td>jijijsd</td>
-            <td>jijijsd</td>
-            <td>jijijsd</td>
-            <td>jijijsd</td>
-          </tr>
-          <tr>
-            <td>jijijsd</td>
-            <td>jijijsd</td>
-            <td>jijijsd</td>
-            <td>jijijsd</td>
-            <td>jijijsd</td>
-          </tr>
-          <tr>
-            <td>jijijsd</td>
-            <td>jijijsd</td>
-            <td>jijijsd</td>
-            <td>jijijsd</td>
-            <td>jijijsd</td>
+          <tr v-for="recipe in recipes" :key="recipe.id">
+            <td>{{ recipe.name }}</td>
+            <td>{{ recipe.cost }}</td>
+            <td>{{ recipe.costRate }}</td>
+            <td>{{ recipe.createdAt.substring(0, 10) }}</td>
+            <td>{{ recipe.updatedAt.substring(0, 10) }}</td>
           </tr>
         </tbody>
       </table>
@@ -60,6 +39,24 @@ export default {
   data() {
     return {
       isRecipeActive: true
+    }
+  },
+  computed: {
+    recipes() {
+      return this.$store.getters['recipe/recipes']
+    }
+  },
+  async created() {
+    const res = await this.$store
+      .dispatch('recipe/getRecipeData')
+      .catch((error) => {
+        console.log(error)
+      })
+    console.log(this.$store.getters['recipe/recipes'])
+    // ユーザー認証が切れていたらsigninに遷移
+    if (res.error) {
+      alert(res.error)
+      this.$router.push({ path: '/signin' })
     }
   }
 }
