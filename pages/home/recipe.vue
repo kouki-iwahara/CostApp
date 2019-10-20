@@ -18,6 +18,16 @@ export default {
     MyPageHeader,
     MyPageDisplay,
     MyRecipeTable
+  },
+  async asyncData({ store, redirect }) {
+    const res = await store.dispatch('recipe/getRecipeData').catch((error) => {
+      console.log(error)
+    })
+    // ユーザー認証がなかったらsigninへ遷移
+    if (res.error) {
+      alert(res.error)
+      redirect('/signin')
+    }
   }
 }
 </script>

@@ -15,7 +15,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="food in foods" :key="food.id">
+          <tr
+            v-for="food in foods"
+            :key="food.id"
+            @click="toFoodIdPage($store.getters['food/foods'].indexOf(food))"
+          >
             <td>{{ food.name }}</td>
             <td>{{ food.cost }}</td>
             <td>{{ food.createdAt.substring(0, 10) }}</td>
@@ -44,17 +48,11 @@ export default {
       return this.$store.getters['food/foods']
     }
   },
-  async created() {
-    const res = await this.$store
-      .dispatch('food/getFoodData')
-      .catch((error) => {
-        console.log(error)
-      })
-    console.log(res)
-    // ユーザー認証が切れていたらsigninに遷移
-    if (res.error) {
-      alert(res.error)
-      this.$router.push({ path: '/signin' })
+  methods: {
+    // 画面遷移時にfoodIdを渡す
+    toFoodIdPage(index) {
+      const food = this.$store.getters['food/foods'][index]
+      this.$router.push({ path: `/food/foodCheckPage?foodId=${food.id}` })
     }
   }
 }

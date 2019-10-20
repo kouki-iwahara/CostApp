@@ -19,6 +19,16 @@ export default {
     MyPageHeader,
     MyPageDisplay,
     MyFoodTable
+  },
+  async asyncData({ store, redirect }) {
+    const res = await store.dispatch('food/getFoodData').catch((error) => {
+      console.log(error)
+    })
+    // ユーザー認証がなかったらsigninへ遷移
+    if (res.error) {
+      alert(res.error)
+      redirect('/signin')
+    }
   }
 }
 </script>

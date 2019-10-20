@@ -14,6 +14,17 @@ export default {
   components: {
     MyPageHeader,
     FoodDisplay
+  },
+  async asyncData({ store, redirect }) {
+    // 食材データの取得
+    const res = await store.dispatch('food/getFoodData').catch((error) => {
+      console.log(error)
+    })
+    // ユーザー認証がなかったらsigninへ遷移
+    if (res.error) {
+      alert(res.error)
+      redirect('/signin')
+    }
   }
 }
 </script>

@@ -116,20 +116,16 @@ export default {
       return this.$store.getters['food/foods']
     }
   },
-  async created() {
-    const res = await this.$store
-      .dispatch('food/getFoodData')
-      .catch((error) => {
-        console.log(error)
-      })
-    console.log(res)
-    // ユーザー認証が切れていたらsigninに遷移
-    if (res.error) {
-      alert(res.error)
-      this.$router.push({ path: '/signin' })
-      return
-    }
-    const food = this.$store.getters['food/foods'][0]
+  created() {
+    // 受け取ったクエリを整数に変換
+    const foodId = parseInt(this.$route.query.foodId)
+    const foods = this.$store.getters['food/foods']
+    // 一致するidのデータを取得
+    const food = foods.find((food) => {
+      console.log(food.id)
+      return food.id === foodId
+    })
+    console.log(food)
     if (food) {
       this.food.name = food.name
       this.food.value = food.value

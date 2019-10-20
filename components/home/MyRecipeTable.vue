@@ -45,19 +45,6 @@ export default {
     recipes() {
       return this.$store.getters['recipe/recipes']
     }
-  },
-  async created() {
-    const res = await this.$store
-      .dispatch('recipe/getRecipeData')
-      .catch((error) => {
-        console.log(error)
-      })
-    console.log(this.$store.getters['recipe/recipes'])
-    // ユーザー認証が切れていたらsigninに遷移
-    if (res.error) {
-      alert(res.error)
-      this.$router.push({ path: '/signin' })
-    }
   }
 }
 </script>
