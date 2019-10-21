@@ -37,7 +37,7 @@
 export default {
   data() {
     return {
-      recipeCount: '12121'
+      recipeCount: this.$store.getters['recipe/allUsersRecipes'].length
     }
   }
 }

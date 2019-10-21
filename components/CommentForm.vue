@@ -7,7 +7,8 @@
         :value="value"
         class="form-control"
         rows="6"
-        placeholder="注意点や課題など"
+        maxlength="255"
+        placeholder="注意点や課題など(255文字)"
         @input="updateValue"
       />
     </slot>

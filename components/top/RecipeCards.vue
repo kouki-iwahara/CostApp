@@ -2,119 +2,18 @@
   <div class="content">
     <bg-image />
     <div class="card-columns">
-      <div class="card">
-        <img
-          class="card-img-top"
-          src="~/assets/pasta.jpg"
-          alt="カード1の画像"
-        />
+      <div v-for="recipe in allRecipes" :key="recipe.id" class="card">
+        <img class="card-img-top" :src="recipe.image" alt="カード1の画像" />
         <div class="card-body">
-          <h5 class="card-title">カード1のタイトル</h5>
+          <h5 class="card-title">{{ recipe.name }}</h5>
           <p class="card-text">
-            これは、追加コンテンツへの自然な導入として以下のテキストをサポートする、より幅広いカードです。このコンテンツはもう少し長くなります。
+            {{ recipe.comment }}
           </p>
         </div>
         <div class="card-footer">
-          <small class="text-muted">最終更新3分前</small>
-        </div>
-      </div>
-      <div class="card">
-        <img
-          class="card-img-top"
-          src="~/assets/table.jpg"
-          alt="カード2の画像"
-        />
-        <div class="card-body">
-          <h5 class="card-title">カード2のタイトル</h5>
-          <p class="card-text">
-            このカードには、追加のコンテンツへの自然な導入として以下のサポートテキストがあります。
-          </p>
-        </div>
-        <div class="card-footer">
-          <small class="text-muted">最終更新3分前</small>
-        </div>
-      </div>
-      <div class="card">
-        <img
-          class="card-img-top"
-          src="~/assets/pasta.jpg"
-          alt="カード3の画像"
-        />
-        <div class="card-body">
-          <h5 class="card-title">カード3のタイトル</h5>
-          <p class="card-text">
-            これは、追加コンテンツへの自然な導入として以下のテキストをサポートする、より幅広いカードです。
-            このカードは、同じ高さのアクションを示す最初のものよりも長いコンテンツを持っています。
-          </p>
-        </div>
-        <div class="card-footer">
-          <small class="text-muted">最終更新3分前</small>
-        </div>
-      </div>
-      <div class="card">
-        <img
-          class="card-img-top"
-          src="~/assets/pasta.jpg"
-          alt="カード2の画像"
-        />
-        <div class="card-body">
-          <h5 class="card-title">カード2のタイトル</h5>
-          <p class="card-text">
-            このカードには、追加のコンテンツへの自然な導入として以下のサポートテキストがあります。
-          </p>
-        </div>
-        <div class="card-footer">
-          <small class="text-muted">最終更新3分前</small>
-        </div>
-      </div>
-      <div class="card">
-        <img
-          class="card-img-top"
-          src="~/assets/table.jpg"
-          alt="カード3の画像"
-        />
-        <div class="card-body">
-          <h5 class="card-title">カード3のタイトル</h5>
-          <p class="card-text">
-            これは、追加コンテンツへの自然な導入として以下のテキストをサポートする、より幅広いカードです。
-            このカードは、同じ高さのアクションを示す最初のものよりも長いコンテンツを持っています。
-          </p>
-        </div>
-        <div class="card-footer">
-          <small class="text-muted">最終更新3分前</small>
-        </div>
-      </div>
-      <div class="card">
-        <img
-          class="card-img-top"
-          src="~/assets/pasta.jpg"
-          alt="カード2の画像"
-        />
-        <div class="card-body">
-          <h5 class="card-title">カード2のタイトル</h5>
-          <p class="card-text">
-            このカードには、追加のコンテンツへの自然な導入として以下のサポートテキストがあります。
-          </p>
-        </div>
-        <div class="card-footer">
-          <small class="text-muted">最終更新3分前</small>
-        </div>
-      </div>
-      <div class="card">
-        <img
-          class="card-img-top"
-          src="~/assets/table.jpg"
-          alt="カード3の画像"
-        />
-        <div class="card-body">
-          <h5 class="card-title">カード3のタイトル</h5>
-          <p class="card-text">
-            これは、追加コンテンツへの自然な導入として以下のテキストをサポートする、より幅広いカードです。
-            このカードは、同じ高さのアクションを示す最初のものよりも長いコンテンツを持っています。
-          </p>
-        </div>
-        <div class="card-footer">
-          <small class="text-muted">最終更新3分前</small>
+          <small class="text-muted">{{
+            `最終更新 ${recipe.updatedAt.substring(0, 10)}`
+          }}</small>
         </div>
       </div>
     </div>
@@ -127,6 +26,15 @@ import BgImage from '~/components/top/BgImage.vue'
 export default {
   components: {
     BgImage
+  },
+  computed: {
+    allRecipes() {
+      return this.$store.getters['recipe/allUsersRecipes']
+    }
+  },
+  created() {
+    console.log(this.$store.state.recipe.allUsersRecipes.length)
+    console.log(this.allRecipes.length)
   }
 }
 </script>
@@ -134,5 +42,23 @@ export default {
 <style scoped>
 .card-columns {
   padding: 0 15px;
+}
+.card:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+.test {
+  width: 300px;
+}
+.card-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.card-text {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
 }
 </style>
