@@ -24,13 +24,22 @@
               </p>
             </div>
             <button
+              v-if="isLogin"
+              type="button"
+              class="btn btn-orange btn-lg"
+              @click="toRecipeList"
+            >
+              公開中のレシピ一覧
+            </button>
+            <button
+              v-else
               type="button"
               class="btn btn-orange btn-lg"
               @click="toSignUp"
             >
               新規登録（無料）
             </button>
-            <nuxt-link to="/recipeList" class="nav-link">
+            <nuxt-link v-show="!isLogin" to="/recipeList" class="nav-link">
               公開中のレシピ一覧
             </nuxt-link>
           </div>
@@ -44,12 +53,16 @@
 export default {
   data() {
     return {
+      isLogin: this.$store.state.auth.user,
       recipeCount: this.$store.getters['recipe/allUsersRecipes'].length
     }
   },
   methods: {
     toSignUp() {
       this.$router.push('/signup')
+    },
+    toRecipeList() {
+      this.$router.push('/recipeList')
     }
   }
 }

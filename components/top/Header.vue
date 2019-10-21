@@ -18,7 +18,11 @@
         </b-nav-form>
         <b-navbar-nav class="nav-list_item">
           <ul class="navbar-nav">
-            <!-- アクティブつけたい -->
+            <li v-show="isLogin" class="nav-item">
+              <nuxt-link to="/home/food" class="nav-link">
+                マイページ
+              </nuxt-link>
+            </li>
             <li class="nav-item">
               <nuxt-link to="/recipeList" class="nav-link">
                 レシピ一覧
@@ -44,6 +48,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      isLogin: this.$store.state.auth.user
+    }
+  },
   methods: {
     toSignin() {
       this.$router.push('/signin')
