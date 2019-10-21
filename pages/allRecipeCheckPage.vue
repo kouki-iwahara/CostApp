@@ -1,24 +1,20 @@
 <template>
   <div class="wrapper">
     <Header />
-    <recipe-cards />
+    <all-users-recipe-display />
   </div>
 </template>
 
 <script>
 import Header from '~/components/Header.vue'
-import RecipeCards from '~/components/top/RecipeCards.vue'
+import AllUsersRecipeDisplay from '~/components/AllUsersRecipeDisplay.vue'
 
 export default {
   components: {
     Header,
-    RecipeCards
+    AllUsersRecipeDisplay
   }
 }
 </script>
 
-<style scoped>
-.wrapper {
-  height: 100%;
-}
-</style>
+<style></style>

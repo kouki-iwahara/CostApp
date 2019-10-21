@@ -1,13 +1,10 @@
 <template>
   <div>
-    <b-navbar
-      class="header fixed-top navbar navbar-dark bg-dark"
-      toggleable="md"
-    >
+    <b-navbar class="header fixed-top navbar" type="light" toggleable="md">
       <b-navbar-toggle target="nav_collapse" />
       <b-collapse
         id="nav_collapse"
-        class="nav-list collapse navbar-collapse bg-dark"
+        class="nav-list collapse navbar-collapse"
         is-nav
       >
         <b-nav-form class="nav-form">
@@ -24,7 +21,7 @@
             <!-- アクティブつけたい -->
             <li class="nav-item">
               <nuxt-link to="/" class="nav-link active">
-                みんなのレシピ
+                レシピ一覧
               </nuxt-link>
             </li>
           </ul>
@@ -59,8 +56,8 @@ export default {
 .header {
   padding-left: 0;
   padding-right: 0;
-  height: 70px;
-  line-height: 70px;
+  height: 60px;
+  background: rgba(10, 10, 10, 0.2);
 }
 
 /* nav-list */
@@ -87,11 +84,15 @@ export default {
 @media screen and (min-width: 768px) {
   .nav-list {
     margin: 0 auto;
-    height: 70px;
+    height: 60px;
     max-width: 1024px;
   }
   .nav-form {
     display: block;
+  }
+  .nav-link {
+    height: 60px;
+    line-height: 45px;
   }
 }
 </style>

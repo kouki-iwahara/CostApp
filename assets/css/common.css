@@ -3,12 +3,11 @@ html {
 }
 body {
   height: 100%;
-  /* background-color: #f4f5f7; */
-  background-color: #75787e;
+  background-color: #f4f5f7;
 }
 .wrapper {
   height: 100vh;
-  padding-top: 70px;
+  padding-top: 60px;
   position: relative;
   max-width: 1024px;
   margin: 0 auto;
@@ -25,8 +24,5 @@ body {
   /* 謎の空白があり、offset-3のmarginを調節した */
   .offset-3 {
     margin-left: 24.3%;
-  }
-  .wrapper {
-    border-right: 15px solid #343a40;
   }
 }
