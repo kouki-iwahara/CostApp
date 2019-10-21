@@ -14,7 +14,7 @@ export default {
     Header,
     RecipeCards
   },
-  async asyncData({ store, redirect }) {
+  async asyncData({ store }) {
     await store.dispatch('recipe/getAllUsersRecipes').catch((error) => {
       console.log(error)
     })

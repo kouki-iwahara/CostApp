@@ -20,6 +20,15 @@ body {
 .offset-3 {
   margin-left: -15px;
 }
+.table {
+  table-layout: fixed;
+}
+.table td {
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 @media screen and (min-width: 768px) {
   /* 謎の空白があり、offset-3のmarginを調節した */
   .offset-3 {

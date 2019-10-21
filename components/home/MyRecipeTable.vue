@@ -77,9 +77,6 @@ export default {
 .table th {
   border-top: none;
 }
-.table td {
-  cursor: pointer;
-}
 .card {
   border: none;
 }

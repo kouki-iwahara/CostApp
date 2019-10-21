@@ -13,6 +13,11 @@ export default {
   components: {
     Header,
     AllUsersRecipeDisplay
+  },
+  async asyncData({ store }) {
+    await store.dispatch('recipe/getAllUsersRecipes').catch((error) => {
+      console.log(error)
+    })
   }
 }
 </script>

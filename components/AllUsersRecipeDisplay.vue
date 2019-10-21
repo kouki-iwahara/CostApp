@@ -14,13 +14,6 @@
               {{ recipe.name }}
             </strong>
           </food-content>
-          <!-- 売価格 -->
-          <food-content class="content_form_food-content">
-            <span slot="content-label">￥売価格</span>
-            <strong slot="food-content" class="food-content_label-value">
-              {{ recipe.value }}
-            </strong>
-          </food-content>
           <!-- 原価 -->
           <food-content class="content_form_food-content">
             <template slot="content-label">
@@ -28,15 +21,6 @@
             </template>
             <template slot="food-content">
               {{ recipe.cost }}
-            </template>
-          </food-content>
-          <!-- 原価率 -->
-          <food-content class="content_form_food-content">
-            <template slot="content-label">
-              原価率
-            </template>
-            <template slot="food-content">
-              {{ recipe.costRate }}
             </template>
           </food-content>
         </div>
@@ -117,15 +101,17 @@ export default {
       return recipes
     }
   },
-  async created() {
-    const res = await this.$store
-      .dispatch('recipe/getAllUsersRecipes')
-      .catch((error) => {
-        console.log(error)
-      })
-    console.log(res)
+  created() {
+    // 受け取ったクエリを整数に変換
+    const recipeId = parseInt(this.$route.query.recipeId)
+    const recipes = this.$store.getters['recipe/allUsersRecipes']
+    console.log(recipeId)
+    // 一致するidのデータを取得
+    const recipe = recipes.find((recipe) => {
+      return recipe.id === recipeId
+    })
+    console.log(recipe)
     // レシピ配列の先頭を表示
-    const recipe = this.$store.getters['recipe/allUsersRecipes'][0]
     if (recipe) {
       this.recipe.name = recipe.name
       this.recipe.value = recipe.value
