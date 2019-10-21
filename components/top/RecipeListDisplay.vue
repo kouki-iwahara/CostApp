@@ -9,10 +9,10 @@
               class="breadcrumb-item active"
               aria-current="page"
             >
-              マイページ
+              レシピ一覧
             </li>
           </bread-crumb>
-          <slot name="my-table" />
+          <all-recipes-table />
         </div>
       </div>
     </div>
@@ -21,10 +21,12 @@
 
 <script>
 import BreadCrumb from '~/components/BreadCrumb.vue'
+import AllRecipesTable from '~/components/top/AllRecipesTable.vue'
 
 export default {
   components: {
-    BreadCrumb
+    BreadCrumb,
+    AllRecipesTable
   }
 }
 </script>

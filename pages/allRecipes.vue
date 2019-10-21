@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Header from '~/components/Header.vue'
+import Header from '~/components/top/Header.vue'
 import AllUsersRecipeDisplay from '~/components/AllUsersRecipeDisplay.vue'
 
 export default {

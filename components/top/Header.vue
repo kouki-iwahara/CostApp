@@ -20,7 +20,7 @@
           <ul class="navbar-nav">
             <!-- アクティブつけたい -->
             <li class="nav-item">
-              <nuxt-link to="/" class="nav-link active">
+              <nuxt-link to="/recipeList" class="nav-link">
                 レシピ一覧
               </nuxt-link>
             </li>

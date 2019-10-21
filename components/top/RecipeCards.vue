@@ -16,9 +16,9 @@
           </p>
         </div>
         <div class="card-footer">
-          <small class="text-muted">{{
-            `最終更新 ${recipe.updatedAt.substring(0, 10)}`
-          }}</small>
+          <small class="text-muted">
+            {{ `最終更新 ${recipe.updatedAt.substring(0, 10)}` }}
+          </small>
         </div>
       </div>
     </div>
@@ -48,7 +48,7 @@ export default {
       console.log(recipe)
       // レシピのidを渡す
       this.$router.push({
-        path: `/recipe/allUsers/allRecipeCheckPage?recipeId=${recipe.id}`
+        path: `/allRecipes?recipeId=${recipe.id}`
       })
     }
   }

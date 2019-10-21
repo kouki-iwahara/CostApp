@@ -26,6 +26,9 @@
             <button type="button" class="btn btn-orange btn-lg">
               新規登録（無料）
             </button>
+            <nuxt-link to="/recipeList" class="nav-link">
+              公開中のレシピ一覧
+            </nuxt-link>
           </div>
         </div>
       </div>
@@ -59,15 +62,16 @@ export default {
 
 .service-message {
   text-align: center;
-  font-size: 1.3rem;
+  font-size: 1.3em;
   position: absolute;
-  top: 140px;
+  top: 100px;
 }
 .service-message_title {
   margin-bottom: 16px;
 }
 .btn-orange {
   padding: 8px 24px;
+  margin-bottom: 5px;
   background: #fc4a1a;
   background: linear-gradient(
     to right,
@@ -79,5 +83,14 @@ export default {
 }
 .btn-orange:hover {
   opacity: 0.8;
+}
+.nav-link {
+  color: darkslategray;
+  font-size: 0.8em;
+  width: 200px;
+  margin: 0 auto;
+}
+.nav-link:hover {
+  text-decoration: underline;
 }
 </style>
