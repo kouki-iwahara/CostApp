@@ -23,7 +23,11 @@
                 個のレシピを公開中
               </p>
             </div>
-            <button type="button" class="btn btn-orange btn-lg">
+            <button
+              type="button"
+              class="btn btn-orange btn-lg"
+              @click="toSignUp"
+            >
               新規登録（無料）
             </button>
             <nuxt-link to="/recipeList" class="nav-link">
@@ -41,6 +45,11 @@ export default {
   data() {
     return {
       recipeCount: this.$store.getters['recipe/allUsersRecipes'].length
+    }
+  },
+  methods: {
+    toSignUp() {
+      this.$router.push('/signup')
     }
   }
 }
