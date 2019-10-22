@@ -2,6 +2,22 @@
   <div>
     <div class="content container-fluid">
       <div class="row offset-3">
+        <div class="col-sm-12">
+          <bread-crumb>
+            <li slot="breadcrumb-item" class="breadcrumb-item">
+              <nuxt-link to="/recipeList" class="nav-link">
+                レシピ一覧
+              </nuxt-link>
+            </li>
+            <li
+              slot="breadcrumb-item"
+              class="breadcrumb-item"
+              aria-current="page"
+            >
+              レシピ詳細
+            </li>
+          </bread-crumb>
+        </div>
         <div class="content_image col-sm-12">
           <food-image :image="recipe.image" />
         </div>
@@ -14,13 +30,6 @@
               {{ recipe.name }}
             </strong>
           </food-content>
-          <!-- 売価格 -->
-          <food-content class="content_form_food-content">
-            <span slot="content-label">￥売価格</span>
-            <strong slot="food-content" class="food-content_label-value">
-              {{ recipe.value }}
-            </strong>
-          </food-content>
           <!-- 原価 -->
           <food-content class="content_form_food-content">
             <template slot="content-label">
@@ -28,15 +37,6 @@
             </template>
             <template slot="food-content">
               {{ recipe.cost }}
-            </template>
-          </food-content>
-          <!-- 原価率 -->
-          <food-content class="content_form_food-content">
-            <template slot="content-label">
-              原価率
-            </template>
-            <template slot="food-content">
-              {{ recipe.costRate }}
             </template>
           </food-content>
         </div>
@@ -81,6 +81,7 @@
 
 <script>
 import SideBar from '~/components/SideBar.vue'
+import BreadCrumb from '~/components/BreadCrumb.vue'
 import FoodImage from '~/components/FoodImage.vue'
 import FoodContent from '~/components/FoodContent.vue'
 import RecipeDisplayTable from '~/components/RecipeDisplayTable.vue'
@@ -88,6 +89,7 @@ import RecipeDisplayTable from '~/components/RecipeDisplayTable.vue'
 export default {
   components: {
     SideBar,
+    BreadCrumb,
     FoodImage,
     FoodContent,
     RecipeDisplayTable
@@ -97,9 +99,7 @@ export default {
       recipe: {
         index: 0,
         name: '',
-        value: '',
         cost: '',
-        costRate: '',
         comment: '',
         tableFoods: [],
         image: require('~/assets/pasta.jpg')
@@ -117,26 +117,33 @@ export default {
       return recipes
     }
   },
-  async created() {
-    const res = await this.$store
-      .dispatch('recipe/getAllUsersRecipes')
-      .catch((error) => {
-        console.log(error)
-      })
-    console.log(res)
-    // レシピ配列の先頭を表示
-    const recipe = this.$store.getters['recipe/allUsersRecipes'][0]
+  created() {
+    // 受け取ったクエリを整数に変換
+    const recipeId = parseInt(this.$route.query.recipeId)
+    const recipes = this.$store.getters['recipe/allUsersRecipes']
+    console.log(recipeId)
+    // 一致するidのデータを取得
+    const recipe = recipes.find((recipe) => {
+      return recipe.id === recipeId
+    })
+    console.log(recipe)
+    // 一致するidのデータがあれば格納、無ければ配列の先頭を表示
     if (recipe) {
       this.recipe.name = recipe.name
-      this.recipe.value = recipe.value
       this.recipe.cost = recipe.cost
-      this.recipe.costRate = recipe.costRate
       this.recipe.comment = recipe.comment
       this.recipe.tableFoods = recipe.foods.slice()
       this.recipe.image = recipe.image
+    } else {
+      this.recipe.name = recipes[0].name
+      this.recipe.cost = recipes[0].cost
+      this.recipe.comment = recipes[0].comment
+      this.recipe.tableFoods = recipes[0].foods.slice()
+      this.recipe.image = recipes[0].image
     }
   },
   methods: {
+    // サイドバーから選択されたレシピを表示する
     showRecipe(index) {
       const recipe = this.$store.getters['recipe/allUsersRecipes'][index]
       console.log(recipe)

@@ -1,18 +1,18 @@
 <template>
   <div class="wrapper">
     <Header />
-    <recipe-cards />
+    <all-users-recipe-display />
   </div>
 </template>
 
 <script>
 import Header from '~/components/top/Header.vue'
-import RecipeCards from '~/components/top/RecipeCards.vue'
+import AllUsersRecipeDisplay from '~/components/AllUsersRecipeDisplay.vue'
 
 export default {
   components: {
     Header,
-    RecipeCards
+    AllUsersRecipeDisplay
   },
   async asyncData({ store }) {
     await store.dispatch('recipe/getAllUsersRecipes').catch((error) => {
@@ -25,8 +25,4 @@ export default {
 }
 </script>
 
-<style scoped>
-.wrapper {
-  height: 100%;
-}
-</style>
+<style></style>

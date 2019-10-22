@@ -6,9 +6,7 @@
           トップ
         </nuxt-link>
       </li>
-      <li class="breadcrumb-item active" aria-current="page">
-        マイページ
-      </li>
+      <slot name="breadcrumb-item" />
     </ol>
   </nav>
 </template>
@@ -17,4 +15,9 @@
 export default {}
 </script>
 
-<style></style>
+<style scoped>
+.breadcrumb li .nav-link {
+  display: inline;
+  padding: 0;
+}
+</style>

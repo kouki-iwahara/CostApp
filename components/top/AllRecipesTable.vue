@@ -1,44 +1,44 @@
 <template>
   <div>
-    <div class="user-name">
-      <strong>{{ this.$store.state.user.user.email }}さんのマイページ</strong>
+    <div class="title">
+      <strong>レシピ一覧</strong>
     </div>
     <div class="card">
       <card-header>
         <ul slot="navbar" class="navbar-nav nav-tabs">
           <li class="nav-item">
-            <nuxt-link to="/home/food" class="nav-link">
-              食材一覧
-            </nuxt-link>
-          </li>
-          <li class="nav-item">
-            <nuxt-link to="/home/recipe" class="nav-link active">
+            <nuxt-link to="/recipeList" class="nav-link active">
               レシピ一覧
             </nuxt-link>
           </li>
+          <li class="nav-item">
+            <nuxt-link to="/" class="nav-link">
+              絞り込み検索
+            </nuxt-link>
+          </li>
         </ul>
+        <span slot="card-body">
+          <strong>{{ allUsersRecipes.length }}</strong>
+          <span>のレシピを公開中</span>
+        </span>
       </card-header>
       <table class="table mb-0 table-hover">
-        <thead class="">
+        <thead>
           <tr>
             <th scope="col">レシピ名</th>
             <th scope="col">原価(円)</th>
-            <th scope="col">原価率(％)</th>
             <th scope="col">作成日</th>
             <th scope="col">最終更新</th>
           </tr>
         </thead>
         <tbody>
           <tr
-            v-for="recipe in recipes"
+            v-for="recipe in allUsersRecipes"
             :key="recipe.id"
-            @click="
-              toRecipeIdPage($store.getters['recipe/recipes'].indexOf(recipe))
-            "
+            @click="toAllRecipesPage(allUsersRecipes.indexOf(recipe))"
           >
             <td>{{ recipe.name }}</td>
             <td>{{ recipe.cost }}</td>
-            <td>{{ recipe.costRate }}</td>
             <td>{{ recipe.createdAt.substring(0, 10) }}</td>
             <td>{{ recipe.updatedAt.substring(0, 10) }}</td>
           </tr>
@@ -55,23 +55,25 @@ export default {
   components: {
     CardHeader
   },
-  data() {
-    return {
-      isRecipeActive: true
-    }
-  },
   computed: {
-    recipes() {
-      return this.$store.getters['recipe/recipes']
+    // レシピが登録されていたらテーブルに表示する
+    allUsersRecipes() {
+      const recipes = this.$store.getters['recipe/allUsersRecipes']
+      // 取得できなければ何も表示しない
+      if (!recipes) {
+        return
+      }
+      return recipes
     }
   },
   methods: {
-    // 画面遷移時にfoodIdを渡す
-    toRecipeIdPage(index) {
-      const recipe = this.$store.getters['recipe/recipes'][index]
+    // レシピ詳細画面へ遷移
+    toAllRecipesPage(index) {
+      const recipe = this.$store.getters['recipe/allUsersRecipes'][index]
       console.log(recipe)
+      // 遷移時にrecipeIdを渡す
       this.$router.push({
-        path: `/recipe/recipeCheckPage?recipeId=${recipe.id}`
+        path: `/allRecipes?recipeId=${recipe.id}`
       })
     }
   }
@@ -79,7 +81,7 @@ export default {
 </script>
 
 <style scoped>
-.user-name {
+.title {
   font-size: 1.25em;
   margin: 20px 0;
 }
