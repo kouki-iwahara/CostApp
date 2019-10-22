@@ -28,9 +28,6 @@ export default {
       alert(res.error)
       redirect('/signin')
     }
-    await store.dispatch('user/authenticator').catch((error) => {
-      console.log(error)
-    })
   }
 }
 </script>

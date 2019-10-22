@@ -28,12 +28,14 @@ export const actions = {
       })
     return res
   },
-  async signIn({ ctx }, reqUserInfo) {
+  async signIn({ commit }, reqUserInfo) {
     const res = await this.$axios
       .$post('/signin', querystring.stringify(reqUserInfo))
       .catch((error) => {
         console.log(error.message)
       })
+    console.log(res)
+    commit('setUser', res.userId)
     return res
   },
   async signOut({ commit }) {
@@ -42,15 +44,5 @@ export const actions = {
     })
     console.log(res)
     commit('setUser', '')
-  },
-  // ユーザー認証確認
-  async authenticator({ commit }) {
-    const res = await this.$axios.get('/auth').catch((error) => {
-      console.log(error)
-    })
-    if (res.data.result) {
-      console.log(res.data.result)
-      commit('setUser', res.data.result)
-    }
   }
 }

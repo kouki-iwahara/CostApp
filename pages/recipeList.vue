@@ -1,7 +1,9 @@
 <template>
   <div class="wrapper">
-    <Header />
-    <recipe-list-display />
+    <client-only>
+      <Header />
+      <recipe-list-display />
+    </client-only>
   </div>
 </template>
 
@@ -18,11 +20,12 @@ export default {
     await store.dispatch('recipe/getAllUsersRecipes').catch((error) => {
       console.log(error)
     })
-    await store.dispatch('user/authenticator').catch((error) => {
-      console.log(error)
-    })
   }
 }
 </script>
 
-<style></style>
+<style scoped>
+.wrapper {
+  height: 100%;
+}
+</style>
