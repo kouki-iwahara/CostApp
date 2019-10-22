@@ -53,7 +53,7 @@
 export default {
   data() {
     return {
-      isLogin: this.$store.state.user.user,
+      isLogin: this.$store.getters['user/user'],
       recipeCount: this.$store.getters['recipe/allUsersRecipes'].length
     }
   },
@@ -95,11 +95,7 @@ export default {
   padding: 8px 24px;
   margin-bottom: 5px;
   background: #fc4a1a;
-  background: linear-gradient(
-    to right,
-    #f7b733,
-    #fc4a1a
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, #f7b733, #fc4a1a);
   color: #fff;
   border: 3px solid rgb(228, 163, 106);
 }

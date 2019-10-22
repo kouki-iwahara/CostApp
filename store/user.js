@@ -10,7 +10,11 @@ export const mutations = {
   }
 }
 
-export const getters = {}
+export const getters = {
+  user(state) {
+    return state.user
+  }
+}
 
 export const actions = {
   // signupのpost処理結果をフロントに返す
@@ -31,6 +35,13 @@ export const actions = {
         console.log(error.message)
       })
     return res
+  },
+  async signOut({ commit }) {
+    const res = await this.$axios.post('/signout').catch((error) => {
+      console.log(error)
+    })
+    console.log(res)
+    commit('setUser', '')
   },
   // ユーザー認証確認
   async authenticator({ commit }) {

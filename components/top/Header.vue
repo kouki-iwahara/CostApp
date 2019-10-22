@@ -36,12 +36,20 @@
             <template v-slot:button-content>
               {{ userName }}
             </template>
-            <b-dropdown-item>First Action</b-dropdown-item>
-            <b-dropdown-item>Second Action</b-dropdown-item>
-            <b-dropdown-item>Third Action</b-dropdown-item>
+            <nuxt-link to="/home/food" class="nav-link">
+              マイページ
+            </nuxt-link>
+            <nuxt-link to="/home/food" class="nav-link">
+              食材登録
+            </nuxt-link>
+            <nuxt-link to="/home/food" class="nav-link">
+              レシピ登録
+            </nuxt-link>
+
             <b-dropdown-divider />
-            <b-dropdown-item active>Active action</b-dropdown-item>
-            <b-dropdown-item disabled>Disabled action</b-dropdown-item>
+            <div class="signout" @click="signOut">
+              <span>ログアウト</span>
+            </div>
           </b-dropdown>
 
           <button
@@ -63,10 +71,11 @@
 export default {
   data() {
     return {
-      isLogin: this.$store.state.user.user
+      isLogin: this.$store.getters['user/user']
     }
   },
   computed: {
+    // *後でDBにuserNameのカラムを作る
     userName() {
       const pos = this.isLogin.email.indexOf('@')
       console.log(pos)
@@ -77,6 +86,12 @@ export default {
   methods: {
     toSignin() {
       this.$router.push('/signin')
+    },
+    async signOut() {
+      await this.$store.dispatch('user/signOut').catch((error) => {
+        console.log(error)
+      })
+      window.location.href = '/'
     }
   }
 }
@@ -104,8 +119,29 @@ export default {
   padding-right: 15px;
   margin: 0 0 0 auto;
 }
-
-.mr-sm-2 {
+.signout {
+  text-align: center;
+}
+.signout:hover {
+  cursor: pointer;
+  background: #fc4a1a;
+  background: linear-gradient(to right, #f7b733, #fc4a1a);
+  color: #fff;
+}
+.dropdown-menu .nav-link {
+  color: #212529;
+  text-align: center;
+  line-height: 24px;
+  height: 24px;
+  padding: 0px 24px;
+  margin-bottom: 8px;
+}
+.dropdown-menu .nav-link:hover {
+  background: #fc4a1a;
+  background: linear-gradient(to right, #f7b733, #fc4a1a);
+  color: #fff;
+}
+.search-form {
   margin-left: 15px;
 }
 .nav-form {

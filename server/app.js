@@ -10,6 +10,7 @@ const indexRouter = require('./routes/index')
 const homeRouter = require('./routes/home')
 const signinRouter = require('./routes/signin')
 const signupRouter = require('./routes/signup')
+const signoutRouter = require('./routes/signout')
 const foodRouter = require('./routes/food')
 const recipeRouter = require('./routes/recipe')
 
@@ -45,6 +46,7 @@ async function start() {
   app.use('/home', homeRouter)
   app.use('/signin', signinRouter)
   app.use('/signup', signupRouter)
+  app.use('/signout', signoutRouter)
   app.use('/food', foodRouter)
   app.use('/recipe', recipeRouter)
   // Give nuxt middleware to express
