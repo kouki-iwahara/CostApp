@@ -32,7 +32,20 @@
         </b-navbar-nav>
         <!-- /nav-list_item -->
         <div class="nav-list_item_btn">
+          <b-dropdown v-if="isLogin" variant="light" right>
+            <template v-slot:button-content>
+              {{ userName }}
+            </template>
+            <b-dropdown-item>First Action</b-dropdown-item>
+            <b-dropdown-item>Second Action</b-dropdown-item>
+            <b-dropdown-item>Third Action</b-dropdown-item>
+            <b-dropdown-divider />
+            <b-dropdown-item active>Active action</b-dropdown-item>
+            <b-dropdown-item disabled>Disabled action</b-dropdown-item>
+          </b-dropdown>
+
           <button
+            v-else
             class="signin-btn btn btn-light"
             type="button"
             @click="toSignin"
@@ -50,7 +63,15 @@
 export default {
   data() {
     return {
-      isLogin: this.$store.state.auth.user
+      isLogin: this.$store.state.user.user
+    }
+  },
+  computed: {
+    userName() {
+      const pos = this.isLogin.email.indexOf('@')
+      console.log(pos)
+      const name = this.isLogin.email.substring(0, pos)
+      return name
     }
   },
   methods: {
@@ -83,6 +104,7 @@ export default {
   padding-right: 15px;
   margin: 0 0 0 auto;
 }
+
 .mr-sm-2 {
   margin-left: 15px;
 }

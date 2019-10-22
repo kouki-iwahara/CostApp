@@ -53,7 +53,7 @@
 export default {
   data() {
     return {
-      isLogin: this.$store.state.auth.user,
+      isLogin: this.$store.state.user.user,
       recipeCount: this.$store.getters['recipe/allUsersRecipes'].length
     }
   },

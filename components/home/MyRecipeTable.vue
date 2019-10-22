@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="user-name">
-      <strong>xxxxxxxxさんのマイページ</strong>
+      <strong>{{ this.$store.state.user.user.email }}さんのマイページ</strong>
     </div>
     <div class="card">
       <card-header>
