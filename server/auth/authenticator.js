@@ -12,9 +12,9 @@ const authenticator = {
     // セッション管理をするための設定
     app.use(passport.session())
     // シリアライズ処理でidを渡す
-    passport.serializeUser((id, done) => {
+    passport.serializeUser((user, done) => {
       console.log('serializeUser')
-      done(null, id)
+      done(null, user.id)
     })
     passport.deserializeUser((id, done) => {
       console.log('deserializeUser')
@@ -54,7 +54,7 @@ const authenticator = {
                 }
                 // hash化で登録されたpwdと入力されたpwdの比較(trueで認証成功,userIdを渡す)
                 if (bcrypt.compareSync(password, user.password)) {
-                  return done(null, user.id)
+                  return done(null, user)
                 } else {
                   return done(null, false)
                 }

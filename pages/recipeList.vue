@@ -1,7 +1,9 @@
 <template>
   <div class="wrapper">
-    <Header />
-    <recipe-list-display />
+    <client-only>
+      <Header />
+      <recipe-list-display />
+    </client-only>
   </div>
 </template>
 
@@ -16,9 +18,6 @@ export default {
   },
   async asyncData({ store }) {
     await store.dispatch('recipe/getAllUsersRecipes').catch((error) => {
-      console.log(error)
-    })
-    await store.dispatch('user/authenticator').catch((error) => {
       console.log(error)
     })
   }

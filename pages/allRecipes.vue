@@ -18,9 +18,6 @@ export default {
     await store.dispatch('recipe/getAllUsersRecipes').catch((error) => {
       console.log(error)
     })
-    await store.dispatch('user/authenticator').catch((error) => {
-      console.log(error)
-    })
   }
 }
 </script>
