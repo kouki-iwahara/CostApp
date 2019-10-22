@@ -34,12 +34,5 @@ export default {
 <style scoped>
 .content {
   padding-top: 25px;
-  position: absolute;
-  top: 70px;
-  bottom: 0;
-  right: 0;
-  display: block;
-  overflow-x: hidden;
-  overflow-y: auto;
 }
 </style>

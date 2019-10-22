@@ -1,6 +1,6 @@
 export const actions = {
   // 認証確認
-  async nuxtClientInit({ rootState, commit }, { redirect }) {
+  async nuxtClientInit({ rootState, commit }) {
     const res = await this.$axios.get('/auth').catch((error) => {
       console.log(error)
     })
