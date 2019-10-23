@@ -10,6 +10,8 @@
       to="/home/recipe"
       >レシピ</b-nav-item
     >
+    <b-nav-item disabled class="inactive" to="#">メニュー(準備中)</b-nav-item>
+    <b-nav-item disabled class="inactive" to="#">コース(準備中)</b-nav-item>
   </b-nav>
 </template>
 
@@ -37,11 +39,11 @@ export default {
 </script>
 
 <style scoped>
-.nav {
-  border-bottom: 1px solid #dee2e6;
+.inactive {
+  border-bottom: 1px solid #a8adb1;
 }
 .inactive:hover {
-  border-bottom: 2px solid #dee2e6;
+  border-bottom: 2px solid #a8adb1;
 }
 
 .active {

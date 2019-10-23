@@ -83,7 +83,6 @@ export default {
     // *後でDBにuserNameのカラムを作る
     userName() {
       const pos = this.isLogin.email.indexOf('@')
-      console.log(pos)
       const name = this.isLogin.email.substring(0, pos)
       return name
     }
