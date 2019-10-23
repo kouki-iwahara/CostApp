@@ -1,21 +1,23 @@
 <template>
   <div class="wrapper">
     <!-- 読み込む順番でサイドバーが動かないことがある -->
-    <my-page-header />
-    <my-page-display>
-      <my-food-table slot="my-table" />
-    </my-page-display>
+    <client-only>
+      <Header />
+      <my-page-display>
+        <my-food-table slot="my-table" />
+      </my-page-display>
+    </client-only>
   </div>
 </template>
 
 <script>
-import MyPageHeader from '~/components/home/MyPageHeader.vue'
+import Header from '~/components/top/Header.vue'
 import MyPageDisplay from '~/components/home/MyPageDisplay.vue'
 import MyFoodTable from '~/components/home/MyFoodTable.vue'
 
 export default {
   components: {
-    MyPageHeader,
+    Header,
     MyPageDisplay,
     MyFoodTable
   },
