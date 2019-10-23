@@ -1,12 +1,40 @@
 <template>
-  <!-- Right aligned nav items -->
   <b-nav justified>
-    <b-nav-item class="active" to="/home/food">食材</b-nav-item>
-    <b-nav-item class="inactive" to="/home/recipe">レシピ</b-nav-item>
+    <b-nav-item
+      :class="{ active: isFoodActive, inactive: isFoodInactive }"
+      to="/home/food"
+      >食材</b-nav-item
+    >
+    <b-nav-item
+      :class="{ active: isRecipeActive, inactive: isRecipeInactive }"
+      to="/home/recipe"
+      >レシピ</b-nav-item
+    >
   </b-nav>
 </template>
 
-<script></script>
+<script>
+export default {
+  props: {
+    isFoodActive: {
+      type: Object,
+      default: null
+    },
+    isRecipeActive: {
+      type: Object,
+      default: null
+    },
+    isFoodInactive: {
+      type: Object,
+      default: null
+    },
+    isRecipeInactive: {
+      type: Object,
+      default: null
+    }
+  }
+}
+</script>
 
 <style scoped>
 .nav {
@@ -15,12 +43,7 @@
 .inactive:hover {
   border-bottom: 2px solid #dee2e6;
 }
-.content {
-  width: 1024px;
-  /* height: 300px; */
-  margin: 0 auto;
-  /* background-color: blue; */
-}
+
 .active {
   border-bottom: 2px solid #f7b733;
   font-weight: 600;

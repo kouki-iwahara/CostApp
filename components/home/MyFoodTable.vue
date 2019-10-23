@@ -1,37 +1,43 @@
 <template>
   <div>
     <div class="user-name">
-      <strong>{{ this.$store.state.user.user.email }}さんのマイページ</strong>
-    </div>
-    <navbar />
-    <div class="form  col-sm-6">
-      <div class="input-group mb-3">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="..."
-          aria-label="..."
-          aria-describedby="button-addon2"
-        />
-        <div class="input-group-append">
-          <button id="button-addon2" class="btn btn-orange">New</button>
-        </div>
-      </div>
+      <strong>{{ $store.state.user.user.email }}さんのマイページ</strong>
     </div>
 
-    <div class="card">
+    <navbar
+      :is-food-active="{ active: isFoodActive }"
+      :is-recipe-inactive="{
+        inactive: isRecipeInactive
+      }"
+    />
+
+    <div class="form  col-sm-6">
+      <input
+        v-model="searchText"
+        type="text"
+        class="form-control"
+        placeholder="食材を検索"
+      />
+    </div>
+    <div class="food-content">
+      <div class="food-content_btn">
+        <button class="btn btn-orange float-right" @click="show">New</button>
+        <strong
+          >{{ $store.getters['food/foods'].length }}個の食材を登録中</strong
+        >
+      </div>
       <table class="table mb-0 table-hover">
-        <thead class="thead">
+        <thead class="thead-dark">
           <tr>
             <th scope="col">食材名</th>
-            <th scope="col">原価(円)</th>
+            <th scope="col">原価(円/単位)</th>
             <th scope="col">作成日</th>
             <th scope="col">最終更新</th>
           </tr>
         </thead>
         <tbody>
           <tr
-            v-for="food in foods"
+            v-for="food in filterFoods"
             :key="food.id"
             @click="toFoodIdPage($store.getters['food/foods'].indexOf(food))"
           >
@@ -53,9 +59,29 @@ export default {
   components: {
     Navbar
   },
+  data() {
+    return {
+      isFoodActive: true,
+      isRecipeInactive: true,
+      searchText: ''
+    }
+  },
   computed: {
-    foods() {
-      return this.$store.getters['food/foods']
+    // 食材の検索をリアルタイムで表示
+    filterFoods() {
+      const filterFoods = []
+      const foods = this.$store.getters['food/foods']
+      // 検索していなければ全ての食材を表示
+      if (!this.searchText) {
+        return foods
+      }
+      // 検索のテキストを含む名前を表示する
+      foods.forEach((food) => {
+        if (food.name.includes(this.searchText)) {
+          filterFoods.push(food)
+        }
+      })
+      return filterFoods
     }
   },
   methods: {
@@ -76,30 +102,21 @@ export default {
 .form {
   margin: 20px auto;
 }
-.form .input-group .form-control {
+.form .form-control {
   border-radius: 0.25em;
+  margin: 0 auto;
 }
-.test {
-  display: inline;
-}
-.input-group-append .btn-orange {
+
+.btn-orange {
   color: #fff;
   font-weight: 600;
   border-radius: 0.25em;
   border-color: #ffc107;
   height: 38px;
-  margin-left: 20px;
   background-image: linear-gradient(-180deg, #f7b733, #fc4a1a 90%);
-  /* background-image: linear-gradient(-180deg, #fc4a1a, #f7b733 90%); */
 }
-
-/*  */
 .table {
-  margin-top: 50px;
-}
-
-.table th {
-  border-top: none;
+  margin-top: 20px;
 }
 .table td {
   cursor: pointer;
