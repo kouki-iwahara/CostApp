@@ -164,10 +164,9 @@ export default {
 .content {
   padding-top: 25px;
   position: absolute;
-  top: 70px;
+  top: 60px;
   bottom: 0;
   right: 0;
-  display: block;
   overflow-x: hidden;
   overflow-y: auto;
 }

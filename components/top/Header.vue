@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-navbar class="header fixed-top navbar" type="light" toggleable="md">
+    <b-navbar class="header fixed-top navbar" type="dark" toggleable="md">
       <b-navbar-toggle target="nav_collapse" />
       <b-collapse
         id="nav_collapse"
@@ -102,7 +102,7 @@ export default {
   padding-left: 0;
   padding-right: 0;
   height: 60px;
-  background: rgba(10, 10, 10, 0.2);
+  background: #24292e;
 }
 
 /* nav-list */
@@ -111,9 +111,15 @@ export default {
   max-width: 1024px;
   opacity: 0.9;
 }
+.nav-item .nav-link {
+  color: #fff;
+  font-weight: 600;
+}
+
 .nav-list_item {
   display: flex;
   justify-content: flex-end;
+  padding-left: 17px;
 }
 .nav-list_item_btn {
   padding-right: 15px;

@@ -49,12 +49,12 @@ export default {}
   .sidebar_search {
     display: block;
     position: absolute;
-    top: 70px;
+    top: 60px;
     left: 0;
   }
   .sidebar_list {
     position: absolute;
-    top: 120px;
+    top: 110px;
     bottom: 0;
     left: 0;
     display: block;
