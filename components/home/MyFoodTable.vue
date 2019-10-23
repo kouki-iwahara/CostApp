@@ -19,9 +19,9 @@
         placeholder="食材を検索"
       />
     </div>
-    <div class="food-content">
-      <div class="food-content_btn">
-        <button class="btn btn-orange float-right" @click="show">New</button>
+    <div class="content">
+      <div class="content_btn">
+        <button class="btn btn-orange float-right">New</button>
         <strong
           >{{ $store.getters['food/foods'].length }}個の食材を登録中</strong
         >
@@ -39,7 +39,7 @@
           <tr
             v-for="food in filterFoods"
             :key="food.id"
-            @click="toFoodIdPage($store.getters['food/foods'].indexOf(food))"
+            @click="toFoodIdPage(filterFoods.indexOf(food))"
           >
             <td>{{ food.name }}</td>
             <td>{{ food.cost }}{{ `/${food.unit}` }}</td>
@@ -87,7 +87,8 @@ export default {
   methods: {
     // 画面遷移時にfoodIdを渡す
     toFoodIdPage(index) {
-      const food = this.$store.getters['food/foods'][index]
+      const food = this.filterFoods[index]
+      console.log(food)
       this.$router.push({ path: `/food/foodCheckPage?foodId=${food.id}` })
     }
   }
