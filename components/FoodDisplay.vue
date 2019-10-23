@@ -5,15 +5,15 @@
         <div class="content_image col-sm-6">
           <div class="card">
             <div class="card-header bg-transparent">
-              {{ food.name }}
+              {{ foods.name }}
             </div>
-            <food-image :image="food.image" />
+            <food-image :image="foods.image" />
             <div class="card-footer bg-transparent">
               <span>
                 原価/単位
               </span>
               <strong class="float-right"
-                >{{ food.cost }}円/{{ food.unit }}</strong
+                >{{ foods.cost }}円/{{ foods.unit }}</strong
               >
             </div>
           </div>
@@ -26,24 +26,24 @@
               class="btn-form_update btn btn-warning btn-md"
               @click="toUpdatePage"
             >
-              {{ food.updateBtn }}
+              {{ foods.updateBtn }}
             </button>
           </div>
           <div class="card card-list">
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
                 仕入価格<strong class="float-right"
-                  >{{ food.value }}<span>円</span></strong
+                  >{{ foods.value }}<span>円</span></strong
                 >
               </li>
               <li class="list-group-item">
                 食材量<strong class="float-right"
-                  >{{ food.amount }}<span>{{ food.unit }}</span></strong
+                  >{{ foods.amount }}<span>{{ foods.unit }}</span></strong
                 >
               </li>
               <li class="list-group-item">
                 歩留り<strong class="float-right"
-                  >{{ food.yield }}<span>％</span></strong
+                  >{{ foods.yield }}<span>％</span></strong
                 >
               </li>
             </ul>
@@ -52,13 +52,17 @@
                 <span>コメント</span>
               </div>
               <p class="card-text">
-                {{ food.comment }}
+                {{ foods.comment }}
               </p>
             </div>
           </div>
         </div>
         <!--  -->
         <div class="col-sm-12">
+          <div class="table-message">
+            <strong>{{ matchedRecipes.length }}</strong>
+            <span>個のレシピで使用中</span>
+          </div>
           <table class="table mb-0 table-hover">
             <thead class="thead-dark">
               <tr>
@@ -70,7 +74,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="recipe in filterRecipes" :key="recipe.id">
+              <tr v-for="recipe in matchedRecipes" :key="recipe.id">
                 <td>{{ recipe.name }}</td>
                 <td>{{ recipe.cost }}</td>
                 <td>{{ recipe.costRate }}</td>
@@ -80,18 +84,17 @@
             </tbody>
           </table>
         </div>
-
         <!--  -->
       </div>
       <!-- /content row -->
     </div>
     <side-bar>
       <ul
-        v-for="item in foods"
+        v-for="item in sideBarfoods"
         slot="content-list"
         :key="item.id"
         class="list-group list-group-flush"
-        @click="showFood(foods.indexOf(item))"
+        @click="showFood(sideBarfoods.indexOf(item))"
       >
         <li class="food-list_item list-group-item border-bottom border-info">
           {{ item.name }}
@@ -113,72 +116,63 @@ export default {
   data() {
     return {
       food: {
-        name: '',
-        value: '',
-        amount: '',
-        yield: '',
-        unit: '',
-        cost: '',
-        comment: '',
-        updateBtn: '変更',
-        image: require('~/assets/pasta.jpg')
-      },
-      selectedFile: '',
-      foodIndex: 0
+        id: ''
+        // image: require('~/assets/pasta.jpg')
+      }
     }
   },
   computed: {
-    foods() {
+    // サイドバーの食材（全ての食材）
+    sideBarfoods() {
       return this.$store.getters['food/foods']
     },
-    filterRecipes() {
+    // 右ページに表示する食材
+    foods() {
+      // 受け取ったクエリを整数に変換
+      const foodId = parseInt(this.food.id)
+      const foods = this.$store.getters['food/foods']
+      // 一致するidのデータを取得
+      const food = foods.find((food) => {
+        return food.id === foodId
+      })
+      return food
+    },
+    // 選択された食材を使っているレシピを表示
+    matchedRecipes() {
       const recipes = this.$store.getters['recipe/recipes']
-      return recipes
+      const matchedRecipes = []
+      // 食材idと一致するレシピ食材を取得
+      recipes.forEach((recipe) => {
+        const recipeFood = recipe.foods.find((recipeFood) => {
+          return recipeFood.foodId === parseInt(this.food.id)
+        })
+        // レシピ食材が取得できたら一致するレシピを取得
+        if (recipeFood) {
+          const recipe = recipes.find((recipe) => {
+            return recipe.id === recipeFood.recipeId
+          })
+          matchedRecipes.push(recipe)
+        }
+      })
+      return matchedRecipes
     }
   },
   created() {
-    // 受け取ったクエリを整数に変換
-    const foodId = parseInt(this.$route.query.foodId)
-    const foods = this.$store.getters['food/foods']
-    // 一致するidのデータを取得
-    const food = foods.find((food) => {
-      return food.id === foodId
-    })
-    console.log(food)
-    if (food) {
-      this.food.name = food.name
-      this.food.value = food.value
-      this.food.amount = food.amount
-      this.food.yield = food.yield
-      this.food.unit = food.unit
-      this.food.cost = food.cost
-      this.food.comment = food.comment
-      this.food.updateBtn = food.updateBtn
-      this.food.image = food.image
-    }
-    if (!food.comment) {
-      this.food.comment = '未設定'
-    }
+    // 受け取ったクエリを代入
+    this.food.id = this.$route.query.foodId
+    console.log(this.foods)
   },
   methods: {
+    // サイドバーから選択された食材を表示
     showFood(index) {
       const food = this.$store.getters['food/foods'][index]
       console.log(food)
-      this.food.name = food.name
-      this.food.value = food.value
-      this.food.amount = food.amount
-      this.food.yield = food.yield
-      this.food.unit = food.unit
-      this.food.cost = food.cost
-      this.food.comment = food.comment
-      this.food.image = food.image
-      this.foodIndex = index
-      if (!food.comment) {
-        this.food.comment = '未設定'
-      }
+      // 食材idを格納するとcomputedのfoodsとmatchedRecipesが更新される
+      this.food.id = food.id
     },
+    // 更新ページへ遷移
     toUpdatePage() {
-      this.$router.push({ path: `/food/${this.foodIndex}` })
+      this.$router.push({ path: `/food/${this.food.id}` })
     }
   }
 }
@@ -233,5 +227,8 @@ export default {
   border-radius: 0.25em;
   border-color: #ffc107;
   background-image: linear-gradient(-180deg, #f7b733, #fc4a1a 90%);
+}
+.table-message {
+  margin-top: 20px;
 }
 </style>
