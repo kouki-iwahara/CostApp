@@ -18,6 +18,11 @@
         </b-nav-form>
         <b-navbar-nav class="nav-list_item">
           <ul class="navbar-nav">
+            <li class="nav-item">
+              <nuxt-link to="/" class="nav-link">
+                トップ
+              </nuxt-link>
+            </li>
             <li v-show="isLogin" class="nav-item">
               <nuxt-link to="/home/food" class="nav-link">
                 マイページ

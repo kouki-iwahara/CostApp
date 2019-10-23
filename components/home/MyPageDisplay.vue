@@ -3,15 +3,6 @@
     <div class="content container-fluid">
       <div class="row">
         <div class="col-sm-12">
-          <!-- <bread-crumb>
-            <li
-              slot="breadcrumb-item"
-              class="breadcrumb-item active"
-              aria-current="page"
-            >
-              マイページ
-            </li>
-          </bread-crumb> -->
           <slot name="my-table" />
         </div>
       </div>
@@ -20,13 +11,7 @@
 </template>
 
 <script>
-// import BreadCrumb from '~/components/BreadCrumb.vue'
-
-export default {
-  components: {
-    // BreadCrumb
-  }
-}
+export default {}
 </script>
 
 <style scoped>
