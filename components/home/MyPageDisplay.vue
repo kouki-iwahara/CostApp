@@ -3,7 +3,7 @@
     <div class="content container-fluid">
       <div class="row">
         <div class="col-sm-12">
-          <bread-crumb>
+          <!-- <bread-crumb>
             <li
               slot="breadcrumb-item"
               class="breadcrumb-item active"
@@ -11,7 +11,7 @@
             >
               マイページ
             </li>
-          </bread-crumb>
+          </bread-crumb> -->
           <slot name="my-table" />
         </div>
       </div>
@@ -20,11 +20,11 @@
 </template>
 
 <script>
-import BreadCrumb from '~/components/BreadCrumb.vue'
+// import BreadCrumb from '~/components/BreadCrumb.vue'
 
 export default {
   components: {
-    BreadCrumb
+    // BreadCrumb
   }
 }
 </script>
@@ -33,7 +33,7 @@ export default {
 .content {
   padding-top: 25px;
   position: absolute;
-  top: 70px;
+  top: 60px;
   bottom: 0;
   right: 0;
   display: block;

@@ -3,23 +3,25 @@
     <div class="user-name">
       <strong>{{ this.$store.state.user.user.email }}さんのマイページ</strong>
     </div>
+    <navbar />
+    <div class="form  col-sm-6">
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="..."
+          aria-label="..."
+          aria-describedby="button-addon2"
+        />
+        <div class="input-group-append">
+          <button id="button-addon2" class="btn btn-orange">New</button>
+        </div>
+      </div>
+    </div>
+
     <div class="card">
-      <card-header>
-        <ul slot="navbar" class="navbar-nav nav-tabs">
-          <li class="nav-item">
-            <nuxt-link to="/home/food" class="nav-link active">
-              食材一覧
-            </nuxt-link>
-          </li>
-          <li class="nav-item">
-            <nuxt-link to="/home/recipe" class="nav-link">
-              レシピ一覧
-            </nuxt-link>
-          </li>
-        </ul>
-      </card-header>
       <table class="table mb-0 table-hover">
-        <thead class="">
+        <thead class="thead">
           <tr>
             <th scope="col">食材名</th>
             <th scope="col">原価(円)</th>
@@ -45,11 +47,11 @@
 </template>
 
 <script>
-import CardHeader from '~/components/CardHeader.vue'
+import Navbar from '~/components/common/Navbar.vue'
 
 export default {
   components: {
-    CardHeader
+    Navbar
   },
   computed: {
     foods() {
@@ -71,14 +73,35 @@ export default {
   font-size: 1.25em;
   margin: 20px 0;
 }
+.form {
+  margin: 20px auto;
+}
+.form .input-group .form-control {
+  border-radius: 0.25em;
+}
+.test {
+  display: inline;
+}
+.input-group-append .btn-orange {
+  color: #fff;
+  font-weight: 600;
+  border-radius: 0.25em;
+  border-color: #ffc107;
+  height: 38px;
+  margin-left: 20px;
+  background-image: linear-gradient(-180deg, #f7b733, #fc4a1a 90%);
+  /* background-image: linear-gradient(-180deg, #fc4a1a, #f7b733 90%); */
+}
+
+/*  */
+.table {
+  margin-top: 50px;
+}
 
 .table th {
   border-top: none;
 }
 .table td {
   cursor: pointer;
-}
-.card {
-  border: none;
 }
 </style>
