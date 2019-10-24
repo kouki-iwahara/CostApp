@@ -30,10 +30,15 @@
             <div slot="btn-form" class="btn-form">
               <button
                 type="button"
-                class="btn-form_update btn btn-warning btn-md"
+                class="btn-form_update btn btn-warning btn-sm"
                 @click="toUpdatePage"
               >
-                {{ foods.updateBtn }}
+                <nuxt-link
+                  :to="`/home/food/update/${food.id}`"
+                  class="nav-link"
+                >
+                  変更
+                </nuxt-link>
               </button>
             </div>
           </nav-tab>
@@ -220,7 +225,6 @@ export default {
   display: block;
   overflow-x: hidden;
   overflow-y: auto;
-  /* background-color: #fafbfc; */
 }
 .content_header {
   background-color: #f4f5f7;
@@ -267,11 +271,15 @@ export default {
 }
 .btn-form_update {
   margin-right: 15px;
-  color: #fff;
   font-weight: 600;
   border-radius: 0.25em;
   border-color: #ffc107;
   background-image: linear-gradient(-180deg, #f7b733, #fc4a1a 90%);
+}
+.btn-form_update .nav-link {
+  border: none;
+  padding: 0;
+  color: #fff;
 }
 /*  */
 .table tbody {

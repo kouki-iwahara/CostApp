@@ -1,17 +1,17 @@
 <template>
   <div class="wrapper">
-    <my-page-header />
+    <Header />
     <food-register-form />
   </div>
 </template>
 
 <script>
-import MyPageHeader from '~/components/home/MyPageHeader.vue'
+import Header from '~/components/top/Header.vue'
 import FoodRegisterForm from '~/components/FoodRegisterForm.vue'
 
 export default {
   components: {
-    MyPageHeader,
+    Header,
     FoodRegisterForm
   },
   // 全ての食材データを取得
