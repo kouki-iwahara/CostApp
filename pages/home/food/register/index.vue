@@ -1,7 +1,9 @@
 <template>
   <div class="wrapper">
-    <Header />
-    <food-register-form />
+    <client-only>
+      <Header />
+      <food-register-form />
+    </client-only>
   </div>
 </template>
 

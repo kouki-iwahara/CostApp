@@ -30,7 +30,7 @@
             <div slot="btn-form" class="btn-form">
               <button
                 type="button"
-                class="btn-form_update btn btn-warning btn-sm"
+                class="btn-form_update btn btn-warning btn-md"
                 @click="toUpdatePage"
               >
                 <nuxt-link
