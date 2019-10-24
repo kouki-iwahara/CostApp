@@ -2,6 +2,43 @@
   <div>
     <div class="content container-fluid">
       <div class="row offset-3">
+        <div class="content_header col-sm-12">
+          <bread-crumb>
+            <li slot="breadcrumb-item" class="breadcrumb-item">
+              <nuxt-link to="/home/food" class="nav-link">
+                マイページ
+              </nuxt-link>
+            </li>
+            <li slot="breadcrumb-item" class="breadcrumb-item">
+              <nuxt-link to="/home/food" class="nav-link">
+                食材
+              </nuxt-link>
+            </li>
+            <li
+              slot="breadcrumb-item"
+              class="breadcrumb-item active"
+              aria-current="page"
+            >
+              表示
+            </li>
+          </bread-crumb>
+          <nav-tab
+            :is-view-active="isViewActive"
+            :param-id-page="`/home/food/${food.id}`"
+            :register-page="`/home/food/register`"
+          >
+            <div slot="btn-form" class="btn-form">
+              <button
+                type="button"
+                class="btn-form_update btn btn-warning btn-md"
+                @click="toUpdatePage"
+              >
+                {{ foods.updateBtn }}
+              </button>
+            </div>
+          </nav-tab>
+        </div>
+        <!-- /content_header -->
         <div class="content_image col-sm-6">
           <div class="card">
             <div class="card-header bg-transparent">
@@ -20,15 +57,6 @@
         </div>
         <!--  -->
         <div class="content_form col-sm-6">
-          <div class="btn-form float-right">
-            <button
-              type="button"
-              class="btn-form_update btn btn-warning btn-md"
-              @click="toUpdatePage"
-            >
-              {{ foods.updateBtn }}
-            </button>
-          </div>
           <div class="card card-list">
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
@@ -107,18 +135,23 @@
 <script>
 import SideBar from '~/components/SideBar.vue'
 import FoodImage from '~/components/FoodImage.vue'
+import BreadCrumb from '~/components/BreadCrumb.vue'
+import NavTab from '~/components/home/NavTab.vue'
 
 export default {
   components: {
     SideBar,
-    FoodImage
+    FoodImage,
+    BreadCrumb,
+    NavTab
   },
   data() {
     return {
       food: {
         id: ''
         // image: require('~/assets/pasta.jpg')
-      }
+      },
+      isViewActive: true
     }
   },
   computed: {
@@ -180,7 +213,6 @@ export default {
 
 <style scoped>
 .content {
-  padding-top: 25px;
   position: absolute;
   top: 60px;
   bottom: 0;
@@ -188,10 +220,13 @@ export default {
   display: block;
   overflow-x: hidden;
   overflow-y: auto;
+  background-color: #fafbfc;
 }
-.card-list {
-  margin-top: 43px;
+.content_header {
+  background-color: #f4f5f7;
+  padding: 0;
 }
+
 .card-header {
   font-size: 1.25em;
   font-weight: 600;
@@ -203,7 +238,14 @@ export default {
 .card-body_comment {
   margin-bottom: 10px;
 }
+.content_form {
+  margin-top: 10px;
+}
 
+.content_image,
+.content_form {
+  margin-top: 20px;
+}
 .content_form_food-content {
   margin-bottom: 15px;
 }
@@ -217,20 +259,31 @@ export default {
 .content_text {
   margin: 20px 0;
 }
-
+.btn-form {
+  margin: 0 0 0 auto;
+}
 .btn-form:hover {
   opacity: 0.9;
 }
 .btn-form_update {
+  margin-right: 15px;
   color: #fff;
   font-weight: 600;
   border-radius: 0.25em;
   border-color: #ffc107;
   background-image: linear-gradient(-180deg, #f7b733, #fc4a1a 90%);
 }
+/*  */
+.table tbody {
+  background-color: #fff;
+}
+.table td {
+  border-color: #ffc107;
+}
 .table-message {
   margin-top: 20px;
 }
+/*  */
 .border-bottom {
   border-color: #f7b733;
 }
