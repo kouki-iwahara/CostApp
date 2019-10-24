@@ -134,7 +134,6 @@ export default {
 }
 .signout:hover {
   cursor: pointer;
-  background: #fc4a1a;
   background: linear-gradient(to right, #f7b733, #fc4a1a);
   color: #fff;
 }
@@ -147,7 +146,6 @@ export default {
   margin-bottom: 8px;
 }
 .dropdown-menu .nav-link:hover {
-  background: #fc4a1a;
   background: linear-gradient(to right, #f7b733, #fc4a1a);
   color: #fff;
 }

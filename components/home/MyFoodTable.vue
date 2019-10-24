@@ -85,11 +85,11 @@ export default {
     }
   },
   methods: {
-    // 画面遷移時にfoodIdを渡す
+    // 一致するfoodIdに画面遷移
     toFoodIdPage(index) {
       const food = this.filterFoods[index]
       console.log(food)
-      this.$router.push({ path: `/food/foodCheckPage?foodId=${food.id}` })
+      this.$router.push({ path: `/home/food/${food.id}` })
     }
   }
 }

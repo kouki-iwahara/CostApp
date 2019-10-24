@@ -2,80 +2,130 @@
   <div>
     <div class="content container-fluid">
       <div class="row offset-3">
-        <div class="content_image col-sm-12">
-          <food-image :image="food.image" />
+        <div class="content_header col-sm-12">
+          <bread-crumb>
+            <li slot="breadcrumb-item" class="breadcrumb-item">
+              <nuxt-link to="/home/food" class="nav-link">
+                マイページ
+              </nuxt-link>
+            </li>
+            <li slot="breadcrumb-item" class="breadcrumb-item">
+              <nuxt-link to="/home/food" class="nav-link">
+                食材
+              </nuxt-link>
+            </li>
+            <li
+              slot="breadcrumb-item"
+              class="breadcrumb-item active"
+              aria-current="page"
+            >
+              表示
+            </li>
+          </bread-crumb>
+          <nav-tab
+            :is-view-active="isViewActive"
+            :param-id-page="`/home/food/${food.id}`"
+            :register-page="`/home/food/register`"
+          >
+            <div slot="btn-form" class="btn-form">
+              <button
+                type="button"
+                class="btn-form_update btn btn-warning btn-md"
+                @click="toUpdatePage"
+              >
+                {{ foods.updateBtn }}
+              </button>
+            </div>
+          </nav-tab>
         </div>
-        <div class="content_form col-sm-12">
-          <food-content class="content_form_food-content">
-            <template slot="content-label">
-              食材名
-            </template>
-            <template slot="food-content">
-              {{ food.name }}
-            </template>
-          </food-content>
-          <food-content class="content_form_food-content">
-            <template slot="content-label">
-              ￥価格
-            </template>
-            <template slot="food-content">
-              {{ food.value }}
-            </template>
-          </food-content>
-          <food-content class="content_form_food-content">
-            <template slot="content-label">
-              食材量
-            </template>
-            <template slot="food-content">
-              {{ food.amount }}
-              {{ food.unit }}
-            </template>
-          </food-content>
-          <food-content class="content_form_food-content">
-            <template slot="content-label">
-              歩留り
-            </template>
-            <template slot="food-content">
-              {{ food.yield }}
-            </template>
-          </food-content>
-          <food-content class="content_form_food-content">
-            <template slot="content-label">
-              原価
-            </template>
-            <template slot="food-content">
-              {{ food.cost }}
-            </template>
-          </food-content>
-        </div>
-        <div class="content_text col-sm-12">
-          <div class="content_text_box border border-dark">
-            <p>
-              {{ food.comment }}
-            </p>
+        <!-- /content_header -->
+        <div class="content_image col-sm-6">
+          <div class="card">
+            <div class="card-header bg-transparent">
+              {{ foods.name }}
+            </div>
+            <food-image :image="foods.image" />
+            <div class="card-footer bg-transparent">
+              <span>
+                原価/単位
+              </span>
+              <strong class="float-right"
+                >{{ foods.cost }}円/{{ foods.unit }}</strong
+              >
+            </div>
           </div>
         </div>
-        <div class="update-btn col-sm-6 ">
-          <button
-            type="button"
-            class="btn btn-info btn-block btn-lg"
-            @click="toUpdatePage"
-          >
-            {{ food.updateBtn }}
-          </button>
+        <!--  -->
+        <div class="content_form col-sm-6">
+          <div class="card card-list">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                仕入価格<strong class="float-right"
+                  >{{ foods.value }}<span>円</span></strong
+                >
+              </li>
+              <li class="list-group-item">
+                食材量<strong class="float-right"
+                  >{{ foods.amount }}<span>{{ foods.unit }}</span></strong
+                >
+              </li>
+              <li class="list-group-item">
+                歩留り<strong class="float-right"
+                  >{{ foods.yield }}<span>％</span></strong
+                >
+              </li>
+            </ul>
+            <div class="card-body">
+              <div class="card-body_comment">
+                <span>コメント</span>
+              </div>
+              <p class="card-text">
+                {{ foods.comment }}
+              </p>
+            </div>
+          </div>
         </div>
+        <!--  -->
+        <div class="col-sm-12">
+          <div class="table-message">
+            <strong>{{ matchedRecipes.length }}</strong>
+            <span>個のレシピで使用中</span>
+          </div>
+          <table class="table mb-0 table-hover">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">レシピ名</th>
+                <th scope="col">原価(円)</th>
+                <th scope="col">原価率(％)</th>
+                <th scope="col">作成日</th>
+                <th scope="col">最終更新</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="recipe in matchedRecipes" :key="recipe.id">
+                <td>{{ recipe.name }}</td>
+                <td>{{ recipe.cost }}</td>
+                <td>{{ recipe.costRate }}</td>
+                <td>{{ recipe.createdAt.substring(0, 10) }}</td>
+                <td>{{ recipe.updatedAt.substring(0, 10) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!--  -->
       </div>
       <!-- /content row -->
     </div>
     <side-bar>
+      <strong slot="sidebar_content">登録中の食材</strong>
       <ul
-        v-for="item in foods"
+        v-for="item in sideBarfoods"
         slot="content-list"
         :key="item.id"
         class="list-group list-group-flush"
-        @click="showFood($store.getters['food/foods'].indexOf(item))"
+        @click="showFood(sideBarfoods.indexOf(item))"
       >
-        <li class="food-list_item list-group-item border-bottom border-info">
+        <li class="food-list_item list-group-item border-bottom">
           {{ item.name }}
         </li>
       </ul>
@@ -86,73 +136,76 @@
 <script>
 import SideBar from '~/components/SideBar.vue'
 import FoodImage from '~/components/FoodImage.vue'
-import FoodContent from '~/components/FoodContent.vue'
+import BreadCrumb from '~/components/BreadCrumb.vue'
+import NavTab from '~/components/home/NavTab.vue'
 
 export default {
   components: {
     SideBar,
     FoodImage,
-    FoodContent
+    BreadCrumb,
+    NavTab
   },
   data() {
     return {
       food: {
-        name: '',
-        value: '',
-        amount: '',
-        yield: '',
-        unit: '',
-        cost: '',
-        comment: '',
-        updateBtn: '変更',
-        image: require('~/assets/pasta.jpg')
+        id: ''
+        // image: require('~/assets/pasta.jpg')
       },
-      selectedFile: '',
-      foodIndex: 0
+      isViewActive: true
     }
   },
   computed: {
-    foods() {
+    // サイドバーの食材（全ての食材）
+    sideBarfoods() {
       return this.$store.getters['food/foods']
+    },
+    // 右ページに表示する食材
+    foods() {
+      // 受け取ったクエリを整数に変換
+      const foodId = parseInt(this.food.id)
+      const foods = this.$store.getters['food/foods']
+      // 一致するidのデータを取得
+      const food = foods.find((food) => {
+        return food.id === foodId
+      })
+      return food
+    },
+    // 選択された食材を使っているレシピを表示
+    matchedRecipes() {
+      const recipes = this.$store.getters['recipe/recipes']
+      const matchedRecipes = []
+      // 食材idと一致するレシピ食材を取得
+      recipes.forEach((recipe) => {
+        const recipeFood = recipe.foods.find((recipeFood) => {
+          return recipeFood.foodId === parseInt(this.food.id)
+        })
+        // レシピ食材が取得できたら一致するレシピを取得
+        if (recipeFood) {
+          const recipe = recipes.find((recipe) => {
+            return recipe.id === recipeFood.recipeId
+          })
+          matchedRecipes.push(recipe)
+        }
+      })
+      return matchedRecipes
     }
   },
   created() {
-    // 受け取ったクエリを整数に変換
-    const foodId = parseInt(this.$route.query.foodId)
-    const foods = this.$store.getters['food/foods']
-    // 一致するidのデータを取得
-    const food = foods.find((food) => {
-      return food.id === foodId
-    })
-    console.log(food)
-    if (food) {
-      this.food.name = food.name
-      this.food.value = food.value
-      this.food.amount = food.amount
-      this.food.yield = food.yield
-      this.food.unit = food.unit
-      this.food.cost = food.cost
-      this.food.comment = food.comment
-      this.food.updateBtn = food.updateBtn
-      this.food.image = food.image
-    }
+    // 受け取ったparamsを代入
+    this.food.id = this.$route.params.foodId
+    console.log(this.foods)
   },
   methods: {
+    // サイドバーから選択された食材のページへ遷移
     showFood(index) {
       const food = this.$store.getters['food/foods'][index]
       console.log(food)
-      this.food.name = food.name
-      this.food.value = food.value
-      this.food.amount = food.amount
-      this.food.yield = food.yield
-      this.food.unit = food.unit
-      this.food.cost = food.cost
-      this.food.comment = food.comment
-      this.food.image = food.image
-      this.foodIndex = index
+      this.$router.push({ path: `/home/food/${food.id}` })
     },
+    // 更新ページへ遷移
     toUpdatePage() {
-      this.$router.push({ path: `/food/${this.foodIndex}` })
+      this.$router.push({ path: `/home/food/update/${this.food.id}` })
     }
   }
 }
@@ -160,17 +213,38 @@ export default {
 
 <style scoped>
 .content {
-  padding-top: 25px;
   position: absolute;
-  top: 70px;
+  top: 60px;
   bottom: 0;
   right: 0;
   display: block;
   overflow-x: hidden;
   overflow-y: auto;
+  /* background-color: #fafbfc; */
+}
+.content_header {
+  background-color: #f4f5f7;
+  padding: 0;
+}
+
+.card-header {
+  font-size: 1.25em;
+  font-weight: 600;
+}
+.card-body {
+  padding: 12px 20px;
+}
+
+.card-body_comment {
+  margin-bottom: 10px;
 }
 .content_form {
-  margin-top: 30px;
+  margin-top: 10px;
+}
+
+.content_image,
+.content_form {
+  margin-top: 20px;
 }
 .content_form_food-content {
   margin-bottom: 15px;
@@ -185,8 +259,35 @@ export default {
 .content_text {
   margin: 20px 0;
 }
-
-.update-btn {
-  margin: 30px auto;
+.btn-form {
+  margin: 0 0 0 auto;
+}
+.btn-form:hover {
+  opacity: 0.9;
+}
+.btn-form_update {
+  margin-right: 15px;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 0.25em;
+  border-color: #ffc107;
+  background-image: linear-gradient(-180deg, #f7b733, #fc4a1a 90%);
+}
+/*  */
+.table tbody {
+  background-color: #fff;
+}
+.table td {
+  border-color: #ffc107;
+}
+.table-message {
+  margin-top: 20px;
+}
+/*  */
+.border-bottom {
+  border-color: #f7b733;
+}
+.list-group-flush:last-child .list-group-item:last-child {
+  border-bottom: 1px solid #f7b733;
 }
 </style>

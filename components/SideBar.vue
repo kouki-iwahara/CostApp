@@ -1,14 +1,12 @@
 <template>
   <div class="container-fluid">
     <div class="sidebar row">
-      <div class="sidebar_search col-sm-3 hidden-xs  bg-dark">
-        <div class="nav-list_info bg-info text-dark">
-          <slot name="content">
-            <p>全ての食材</p>
-          </slot>
+      <div class="sidebar_search col-sm-3 hidden-xs">
+        <div class="nav-list_info bg-dark text-light">
+          <slot name="sidebar_content" />
         </div>
       </div>
-      <div class="sidebar_list col-sm-3 hidden-xs bg-dark">
+      <div class="sidebar_list col-sm-3 hidden-xs">
         <slot name="content-list" />
       </div>
     </div>
@@ -28,16 +26,8 @@ export default {}
 .sidebar_list ul {
   text-align: center;
 }
-.food-list_item:hover {
-  cursor: pointer;
-  opacity: 0.5;
-  -webkit-filter: brightness(0.9);
-  filter: brightness(0.9);
-}
+
 .nav-list_info {
-  font-size: 20px;
-  font-weight: bold;
-  /* background-color: #f4f5f7; */
   text-align: center;
   line-height: 50px;
   margin: 0px 0px;
@@ -49,12 +39,12 @@ export default {}
   .sidebar_search {
     display: block;
     position: absolute;
-    top: 60px;
+    top: 80px;
     left: 0;
   }
   .sidebar_list {
     position: absolute;
-    top: 110px;
+    top: 130px;
     bottom: 0;
     left: 0;
     display: block;

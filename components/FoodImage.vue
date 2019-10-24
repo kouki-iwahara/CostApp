@@ -1,7 +1,7 @@
 <template>
   <div class="food-image" style="">
     <img
-      class="img-fluid img-thumbnail rounded mh-100 mx-auto d-block"
+      class="img-fluid img-thumbnail mh-100 mx-auto d-block"
       :src="image"
       alt=""
     />
@@ -20,4 +20,8 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.img-thumbnail {
+  border: none;
+}
+</style>
