@@ -117,6 +117,7 @@
       <!-- /content row -->
     </div>
     <side-bar>
+      <strong slot="sidebar_content">登録中の食材</strong>
       <ul
         v-for="item in sideBarfoods"
         slot="content-list"
@@ -196,12 +197,11 @@ export default {
     console.log(this.foods)
   },
   methods: {
-    // サイドバーから選択された食材を表示
+    // サイドバーから選択された食材のページへ遷移
     showFood(index) {
       const food = this.$store.getters['food/foods'][index]
       console.log(food)
-      // 食材idを格納するとcomputedのfoodsとmatchedRecipesが更新される
-      this.food.id = food.id
+      this.$router.push({ path: `/home/food/${food.id}` })
     },
     // 更新ページへ遷移
     toUpdatePage() {
@@ -220,7 +220,7 @@ export default {
   display: block;
   overflow-x: hidden;
   overflow-y: auto;
-  background-color: #fafbfc;
+  /* background-color: #fafbfc; */
 }
 .content_header {
   background-color: #f4f5f7;

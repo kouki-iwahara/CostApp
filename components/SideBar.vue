@@ -3,9 +3,7 @@
     <div class="sidebar row">
       <div class="sidebar_search col-sm-3 hidden-xs">
         <div class="nav-list_info bg-dark text-light">
-          <slot name="content">
-            <p>全ての食材</p>
-          </slot>
+          <slot name="sidebar_content" />
         </div>
       </div>
       <div class="sidebar_list col-sm-3 hidden-xs">
@@ -30,9 +28,6 @@ export default {}
 }
 
 .nav-list_info {
-  font-size: 20px;
-  font-weight: bold;
-  /* background-color: #f4f5f7; */
   text-align: center;
   line-height: 50px;
   margin: 0px 0px;
