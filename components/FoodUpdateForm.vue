@@ -139,26 +139,27 @@ export default {
     InputForm
   },
   data() {
-    const index = this.$route.params.foodId
-    const food = this.$store.getters['food/foods'][index]
     return {
       food: {
-        id: food.id,
-        name: food.name,
-        value: food.value,
-        amount: food.amount,
-        yield: food.yield,
-        unit: food.unit,
-        comment: food.comment,
-        image: food.image
+        id: '',
+        name: '',
+        value: '',
+        amount: '',
+        yield: '',
+        unit: '',
+        comment: '',
+        image: ''
       },
       selectedFile: ''
     }
   },
   computed: {
+    // 全ての食材をサイドバーに表示
     foods() {
-      return this.$store.getters['food/foods']
+      const foods = this.$store.getters['food/foods']
+      return foods
     },
+    // 食材の原価
     foodCost() {
       // 計算結果が有理数(Finite)なら表示
       if (isFinite(this.food.value / this.food.amount)) {
@@ -171,6 +172,24 @@ export default {
       }
       return '表示されます'
     }
+  },
+  created() {
+    // 受け取ったparamsを代入
+    const foodId = parseInt(this.$route.params.updateFoodId)
+    const foods = this.$store.getters['food/foods']
+    // 一致するidのデータを取得
+    const food = foods.find((food) => {
+      return food.id === foodId
+    })
+    console.log(food)
+    this.food.id = food.id
+    this.food.name = food.name
+    this.food.value = food.value
+    this.food.amount = food.amount
+    this.food.yield = food.yield
+    this.food.unit = food.unit
+    this.food.comment = food.comment
+    this.food.image = food.image
   },
   methods: {
     // イメージ画像データを取得し、プレビューを作成
@@ -217,7 +236,7 @@ export default {
         })
       return url
     },
-    // 入力されたデータを登録
+    // 入力されたデータを更新
     async updateFood() {
       // 食材の名前、値段、量、単位が必須項目
       if (

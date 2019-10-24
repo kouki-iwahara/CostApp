@@ -96,7 +96,7 @@
         class="list-group list-group-flush"
         @click="showFood(sideBarfoods.indexOf(item))"
       >
-        <li class="food-list_item list-group-item border-bottom border-info">
+        <li class="food-list_item list-group-item border-bottom">
           {{ item.name }}
         </li>
       </ul>
@@ -158,8 +158,8 @@ export default {
     }
   },
   created() {
-    // 受け取ったクエリを代入
-    this.food.id = this.$route.query.foodId
+    // 受け取ったparamsを代入
+    this.food.id = this.$route.params.foodId
     console.log(this.foods)
   },
   methods: {
@@ -172,7 +172,7 @@ export default {
     },
     // 更新ページへ遷移
     toUpdatePage() {
-      this.$router.push({ path: `/food/${this.food.id}` })
+      this.$router.push({ path: `/home/food/update/${this.food.id}` })
     }
   }
 }
@@ -230,5 +230,11 @@ export default {
 }
 .table-message {
   margin-top: 20px;
+}
+.border-bottom {
+  border-color: #f7b733;
+}
+.list-group-flush:last-child .list-group-item:last-child {
+  border-bottom: 1px solid #f7b733;
 }
 </style>
