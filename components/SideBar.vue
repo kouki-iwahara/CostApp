@@ -26,7 +26,11 @@ export default {}
 .sidebar_list ul {
   text-align: center;
 }
-
+.food-list_item {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .nav-list_info {
   text-align: center;
   line-height: 50px;
