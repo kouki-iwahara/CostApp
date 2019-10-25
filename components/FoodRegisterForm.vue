@@ -30,15 +30,92 @@
             <div slot="btn-form" class="btn-form">
               <button
                 type="button"
-                class="btn-form_update btn btn-warning btn-md"
+                class="btn-form_register btn btn-success btn-md"
                 @click="registerFood"
               >
-                登録
+                <div
+                  v-show="isClickRegisterBtn"
+                  class="spinner-border text-light"
+                >
+                  <span class="sr-only">Loading...</span>
+                </div>
+                <span v-show="!isClickRegisterBtn">登録</span>
               </button>
             </div>
           </nav-tab>
         </div>
         <!-- content_header -->
+        <div class="col-sm-12">
+          <p>
+            食材データを入力して下さい。（<span class="requireMark">＊</span
+            >は必須入力）
+          </p>
+        </div>
+        <div class="content_form offset-1 col-sm-4">
+          <div class="row">
+            <div class="col-sm-12">
+              <span class="requireMark">＊</span>
+              <strong>食材名</strong>
+              <input-form
+                v-model="food.name"
+                placeholder="小麦粉"
+                type="text"
+                class="content_form_input"
+              />
+              <span class="requireMark">＊</span>
+              <strong>仕入価格</strong>
+              <input-form
+                v-model="food.value"
+                placeholder="100"
+                type="number"
+                class="content_form_input"
+              >
+                <div slot="input-append" class="input-group-append">
+                  <span
+                    id="inputGroup-sizing-sm"
+                    class="input-group-text rounded-0"
+                  >
+                    円
+                  </span>
+                </div>
+              </input-form>
+              <span class="requireMark">＊</span>
+              <strong>食材量</strong>
+              <input-form
+                v-model="food.amount"
+                placeholder="100"
+                type="number"
+                class="content_form_input"
+              >
+                <div slot="input-append" class="input-group-append">
+                  <select
+                    id="validationCustom04"
+                    v-model="food.unit"
+                    class="custom-select"
+                    required
+                  >
+                    <option selected disabled value="">単位</option>
+                    <option>g</option>
+                    <option>kg</option>
+                    <option>ml</option>
+                    <option>L</option>
+                    <option>cc</option>
+                  </select>
+                </div>
+              </input-form>
+              <strong>歩留り</strong>{{ food.yield }}<span>％</span>
+              <input
+                id="customRange1"
+                v-model="food.yield"
+                type="range"
+                class="custom-range"
+              />
+              <div class="content_form_cost">
+                <strong>原価: {{ foodCost }}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="content_image col-sm-6">
           <food-image :image="food.image">
             <template slot="input-file">
@@ -46,78 +123,21 @@
             </template>
           </food-image>
         </div>
-
-        <div class="content_form col-sm-8">
-          <strong>食材名</strong>
-          <input-form
-            v-model="food.name"
-            placeholder="小麦粉"
-            type="text"
-            class="content_form_input"
-          />
-          <strong>仕入価格</strong>
-          <input-form
-            v-model="food.value"
-            placeholder="100"
-            type="number"
-            class="content_form_input"
-          >
-            <div slot="input-append" class="input-group-append">
-              <span
-                id="inputGroup-sizing-sm"
-                class="input-group-text rounded-0"
-              >
-                円
-              </span>
-            </div>
-          </input-form>
-          <strong>食材量</strong>
-          <input-form
-            v-model="food.amount"
-            placeholder="100"
-            type="number"
-            class="content_form_input"
-          >
-            <div slot="input-append" class="input-group-append">
-              <select
-                id="validationCustom04"
-                v-model="food.unit"
-                class="custom-select"
-                required
-              >
-                <option selected disabled value="">単位</option>
-                <option>g</option>
-                <option>kg</option>
-                <option>ml</option>
-                <option>L</option>
-                <option>cc</option>
-              </select>
-            </div>
-          </input-form>
-          <strong>歩留り</strong>{{ food.yield }}<span>％</span>
-          <input
-            id="customRange1"
-            v-model="food.yield"
-            type="range"
-            class="custom-range"
-          />
-          <div>
-            <strong>原価: {{ foodCost }}</strong>
-          </div>
-        </div>
-        <div class="content_comment col-sm-8">
+        <div class="content_comment col-sm-10">
           <comment-form v-model="food.comment" />
         </div>
       </div>
     </div>
     <side-bar>
+      <strong slot="sidebar_content">登録中の食材</strong>
       <ul
-        v-for="item in foods"
+        v-for="item in sideBarfoods"
         slot="content-list"
         :key="item.id"
         class="list-group list-group-flush"
+        @click="showFood(sideBarfoods.indexOf(item))"
       >
-        <li class="food-list_item list-group-item border-bottom border-info">
+        <li class="food-list_item list-group-item border-bottom">
           {{ item.name }}
         </li>
       </ul>
@@ -157,11 +177,12 @@ export default {
         image: require('~/assets/pasta.jpg')
       },
       selectedFile: '',
-      isRegisterActive: true
+      isRegisterActive: true,
+      isClickRegisterBtn: false
     }
   },
   computed: {
-    foods() {
+    sideBarfoods() {
       return this.$store.getters['food/foods']
     },
     foodCost() {
@@ -178,10 +199,15 @@ export default {
     }
   },
   created() {
-    this.food.paramId = this.foods[0].id
+    this.food.paramId = this.sideBarfoods[0].id
     console.log(this.food.paramId)
   },
   methods: {
+    showFood(index) {
+      const food = this.$store.getters['food/foods'][index]
+      console.log(food)
+      this.$router.push({ path: `/home/food/${food.id}` })
+    },
     // イメージ画像データを取得し、プレビューを作成
     getFileData(fileData) {
       this.selectedFile = fileData
@@ -239,6 +265,8 @@ export default {
         alert('必須項目を入力してください')
         return
       }
+      // スピナー表示
+      this.isClickRegisterBtn = true
       // 画像が選択されていればアップロード
       if (this.selectedFile) {
         const upLoadedImageName = await this.upLoadImage(this.selectedFile)
@@ -250,15 +278,19 @@ export default {
       // 食材データを登録
       const res = await this.$store.dispatch('food/registerFood', this.food)
       console.log(res)
+      // スピナー非表示
+      this.isClickRegisterBtn = false
       // ユーザー認証が切れていたらsigninに遷移
       if (res.error) {
         alert(res.error)
         this.$router.push({ path: '/signin' })
         return
       }
-      alert(res.message)
+      console.log(res.result)
       if (res.result) {
-        this.$router.push({ path: '/home/food' })
+        alert(res.message)
+        const food = res.result
+        this.$router.push({ path: `/home/food/${food.id}` })
       }
     }
   }
@@ -280,24 +312,17 @@ export default {
   padding: 0;
   margin-bottom: 20px;
 }
-.content_image {
-  margin: 0 auto 20px;
-}
+
 /*  */
-.content_form {
-  margin: 0 auto 20px;
+.content_form_cost {
+  margin-bottom: 20px;
 }
 .content_form_input {
   margin-bottom: 20px;
 }
 
-/*  */
-
-[name='amount'] {
-  margin-left: 5px;
-}
 .content_comment {
-  margin: 0 auto 30px;
+  margin: 0 auto;
 }
 
 .input-group-append select {
@@ -310,12 +335,21 @@ export default {
 .btn-form {
   margin: 0 0 0 auto;
 }
-.btn-form_update {
+.btn-form_register {
+  width: 58px;
   margin-right: 15px;
   font-weight: 600;
   color: #fff;
   border-radius: 0.25em;
-  border-color: #ffc107;
-  background-image: linear-gradient(-180deg, #f7b733, #fc4a1a 90%);
+  background-color: #28a745;
+  background-image: linear-gradient(-180deg, #34d058, #28a745 90%);
+}
+/*  */
+.spinner-border {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.requireMark {
+  color: #cb2431;
 }
 </style>

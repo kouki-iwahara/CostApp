@@ -292,10 +292,10 @@ export default {
   margin-top: 20px;
 }
 /*  */
-.border-bottom {
+/* .border-bottom {
   border-color: #f7b733;
 }
 .list-group-flush:last-child .list-group-item:last-child {
   border-bottom: 1px solid #f7b733;
-}
+} */
 </style>

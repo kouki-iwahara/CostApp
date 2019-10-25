@@ -5,7 +5,7 @@
       :value="value"
       :placeholder="placeholder"
       min="0"
-      class="form-control rounded-0"
+      class="form-control rounded"
       aria-describedby="inputGroup-sizing-sm"
       @input="updateValue"
     />

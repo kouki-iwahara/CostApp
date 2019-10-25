@@ -16,11 +16,15 @@ export default {
     Header,
     FoodRegisterForm
   },
-  // 全ての食材データを取得
-  async asyncData({ app, store }) {
-    await store.dispatch('food/getFoodData').catch((error) => {
+  async fetch({ store, redirect }) {
+    // 食材データの取得
+    const resFood = await store.dispatch('food/getFoodData').catch((error) => {
       console.log(error)
     })
+    // ページ遷移時にユーザー認証がなかったらsigninへ遷移
+    if (resFood.error) {
+      redirect('/signin')
+    }
   }
 }
 </script>
