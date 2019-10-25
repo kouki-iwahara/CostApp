@@ -50,4 +50,7 @@ export default {
   background-color: #fafbfc;
   border-bottom: none;
 }
+.nav-link {
+  padding: 6px 24px;
+}
 </style>

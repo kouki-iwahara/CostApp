@@ -24,4 +24,7 @@ export default {
 .img-thumbnail {
   border: none;
 }
+img {
+  height: 300px;
+}
 </style>

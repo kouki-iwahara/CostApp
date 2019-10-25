@@ -2,108 +2,142 @@
   <div>
     <div class="content container-fluid">
       <div class="row offset-3">
-        <div class="content_image col-sm-12">
+        <div class="content_header col-sm-12">
+          <bread-crumb>
+            <li slot="breadcrumb-item" class="breadcrumb-item">
+              <nuxt-link to="/home/food" class="nav-link">
+                マイページ
+              </nuxt-link>
+            </li>
+            <li slot="breadcrumb-item" class="breadcrumb-item">
+              <nuxt-link to="/home/food" class="nav-link">
+                食材
+              </nuxt-link>
+            </li>
+            <li
+              slot="breadcrumb-item"
+              class="breadcrumb-item active"
+              aria-current="page"
+            >
+              登録
+            </li>
+          </bread-crumb>
+          <nav-tab
+            :is-register-active="isRegisterActive"
+            :param-id-page="`/home/food/${food.paramId}`"
+            :register-page="`/home/food/register`"
+          >
+            <div slot="btn-form" class="btn-form">
+              <button
+                type="button"
+                class="btn-form_register btn btn-success btn-md"
+                @click="registerFood"
+              >
+                <div
+                  v-show="isClickRegisterBtn"
+                  class="spinner-border text-light"
+                >
+                  <span class="sr-only">Loading...</span>
+                </div>
+                <span v-show="!isClickRegisterBtn">登録</span>
+              </button>
+            </div>
+          </nav-tab>
+        </div>
+        <!-- content_header -->
+        <div class="col-sm-12">
+          <p>
+            食材データを入力して下さい。（<span class="requireMark">＊</span
+            >は必須入力）
+          </p>
+        </div>
+        <div class="content_form offset-1 col-sm-4">
+          <div class="row">
+            <div class="col-sm-12">
+              <span class="requireMark">＊</span>
+              <strong>食材名</strong>
+              <input-form
+                v-model="food.name"
+                placeholder="小麦粉"
+                type="text"
+                class="content_form_input"
+              />
+              <span class="requireMark">＊</span>
+              <strong>仕入価格</strong>
+              <input-form
+                v-model="food.value"
+                placeholder="100"
+                type="number"
+                class="content_form_input"
+              >
+                <div slot="input-append" class="input-group-append">
+                  <span
+                    id="inputGroup-sizing-sm"
+                    class="input-group-text rounded-0"
+                  >
+                    円
+                  </span>
+                </div>
+              </input-form>
+              <span class="requireMark">＊</span>
+              <strong>食材量</strong>
+              <input-form
+                v-model="food.amount"
+                placeholder="100"
+                type="number"
+                class="content_form_input"
+              >
+                <div slot="input-append" class="input-group-append">
+                  <select
+                    id="validationCustom04"
+                    v-model="food.unit"
+                    class="custom-select"
+                    required
+                  >
+                    <option selected disabled value="">単位</option>
+                    <option>g</option>
+                    <option>kg</option>
+                    <option>ml</option>
+                    <option>L</option>
+                    <option>cc</option>
+                  </select>
+                </div>
+              </input-form>
+              <strong>歩留り</strong>{{ food.yield }}<span>％</span>
+              <input
+                id="customRange1"
+                v-model="food.yield"
+                type="range"
+                class="custom-range"
+              />
+              <div class="content_form_cost">
+                <strong>原価: {{ foodCost }}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="content_image col-sm-6">
           <food-image :image="food.image">
             <template slot="input-file">
               <input-file @getFileData="getFileData" />
             </template>
           </food-image>
         </div>
-        <div class="content_form col-sm-12">
-          <input-form
-            v-model="food.name"
-            placeholder="小麦粉"
-            type="text"
-            class="content_form_input"
-          >
-            <template slot="content">
-              食材名
-            </template>
-          </input-form>
-          <input-form
-            v-model="food.value"
-            placeholder="100"
-            type="number"
-            class="content_form_input"
-          >
-            <template slot="content">
-              ￥価格
-            </template>
-            <div slot="input-append" class="input-group-append">
-              <span
-                id="inputGroup-sizing-lg"
-                class="input-group-text rounded-0"
-              >
-                円
-              </span>
-            </div>
-          </input-form>
-          <input-form
-            v-model="food.amount"
-            placeholder="100"
-            type="number"
-            class="content_form_input"
-          >
-            <div slot="input-append" class="input-group-append">
-              <select
-                id="validationCustom04"
-                v-model="food.unit"
-                style="height: 48px;"
-                class="custom-select"
-                required
-              >
-                <option selected disabled value="">単位</option>
-                <option>g</option>
-                <option>kg</option>
-                <option>ml</option>
-                <option>L</option>
-                <option>cc</option>
-              </select>
-            </div>
-            <template slot="content">
-              食材量
-            </template>
-          </input-form>
-          <label for="customRange1"
-            >歩留まり{{ food.yield }}<span>％</span></label
-          >
-          <input
-            id="customRange1"
-            v-model="food.yield"
-            type="range"
-            class="custom-range"
-          />
-          <food-content>
-            <template slot="content-label">
-              原価
-            </template>
-            <template slot="food-content">
-              {{ foodCost }}
-            </template>
-          </food-content>
-        </div>
-        <div class="col-sm-12">
+        <div class="content_comment col-sm-10">
           <comment-form v-model="food.comment" />
-        </div>
-        <div class="btn-form col-sm-6">
-          <button
-            type="button"
-            class="btn btn-info btn-block btn-lg"
-            @click="registerFood"
-          >
-            登録
-          </button>
         </div>
       </div>
     </div>
     <side-bar>
+      <strong slot="sidebar_content">登録中の食材</strong>
       <ul
-        v-for="item in foods"
+        v-for="item in sideBarfoods"
         slot="content-list"
         :key="item.id"
         class="list-group list-group-flush"
+        @click="showFood(sideBarfoods.indexOf(item))"
       >
-        <li class="food-list_item list-group-item border-bottom border-info">
+        <li class="food-list_item list-group-item border-bottom">
           {{ item.name }}
         </li>
       </ul>
@@ -113,24 +147,27 @@
 
 <script>
 import SideBar from '~/components/SideBar.vue'
+import BreadCrumb from '~/components/BreadCrumb.vue'
+import NavTab from '~/components/home/NavTab.vue'
 import FoodImage from '~/components/FoodImage.vue'
 import CommentForm from '~/components/CommentForm.vue'
-import FoodContent from '~/components/FoodContent.vue'
 import inputFile from '~/components/inputFile.vue'
 import InputForm from '~/components/InputForm.vue'
 
 export default {
   components: {
     SideBar,
+    BreadCrumb,
+    NavTab,
     FoodImage,
     CommentForm,
-    FoodContent,
     inputFile,
     InputForm
   },
   data() {
     return {
       food: {
+        paramId: '',
         name: '',
         value: '',
         amount: '',
@@ -139,11 +176,13 @@ export default {
         comment: '',
         image: require('~/assets/pasta.jpg')
       },
-      selectedFile: ''
+      selectedFile: '',
+      isRegisterActive: true,
+      isClickRegisterBtn: false
     }
   },
   computed: {
-    foods() {
+    sideBarfoods() {
       return this.$store.getters['food/foods']
     },
     foodCost() {
@@ -159,7 +198,16 @@ export default {
       return '表示されます'
     }
   },
+  created() {
+    this.food.paramId = this.sideBarfoods[0].id
+    console.log(this.food.paramId)
+  },
   methods: {
+    showFood(index) {
+      const food = this.$store.getters['food/foods'][index]
+      console.log(food)
+      this.$router.push({ path: `/home/food/${food.id}` })
+    },
     // イメージ画像データを取得し、プレビューを作成
     getFileData(fileData) {
       this.selectedFile = fileData
@@ -217,6 +265,8 @@ export default {
         alert('必須項目を入力してください')
         return
       }
+      // スピナー表示
+      this.isClickRegisterBtn = true
       // 画像が選択されていればアップロード
       if (this.selectedFile) {
         const upLoadedImageName = await this.upLoadImage(this.selectedFile)
@@ -228,15 +278,19 @@ export default {
       // 食材データを登録
       const res = await this.$store.dispatch('food/registerFood', this.food)
       console.log(res)
+      // スピナー非表示
+      this.isClickRegisterBtn = false
       // ユーザー認証が切れていたらsigninに遷移
       if (res.error) {
         alert(res.error)
         this.$router.push({ path: '/signin' })
         return
       }
-      alert(res.message)
+      console.log(res.result)
+      // 登録成功で表示ページへ遷移
       if (res.result) {
-        this.$router.push({ path: '/' })
+        const food = res.result
+        this.$router.push({ path: `/home/food/${food.id}` })
       }
     }
   }
@@ -245,40 +299,57 @@ export default {
 
 <style scoped>
 .content {
-  padding-top: 25px;
   position: absolute;
-  top: 70px;
+  top: 60px;
   bottom: 0;
   right: 0;
   display: block;
   overflow-x: hidden;
   overflow-y: auto;
 }
-.content_image_file {
-  margin: 10px 0;
+.content_header {
+  background-color: #f4f5f7;
+  padding: 0;
+  margin-bottom: 20px;
 }
-.content_form {
-  margin-top: 30px;
+
+/*  */
+.content_form_cost {
+  margin-bottom: 20px;
 }
 .content_form_input {
-  margin-bottom: 15px;
-}
-[name='amount'] {
-  margin-left: 5px;
+  margin-bottom: 20px;
 }
 
-.persent {
-  border: none;
-  border-bottom: 1px solid;
+.content_comment {
+  margin: 0 auto;
 }
 
-.comment-form {
-  margin: 20px 0;
-}
 .input-group-append select {
   margin-left: 5px;
 }
+.custom-select {
+  padding: 2px 28px 1px 12px;
+  height: 31px;
+}
 .btn-form {
-  margin: 0 auto;
+  margin: 0 0 0 auto;
+}
+.btn-form_register {
+  width: 58px;
+  margin-right: 15px;
+  font-weight: 600;
+  color: #fff;
+  border-radius: 0.25em;
+  background-color: #28a745;
+  background-image: linear-gradient(-180deg, #34d058, #28a745 90%);
+}
+/*  */
+.spinner-border {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.requireMark {
+  color: #cb2431;
 }
 </style>

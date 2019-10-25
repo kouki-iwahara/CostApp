@@ -26,13 +26,23 @@ export default {}
 .sidebar_list ul {
   text-align: center;
 }
-
+.food-list_item {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .nav-list_info {
   text-align: center;
   line-height: 50px;
   margin: 0px 0px;
   height: 50px;
   border-radius: 5px 5px 0 0;
+}
+.border-bottom {
+  border-color: #f7b733;
+}
+.list-group-flush:last-child .list-group-item:last-child {
+  border-bottom: 1px solid #f7b733;
 }
 
 @media screen and (min-width: 768px) {

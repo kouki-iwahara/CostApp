@@ -1,6 +1,8 @@
 <template>
   <div class="comment-form">
-    <label for="comment">コメント</label>
+    <label for="comment">
+      <strong>コメント</strong>
+    </label>
     <slot
       ><textarea
         id="comment"

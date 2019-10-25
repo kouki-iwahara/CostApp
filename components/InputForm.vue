@@ -1,17 +1,12 @@
 <template>
-  <div class="input-group input-group-lg">
-    <div class="input-group-prepend">
-      <span id="inputGroup-sizing-lg" class="input-group-text rounded-0">
-        <slot name="content" />
-      </span>
-    </div>
+  <div class="input-group input-group-sm">
     <input
       :type="type"
       :value="value"
       :placeholder="placeholder"
       min="0"
-      class="form-control rounded-0"
-      aria-describedby="inputGroup-sizing-lg"
+      class="form-control rounded"
+      aria-describedby="inputGroup-sizing-sm"
       @input="updateValue"
     />
     <slot name="input-append" />
@@ -45,7 +40,7 @@ export default {
 </script>
 
 <style scoped>
-.input-group-text {
+/* .input-group-text {
   background: none;
   border: none;
   border-bottom: 1px solid;
@@ -54,5 +49,5 @@ input {
   border: none;
   border-bottom: 1px solid;
   border-radius: 0;
-}
+} */
 </style>
