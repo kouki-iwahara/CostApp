@@ -1,23 +1,30 @@
 <template>
   <div class="wrapper">
-    <my-page-header />
-    <food-update-form />
+    <client-only>
+      <Header />
+      <food-update-form />
+    </client-only>
   </div>
 </template>
 
 <script>
-import MyPageHeader from '~/components/home/MyPageHeader.vue'
+import Header from '~/components/top/Header.vue'
 import FoodUpdateForm from '~/components/FoodUpdateForm.vue'
 
 export default {
   components: {
-    MyPageHeader,
+    Header,
     FoodUpdateForm
   },
-  async asyncData({ store }) {
-    await store.dispatch('food/getFoodData').catch((error) => {
+  async fetch({ store, redirect }) {
+    // 食材データの取得
+    const resFood = await store.dispatch('food/getFoodData').catch((error) => {
       console.log(error)
     })
+    // ページ遷移時にユーザー認証がなかったらsigninへ遷移
+    if (resFood.error) {
+      redirect('/signin')
+    }
   }
 }
 </script>

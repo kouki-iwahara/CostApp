@@ -9,17 +9,12 @@
                 マイページ
               </nuxt-link>
             </li>
-            <li slot="breadcrumb-item" class="breadcrumb-item">
-              <nuxt-link to="/home/food" class="nav-link">
-                食材
-              </nuxt-link>
-            </li>
             <li
               slot="breadcrumb-item"
               class="breadcrumb-item active"
               aria-current="page"
             >
-              登録
+              食材
             </li>
           </bread-crumb>
           <nav-tab

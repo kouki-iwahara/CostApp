@@ -9,17 +9,12 @@
                 マイページ
               </nuxt-link>
             </li>
-            <li slot="breadcrumb-item" class="breadcrumb-item">
-              <nuxt-link to="/home/food" class="nav-link">
-                食材
-              </nuxt-link>
-            </li>
             <li
               slot="breadcrumb-item"
               class="breadcrumb-item active"
               aria-current="page"
             >
-              表示
+              食材
             </li>
           </bread-crumb>
           <nav-tab
@@ -74,31 +69,12 @@
                 >
               </li>
             </ul>
-            <!-- <div class="card-body">
-              <div class="card-body_comment">
-                <span>コメント</span>
-              </div>
-              <p class="card-text">
-                {{ foods.comment }}
-              </p>
-            </div> -->
           </div>
         </div>
         <!--  -->
         <div class="content_image col-sm-6">
           <div class="card">
-            <!-- <div class="card-header bg-transparent">
-              {{ foods.name }}
-            </div> -->
             <food-image :image="foods.image" />
-            <!-- <div class="card-footer bg-transparent">
-              <span>
-                原価/単位
-              </span>
-              <strong class="float-right"
-                >{{ foods.cost }}円/{{ foods.unit }}</strong
-              >
-            </div> -->
           </div>
         </div>
         <!--  -->
