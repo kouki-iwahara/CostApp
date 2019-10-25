@@ -44,26 +44,12 @@
           </nav-tab>
         </div>
         <!-- /content_header -->
-        <div class="content_image col-sm-6">
-          <div class="card">
-            <div class="card-header bg-transparent">
-              {{ foods.name }}
-            </div>
-            <food-image :image="foods.image" />
-            <div class="card-footer bg-transparent">
-              <span>
-                原価/単位
-              </span>
-              <strong class="float-right"
-                >{{ foods.cost }}円/{{ foods.unit }}</strong
-              >
-            </div>
-          </div>
-        </div>
-        <!--  -->
-        <div class="content_form col-sm-6">
+        <div class="content_form offset-1 col-sm-4">
           <div class="card card-list">
             <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                食材名<strong class="float-right">{{ foods.name }}</strong>
+              </li>
               <li class="list-group-item">
                 仕入価格<strong class="float-right"
                   >{{ foods.value }}<span>円</span></strong
@@ -79,19 +65,52 @@
                   >{{ foods.yield }}<span>％</span></strong
                 >
               </li>
+              <li class="list-group-item">
+                <span>
+                  原価/単位
+                </span>
+                <strong class="float-right"
+                  >{{ foods.cost }}円/{{ foods.unit }}</strong
+                >
+              </li>
             </ul>
-            <div class="card-body">
+            <!-- <div class="card-body">
               <div class="card-body_comment">
                 <span>コメント</span>
               </div>
               <p class="card-text">
                 {{ foods.comment }}
               </p>
-            </div>
+            </div> -->
           </div>
         </div>
         <!--  -->
-        <div class="col-sm-12">
+        <div class="content_image col-sm-6">
+          <div class="card">
+            <!-- <div class="card-header bg-transparent">
+              {{ foods.name }}
+            </div> -->
+            <food-image :image="foods.image" />
+            <!-- <div class="card-footer bg-transparent">
+              <span>
+                原価/単位
+              </span>
+              <strong class="float-right"
+                >{{ foods.cost }}円/{{ foods.unit }}</strong
+              >
+            </div> -->
+          </div>
+        </div>
+        <!--  -->
+        <div class="content_comment col-sm-10">
+          <div class="card">
+            <span class="card-header">コメント</span>
+            <div class="card-body">
+              {{ foods.comment }}
+            </div>
+          </div>
+        </div>
+        <div class="content_table col-sm-10">
           <div class="table-message">
             <strong>{{ matchedRecipes.length }}</strong>
             <span>個のレシピで使用中</span>
@@ -232,8 +251,7 @@ export default {
 }
 
 .card-header {
-  font-size: 1.25em;
-  font-weight: 600;
+  padding: 6px 20px;
 }
 .card-body {
   padding: 12px 20px;
@@ -249,6 +267,7 @@ export default {
 .content_image,
 .content_form {
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 .content_form_food-content {
   margin-bottom: 15px;
@@ -259,10 +278,10 @@ export default {
 .content_form_cost strong small {
   margin-left: 5px;
 }
-
-.content_text {
-  margin: 20px 0;
+.content_comment {
+  margin: 0 auto;
 }
+
 .btn-form {
   margin: 0 0 0 auto;
 }
@@ -282,6 +301,9 @@ export default {
   color: #fff;
 }
 /*  */
+.content_table {
+  margin: 0 auto;
+}
 .table tbody {
   background-color: #fff;
 }
@@ -291,11 +313,4 @@ export default {
 .table-message {
   margin-top: 20px;
 }
-/*  */
-/* .border-bottom {
-  border-color: #f7b733;
-}
-.list-group-flush:last-child .list-group-item:last-child {
-  border-bottom: 1px solid #f7b733;
-} */
 </style>
