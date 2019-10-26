@@ -18,10 +18,15 @@ export default {}
 </script>
 
 <style scoped>
+.container-fluid {
+}
 /* sidebar */
 .sidebar_search,
 .sidebar_list {
   display: none;
+}
+.sidebar_list {
+  height: 500px;
 }
 .sidebar_list ul {
   text-align: center;
@@ -55,7 +60,7 @@ export default {}
   .sidebar_list {
     position: absolute;
     top: 130px;
-    bottom: 80px;
+    /* bottom: 80px; */
     left: 0;
     display: block;
     overflow-x: hidden;

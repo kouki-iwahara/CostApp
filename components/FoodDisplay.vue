@@ -214,15 +214,6 @@ export default {
 </script>
 
 <style scoped>
-.content {
-  position: absolute;
-  top: 60px;
-  bottom: 0;
-  right: 0;
-  display: block;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
 .content_header {
   background-color: #f4f5f7;
   padding: 0;

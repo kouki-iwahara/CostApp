@@ -1,8 +1,11 @@
 <template>
-  <div class="wrapper">
+  <div>
     <client-only>
       <Header />
-      <food-register-form />
+      <div class="wrapper">
+        <food-register-form />
+      </div>
+      <Footer />
     </client-only>
   </div>
 </template>
@@ -10,11 +13,13 @@
 <script>
 import Header from '~/components/top/Header.vue'
 import FoodRegisterForm from '~/components/FoodRegisterForm.vue'
+import Footer from '~/components/common/Footer.vue'
 
 export default {
   components: {
     Header,
-    FoodRegisterForm
+    FoodRegisterForm,
+    Footer
   },
   async fetch({ store, redirect }) {
     // 食材データの取得

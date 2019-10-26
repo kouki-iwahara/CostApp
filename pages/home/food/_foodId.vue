@@ -1,9 +1,11 @@
 <template>
-  <div class="wrapper">
-    <!-- 読み込む順番でサイドバーが動かないことがある -->
+  <div>
     <client-only>
       <Header />
-      <food-display />
+      <div class="wrapper">
+        <food-display />
+      </div>
+      <Footer />
     </client-only>
   </div>
 </template>
@@ -11,11 +13,13 @@
 <script>
 import Header from '~/components/top/Header.vue'
 import FoodDisplay from '~/components/FoodDisplay.vue'
+import Footer from '~/components/common/Footer.vue'
 
 export default {
   components: {
     Header,
-    FoodDisplay
+    FoodDisplay,
+    Footer
   },
   async fetch({ store, redirect }) {
     // 食材データの取得
