@@ -128,7 +128,9 @@
             <div>
               <p>
                 <strong class="content_danger_form_message"
-                  >現在XX個のメニューで使用されています</strong
+                  >現在{{
+                    matchedRecipeslength
+                  }}個のメニューで使用されています</strong
                 >
               </p>
               <p>
@@ -198,6 +200,7 @@ export default {
         comment: '',
         image: ''
       },
+      matchedRecipeslength: '',
       selectedFile: '',
       isViewActive: true,
       isClickUpdateBtn: false
@@ -224,13 +227,14 @@ export default {
     }
   },
   created() {
-    this.food.paramId = this.$route.params.updateFoodId
-    // 受け取ったparamsを代入
-    const foodId = parseInt(this.$route.params.updateFoodId)
+    // 使われているレシピの数
+    this.matchedRecipeslength = this.$route.query.matchedRecipes
+    // 受け取ったparamsを代入（更新する食材のID）
+    this.food.paramId = parseInt(this.$route.params.updateFoodId)
     const foods = this.$store.getters['food/foods']
     // 一致するidのデータを取得
     const food = foods.find((food) => {
-      return food.id === foodId
+      return food.id === this.food.paramId
     })
     console.log(food)
     this.food.id = food.id

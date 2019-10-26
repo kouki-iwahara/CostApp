@@ -55,7 +55,7 @@ export default {}
   .sidebar_list {
     position: absolute;
     top: 130px;
-    bottom: 0;
+    bottom: 80px;
     left: 0;
     display: block;
     overflow-x: hidden;
