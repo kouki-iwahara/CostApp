@@ -9,22 +9,17 @@
                 マイページ
               </nuxt-link>
             </li>
-            <li slot="breadcrumb-item" class="breadcrumb-item">
-              <nuxt-link to="/home/food" class="nav-link">
-                食材
-              </nuxt-link>
-            </li>
             <li
               slot="breadcrumb-item"
               class="breadcrumb-item active"
               aria-current="page"
             >
-              表示
+              食材
             </li>
           </bread-crumb>
           <nav-tab
             :is-view-active="isViewActive"
-            :param-id-page="`/home/food/${food.id}`"
+            :param-id-page="`/home/food/${food.paramId}`"
             :register-page="`/home/food/register`"
           >
             <div slot="btn-form" class="btn-form">
@@ -34,7 +29,7 @@
                 @click="toUpdatePage"
               >
                 <nuxt-link
-                  :to="`/home/food/update/${food.id}`"
+                  :to="`/home/food/update/${food.paramId}`"
                   class="nav-link"
                 >
                   変更
@@ -74,31 +69,12 @@
                 >
               </li>
             </ul>
-            <!-- <div class="card-body">
-              <div class="card-body_comment">
-                <span>コメント</span>
-              </div>
-              <p class="card-text">
-                {{ foods.comment }}
-              </p>
-            </div> -->
           </div>
         </div>
         <!--  -->
         <div class="content_image col-sm-6">
           <div class="card">
-            <!-- <div class="card-header bg-transparent">
-              {{ foods.name }}
-            </div> -->
             <food-image :image="foods.image" />
-            <!-- <div class="card-footer bg-transparent">
-              <span>
-                原価/単位
-              </span>
-              <strong class="float-right"
-                >{{ foods.cost }}円/{{ foods.unit }}</strong
-              >
-            </div> -->
           </div>
         </div>
         <!--  -->
@@ -173,7 +149,7 @@ export default {
   data() {
     return {
       food: {
-        id: ''
+        paramId: ''
         // image: require('~/assets/pasta.jpg')
       },
       isViewActive: true
@@ -187,7 +163,7 @@ export default {
     // 右ページに表示する食材
     foods() {
       // 受け取ったクエリを整数に変換
-      const foodId = parseInt(this.food.id)
+      const foodId = parseInt(this.food.paramId)
       const foods = this.$store.getters['food/foods']
       // 一致するidのデータを取得
       const food = foods.find((food) => {
@@ -202,7 +178,7 @@ export default {
       // 食材idと一致するレシピ食材を取得
       recipes.forEach((recipe) => {
         const recipeFood = recipe.foods.find((recipeFood) => {
-          return recipeFood.foodId === parseInt(this.food.id)
+          return recipeFood.foodId === parseInt(this.food.paramId)
         })
         // レシピ食材が取得できたら一致するレシピを取得
         if (recipeFood) {
@@ -217,7 +193,7 @@ export default {
   },
   created() {
     // 受け取ったparamsを代入
-    this.food.id = this.$route.params.foodId
+    this.food.paramId = this.$route.params.foodId
     console.log(this.foods)
   },
   methods: {
@@ -229,7 +205,9 @@ export default {
     },
     // 更新ページへ遷移
     toUpdatePage() {
-      this.$router.push({ path: `/home/food/update/${this.food.id}` })
+      this.$router.push({
+        path: `/home/food/update/${this.food.paramId}/?matchedRecipes=${this.matchedRecipes.length}`
+      })
     }
   }
 }
