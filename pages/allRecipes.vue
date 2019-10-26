@@ -1,18 +1,25 @@
 <template>
-  <div class="wrapper">
-    <Header />
-    <all-users-recipe-display />
+  <div>
+    <client-only>
+      <Header />
+      <div class="wrapper">
+        <all-users-recipe-display />
+      </div>
+      <Footer />
+    </client-only>
   </div>
 </template>
 
 <script>
 import Header from '~/components/top/Header.vue'
 import AllUsersRecipeDisplay from '~/components/AllUsersRecipeDisplay.vue'
+import Footer from '~/components/common/Footer.vue'
 
 export default {
   components: {
     Header,
-    AllUsersRecipeDisplay
+    AllUsersRecipeDisplay,
+    Footer
   },
   async asyncData({ store }) {
     await store.dispatch('recipe/getAllUsersRecipes').catch((error) => {

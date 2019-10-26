@@ -4,10 +4,9 @@ html {
 body {
   height: 100%;
   color: #343A40;
-  background-color: #ffffff;
+  background-color: #fafbfc;
 }
 .wrapper {
-  height: 100vh;
   padding-top: 60px;
   position: relative;
   max-width: 1024px;

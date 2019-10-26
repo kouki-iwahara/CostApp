@@ -350,13 +350,13 @@ export default {
 
 <style scoped>
 .content {
-  position: absolute;
+  /* position: absolute;
   top: 60px;
   bottom: 0;
   right: 0;
   display: block;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: auto; */
 }
 .content_header {
   background-color: #f4f5f7;
@@ -376,7 +376,7 @@ export default {
   margin: 0 auto 40px;
 }
 .content_danger {
-  margin: 0 auto 30px;
+  margin: 0 auto;
 }
 .content_danger_form {
   display: flex;

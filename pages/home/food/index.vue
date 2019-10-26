@@ -1,11 +1,14 @@
 <template>
-  <div class="wrapper">
-    <!-- 読み込む順番でサイドバーが動かないことがある -->
+  <div>
     <client-only>
       <Header />
-      <my-page-display>
-        <my-food-table slot="my-table" />
-      </my-page-display>
+      <div class="wrapper">
+        <!-- 読み込む順番でサイドバーが動かないことがある -->
+        <my-page-display>
+          <my-food-table slot="my-table" />
+        </my-page-display>
+      </div>
+      <Footer />
     </client-only>
   </div>
 </template>
@@ -14,12 +17,14 @@
 import Header from '~/components/top/Header.vue'
 import MyPageDisplay from '~/components/home/MyPageDisplay.vue'
 import MyFoodTable from '~/components/home/MyFoodTable.vue'
+import Footer from '~/components/common/Footer.vue'
 
 export default {
   components: {
     Header,
     MyPageDisplay,
-    MyFoodTable
+    MyFoodTable,
+    Footer
   },
   async asyncData({ store, redirect }) {
     const res = await store.dispatch('food/getFoodData').catch((error) => {
