@@ -157,11 +157,10 @@ export default {
     // 右ページに表示する食材
     foods() {
       // 受け取ったクエリを整数に変換
-      const foodId = parseInt(this.food.paramId)
       const foods = this.$store.getters['food/foods']
       // 一致するidのデータを取得
       const food = foods.find((food) => {
-        return food.id === foodId
+        return food.id === this.food.paramId
       })
       return food
     },
@@ -172,7 +171,7 @@ export default {
       // 食材idと一致するレシピ食材を取得
       recipes.forEach((recipe) => {
         const recipeFood = recipe.foods.find((recipeFood) => {
-          return recipeFood.foodId === parseInt(this.food.paramId)
+          return recipeFood.foodId === this.food.paramId
         })
         // レシピ食材が取得できたら一致するレシピを取得
         if (recipeFood) {
@@ -187,7 +186,7 @@ export default {
   },
   created() {
     // 受け取ったparamsを代入
-    this.food.paramId = this.$route.params.foodId
+    this.food.paramId = parseInt(this.$route.params.foodId)
     console.log(this.foods)
   },
   methods: {

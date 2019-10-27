@@ -93,9 +93,7 @@ export default {
     toRecipeIdPage(index) {
       const recipe = this.filterRecipes[index]
       console.log(recipe)
-      this.$router.push({
-        path: `/recipe/recipeCheckPage?recipeId=${recipe.id}`
-      })
+      this.$router.push({ path: `/home/recipe/${recipe.id}` })
     }
   }
 }

@@ -3,7 +3,7 @@
     <div class="content container-fluid">
       <div class="row offset-3">
         <div class="content_image col-sm-12">
-          <food-image :image="recipe.image" />
+          <food-image :image="computedRecipe.image" />
         </div>
         <!-- /content_image -->
         <div class="content_form col-sm-12">
@@ -11,14 +11,14 @@
           <food-content class="content_form_food-content">
             <span slot="content-label">レシピ名</span>
             <strong slot="food-content" class="food-content_label-value">
-              {{ recipe.name }}
+              {{ computedRecipe.name }}
             </strong>
           </food-content>
           <!-- 売価格 -->
           <food-content class="content_form_food-content">
             <span slot="content-label">￥売価格</span>
             <strong slot="food-content" class="food-content_label-value">
-              {{ recipe.value }}
+              {{ computedRecipe.value }}
             </strong>
           </food-content>
           <!-- 原価 -->
@@ -27,7 +27,7 @@
               原価
             </template>
             <template slot="food-content">
-              {{ recipe.cost }}
+              {{ computedRecipe.cost }}
             </template>
           </food-content>
           <!-- 原価率 -->
@@ -36,7 +36,7 @@
               原価率
             </template>
             <template slot="food-content">
-              {{ recipe.costRate }}
+              {{ computedRecipe.costRate }}
             </template>
           </food-content>
         </div>
@@ -44,7 +44,7 @@
         <div class="content_text col-sm-12">
           <div class="content_text_box border border-dark">
             <p>
-              {{ recipe.comment }}
+              {{ computedRecipe.comment }}
             </p>
           </div>
         </div>
@@ -53,7 +53,7 @@
       <!-- row -->
       <div class="row offset-3">
         <div class="col-sm-12">
-          <recipe-display-table :recipe-table-foods="recipe.tableFoods" />
+          <recipe-display-table :recipe-table-foods="computedRecipe.foods" />
         </div>
         <div class="btn-form col-sm-6">
           <button
@@ -72,11 +72,11 @@
         全てのレシピ
       </p>
       <ul
-        v-for="item in recipes"
+        v-for="item in SidebarRecipes"
         slot="content-list"
         :key="item.id"
         class="list-group list-group-flush"
-        @click="showRecipe($store.getters['recipe/recipes'].indexOf(item))"
+        @click="showRecipe(SidebarRecipes.indexOf(item))"
       >
         <li class="food-list_item list-group-item border-bottom border-info">
           {{ item.name }}
@@ -102,45 +102,30 @@ export default {
   data() {
     return {
       recipe: {
-        index: 0,
-        name: '',
-        value: '',
-        cost: '',
-        costRate: '',
-        comment: '',
-        tableFoods: [],
-        image: require('~/assets/pasta.jpg')
+        paramId: ''
       }
     }
   },
   computed: {
-    // レシピが登録されていたらサイドバーに表示する
-    recipes() {
+    // サイドバーに表示するレシピ
+    SidebarRecipes() {
       const recipes = this.$store.getters['recipe/recipes']
-      // 取得できなければ何も表示しない
-      if (!recipes) {
-        return
-      }
       return recipes
+    },
+    // 右ページに表示するレシピ
+    computedRecipe() {
+      const recipes = this.$store.getters['recipe/recipes']
+      // 受け取ったparamsのidと一致するレシピを取得
+      const recipe = recipes.find((recipe) => {
+        return recipe.id === this.recipe.paramId
+      })
+      return recipe
     }
   },
   created() {
     // 受け取ったクエリを整数に変換
-    const recipeId = parseInt(this.$route.query.recipeId)
-    const recipes = this.$store.getters['recipe/recipes']
-    // 一致するidのデータを取得
-    const recipe = recipes.find((recipe) => {
-      return recipe.id === recipeId
-    })
-    if (recipe) {
-      this.recipe.name = recipe.name
-      this.recipe.value = recipe.value
-      this.recipe.cost = recipe.cost
-      this.recipe.costRate = recipe.costRate
-      this.recipe.comment = recipe.comment
-      this.recipe.tableFoods = recipe.foods.slice()
-      this.recipe.image = recipe.image
-    }
+    this.recipe.paramId = parseInt(this.$route.params.recipeId)
+    console.log(this.recipes)
   },
   methods: {
     showRecipe(index) {

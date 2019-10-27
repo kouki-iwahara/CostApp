@@ -1,18 +1,24 @@
 <template>
-  <div class="wrapper">
-    <my-page-header />
-    <recipe-display />
+  <div>
+    <client-only>
+      <Header />
+      <div class="wrapper">
+        <recipe-display />
+      </div>
+      <Footer />
+    </client-only>
   </div>
 </template>
-
 <script>
-import MyPageHeader from '~/components/home/MyPageHeader.vue'
+import Header from '~/components/top/Header.vue'
 import RecipeDisplay from '~/components/RecipeDisplay.vue'
+import Footer from '~/components/common/Footer.vue'
 
 export default {
   components: {
-    MyPageHeader,
-    RecipeDisplay
+    Header,
+    RecipeDisplay,
+    Footer
   },
   async asyncData({ store, redirect }) {
     // レシピデータの取得

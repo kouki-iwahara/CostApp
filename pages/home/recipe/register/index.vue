@@ -20,6 +20,16 @@ export default {
     Header,
     RecipeRegisterForm,
     Footer
+  },
+  // データ取得時にユーザー認証がなかったらsigninへ遷移
+  async fetch({ store, redirect }) {
+    const res = await store.dispatch('food/getFoodData').catch((error) => {
+      console.log(error)
+    })
+    console.log(res)
+    if (res.error) {
+      redirect('/signin')
+    }
   }
 }
 </script>
