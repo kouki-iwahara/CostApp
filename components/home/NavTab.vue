@@ -15,7 +15,7 @@
       >
         登録
       </nuxt-link>
-      <slot name="btn-form" />
+      <slot name="btn" />
     </div>
   </nav>
 </template>
@@ -42,12 +42,15 @@ export default {
 </script>
 
 <style scoped>
+nav {
+  background-color: #e9ecef;
+}
 #nav-tab {
-  padding-top: 20px;
-  padding-left: 15px;
+  padding: 20px 15px 0;
 }
 #nav-tab .active {
   background-color: #fafbfc;
+  border-top: 3px solid #fc4a1a;
   border-bottom: none;
 }
 .nav-link {

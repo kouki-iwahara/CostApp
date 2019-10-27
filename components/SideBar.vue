@@ -2,12 +2,14 @@
   <div class="container-fluid">
     <div class="sidebar row">
       <div class="sidebar_search col-sm-3 hidden-xs">
-        <div class="nav-list_info bg-dark text-light">
+        <div class="nav-list_info  text-dark">
           <slot name="sidebar_content" />
         </div>
       </div>
       <div class="sidebar_list col-sm-3 hidden-xs">
-        <slot name="content-list" />
+        <div class="sidebar_list_content">
+          <slot name="content-list" />
+        </div>
       </div>
     </div>
   </div>
@@ -18,15 +20,15 @@ export default {}
 </script>
 
 <style scoped>
-.container-fluid {
-}
 /* sidebar */
 .sidebar_search,
 .sidebar_list {
   display: none;
 }
-.sidebar_list {
-  height: 500px;
+
+.sidebar_list_content {
+  border: 1px solid #e9ecef;
+  border-bottom: none;
 }
 .sidebar_list ul {
   text-align: center;
@@ -37,6 +39,7 @@ export default {}
   white-space: nowrap;
 }
 .nav-list_info {
+  background-color: #e9ecef;
   text-align: center;
   line-height: 50px;
   margin: 0px 0px;
@@ -60,7 +63,7 @@ export default {}
   .sidebar_list {
     position: absolute;
     top: 130px;
-    /* bottom: 80px; */
+    bottom: 15px;
     left: 0;
     display: block;
     overflow-x: hidden;

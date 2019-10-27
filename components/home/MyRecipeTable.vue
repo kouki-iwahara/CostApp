@@ -17,8 +17,8 @@
         placeholder="レシピを検索"
       />
     </div>
-    <div class="content">
-      <div class="content_btn">
+    <div>
+      <div>
         <button class="btn btn-orange float-right">New</button>
         <strong
           >{{

@@ -4,11 +4,6 @@
       <div class="row offset-3">
         <div class="content_header col-sm-12">
           <bread-crumb>
-            <li slot="breadcrumb-item" class="breadcrumb-item">
-              <nuxt-link to="/home/food" class="nav-link">
-                マイページ
-              </nuxt-link>
-            </li>
             <li
               slot="breadcrumb-item"
               class="breadcrumb-item active"
@@ -22,21 +17,20 @@
             :param-id-page="`/home/food/${food.paramId}`"
             :register-page="`/home/food/register`"
           >
-            <div slot="btn-form" class="btn-form">
-              <button
-                type="button"
-                class="btn-form_register btn btn-success btn-md"
-                @click="registerFood"
+            <button
+              slot="btn"
+              type="button"
+              class="btn-form_register btn btn-success btn-md"
+              @click="registerFood"
+            >
+              <div
+                v-show="isClickRegisterBtn"
+                class="spinner-border text-light"
               >
-                <div
-                  v-show="isClickRegisterBtn"
-                  class="spinner-border text-light"
-                >
-                  <span class="sr-only">Loading...</span>
-                </div>
-                <span v-show="!isClickRegisterBtn">登録</span>
-              </button>
-            </div>
+                <span class="sr-only">Loading...</span>
+              </div>
+              <span v-show="!isClickRegisterBtn">登録</span>
+            </button>
           </nav-tab>
         </div>
         <!-- content_header -->
@@ -124,7 +118,7 @@
       </div>
     </div>
     <side-bar>
-      <strong slot="sidebar_content">登録中の食材</strong>
+      <strong slot="sidebar_content">登録した食材</strong>
       <ul
         v-for="item in sideBarfoods"
         slot="content-list"
@@ -194,7 +188,9 @@ export default {
     }
   },
   created() {
-    this.food.paramId = this.sideBarfoods[0].id
+    if (this.sideBarfoods.length !== 0) {
+      this.food.paramId = this.sideBarfoods[0].id
+    }
     console.log(this.food.paramId)
   },
   methods: {
@@ -293,13 +289,6 @@ export default {
 </script>
 
 <style scoped>
-.content_header {
-  background-color: #f4f5f7;
-  padding: 0;
-  margin-bottom: 20px;
-}
-
-/*  */
 .content_form_cost {
   margin-bottom: 20px;
 }
@@ -318,12 +307,11 @@ export default {
   padding: 2px 28px 1px 12px;
   height: 31px;
 }
-.btn-form {
-  margin: 0 0 0 auto;
-}
+
 .btn-form_register {
+  display: block;
+  margin: 0 0 0 auto;
   width: 58px;
-  margin-right: 15px;
   font-weight: 600;
   color: #fff;
   border-radius: 0.25em;

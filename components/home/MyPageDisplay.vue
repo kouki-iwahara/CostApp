@@ -15,7 +15,7 @@ export default {}
 </script>
 
 <style scoped>
-.content {
+/* .content {
   padding-top: 20px;
-}
+} */
 </style>

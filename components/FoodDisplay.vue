@@ -4,11 +4,6 @@
       <div class="row offset-3">
         <div class="content_header col-sm-12">
           <bread-crumb>
-            <li slot="breadcrumb-item" class="breadcrumb-item">
-              <nuxt-link to="/home/food" class="nav-link">
-                マイページ
-              </nuxt-link>
-            </li>
             <li
               slot="breadcrumb-item"
               class="breadcrumb-item active"
@@ -19,27 +14,26 @@
           </bread-crumb>
           <nav-tab
             :is-view-active="isViewActive"
-            :param-id-page="`/home/food/${food.paramId}`"
+            :param-id-page="`/home/food/${$route.params.foodId}`"
             :register-page="`/home/food/register`"
           >
-            <div slot="btn-form" class="btn-form">
-              <button
-                type="button"
-                class="btn-form_update btn btn-warning btn-md"
-                @click="toUpdatePage"
+            <button
+              slot="btn"
+              type="button"
+              class="btn-form_update btn btn-warning btn-md"
+              @click="toUpdatePage"
+            >
+              <nuxt-link
+                :to="`/home/food/update/${food.paramId}`"
+                class="nav-link"
               >
-                <nuxt-link
-                  :to="`/home/food/update/${food.paramId}`"
-                  class="nav-link"
-                >
-                  変更
-                </nuxt-link>
-              </button>
-            </div>
+                変更
+              </nuxt-link>
+            </button>
           </nav-tab>
         </div>
         <!-- /content_header -->
-        <div class="content_form offset-1 col-sm-4">
+        <div class="content_form col-sm-4">
           <div class="card card-list">
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
@@ -117,7 +111,7 @@
       <!-- /content row -->
     </div>
     <side-bar>
-      <strong slot="sidebar_content">登録中の食材</strong>
+      <strong slot="sidebar_content">登録した食材</strong>
       <ul
         v-for="item in sideBarfoods"
         slot="content-list"
@@ -134,17 +128,17 @@
 </template>
 
 <script>
+import NavTab from '~/components/home/NavTab.vue'
+import BreadCrumb from '~/components/BreadCrumb.vue'
 import SideBar from '~/components/SideBar.vue'
 import FoodImage from '~/components/FoodImage.vue'
-import BreadCrumb from '~/components/BreadCrumb.vue'
-import NavTab from '~/components/home/NavTab.vue'
 
 export default {
   components: {
     SideBar,
     FoodImage,
-    BreadCrumb,
-    NavTab
+    NavTab,
+    BreadCrumb
   },
   data() {
     return {
@@ -214,11 +208,6 @@ export default {
 </script>
 
 <style scoped>
-.content_header {
-  background-color: #f4f5f7;
-  padding: 0;
-}
-
 .card-header {
   padding: 6px 20px;
 }
@@ -229,14 +218,12 @@ export default {
 .card-body_comment {
   margin-bottom: 10px;
 }
-.content_form {
-  margin-top: 10px;
-}
 
-.content_image,
+.content_image {
+  margin: 0 auto 20px 0;
+}
 .content_form {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin: 0 0 20px auto;
 }
 .content_form_food-content {
   margin-bottom: 15px;
@@ -258,7 +245,8 @@ export default {
   opacity: 0.9;
 }
 .btn-form_update {
-  margin-right: 15px;
+  display: block;
+  margin: 0 0 0 auto;
   font-weight: 600;
   border-radius: 0.25em;
   border-color: #ffc107;
