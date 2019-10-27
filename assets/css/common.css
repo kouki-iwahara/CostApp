@@ -4,14 +4,27 @@ html {
 body {
   height: 100%;
   color: #343A40;
-  background-color: #fafbfc;
+  background-color: #fff;
 }
 .wrapper {
+  height: 100vh;
   padding-top: 60px;
   position: relative;
   max-width: 1024px;
   margin: 0 auto;
   background-color: #fafbfc;
+}
+.content {
+  position: absolute;
+  top: 60px;
+  bottom: 15px;
+  right: 0;
+  display: block;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.content_header {
+  margin-bottom: 20px;
 }
 *:focus {
   box-shadow: none !important;

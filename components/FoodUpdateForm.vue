@@ -4,11 +4,6 @@
       <div class="row offset-3">
         <div class="content_header col-sm-12">
           <bread-crumb>
-            <li slot="breadcrumb-item" class="breadcrumb-item">
-              <nuxt-link to="/home/food" class="nav-link">
-                マイページ
-              </nuxt-link>
-            </li>
             <li
               slot="breadcrumb-item"
               class="breadcrumb-item active"
@@ -22,21 +17,17 @@
             :param-id-page="`/home/food/${food.paramId}`"
             :register-page="`/home/food/register`"
           >
-            <div slot="btn-form" class="btn-form">
-              <button
-                type="button"
-                class="btn-form_register btn btn-success btn-md"
-                @click="updateFood"
-              >
-                <div
-                  v-show="isClickUpdateBtn"
-                  class="spinner-border text-light"
-                >
-                  <span class="sr-only">Loading...</span>
-                </div>
-                <span v-show="!isClickUpdateBtn">更新</span>
-              </button>
-            </div>
+            <button
+              slot="btn"
+              type="button"
+              class="btn-form_register btn btn-success btn-md"
+              @click="updateFood"
+            >
+              <div v-show="isClickUpdateBtn" class="spinner-border text-light">
+                <span class="sr-only">Loading...</span>
+              </div>
+              <span v-show="!isClickUpdateBtn">更新</span>
+            </button>
           </nav-tab>
         </div>
         <!--  -->
@@ -46,7 +37,7 @@
             >は必須入力）
           </p>
         </div>
-        <div class="content_form offset-1 col-sm-4">
+        <div class="content_form col-sm-4">
           <div class="row">
             <div class="col-sm-12">
               <span class="requireMark">＊</span>
@@ -152,6 +143,7 @@
       </div>
     </div>
     <side-bar>
+      <strong slot="sidebar_content">登録した食材</strong>
       <ul
         v-for="item in foods"
         slot="content-list"
@@ -349,21 +341,12 @@ export default {
 </script>
 
 <style scoped>
-.content {
-  /* position: absolute;
-  top: 60px;
-  bottom: 0;
-  right: 0;
-  display: block;
-  overflow-x: hidden;
-  overflow-y: auto; */
+.content_image {
+  margin: 0 auto 20px 0;
 }
-.content_header {
-  background-color: #f4f5f7;
-  padding: 0;
-  margin-bottom: 20px;
+.content_form {
+  margin: 0 0 20px auto;
 }
-
 /*  */
 .content_form_cost {
   margin-bottom: 20px;
@@ -412,8 +395,9 @@ export default {
   margin: 0 0 0 auto;
 }
 .btn-form_register {
+  display: block;
+  margin: 0 0 0 auto;
   width: 58px;
-  margin-right: 15px;
   font-weight: 600;
   color: #fff;
   border-radius: 0.25em;

@@ -1,24 +1,26 @@
 <template>
-  <div class="content">
-    <bg-image />
-    <div class="card-columns">
-      <div
-        v-for="recipe in allRecipes"
-        :key="recipe.id"
-        class="card"
-        @click="toRecipePage(allRecipes.indexOf(recipe))"
-      >
-        <img class="card-img-top" :src="recipe.image" alt="カード1の画像" />
-        <div class="card-body">
-          <h5 class="card-title">{{ recipe.name }}</h5>
-          <p class="card-text">
-            {{ recipe.comment }}
-          </p>
-        </div>
-        <div class="card-footer">
-          <small class="text-muted">
-            {{ `最終更新 ${recipe.updatedAt.substring(0, 10)}` }}
-          </small>
+  <div>
+    <div class="content">
+      <bg-image />
+      <div class="card-columns">
+        <div
+          v-for="recipe in allRecipes"
+          :key="recipe.id"
+          class="card"
+          @click="toRecipePage(allRecipes.indexOf(recipe))"
+        >
+          <img class="card-img-top" :src="recipe.image" alt="カード1の画像" />
+          <div class="card-body">
+            <h5 class="card-title">{{ recipe.name }}</h5>
+            <p class="card-text">
+              {{ recipe.comment }}
+            </p>
+          </div>
+          <div class="card-footer">
+            <small class="text-muted">
+              {{ `最終更新 ${recipe.updatedAt.substring(0, 10)}` }}
+            </small>
+          </div>
         </div>
       </div>
     </div>
@@ -56,6 +58,9 @@ export default {
 </script>
 
 <style scoped>
+.content {
+  position: static;
+}
 .card-columns {
   padding: 0 15px;
 }

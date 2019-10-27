@@ -34,7 +34,6 @@ export default {
 
 footer {
   background-color: #f4f5f7;
-  margin-top: 30px;
   padding-bottom: 30px;
 }
 .copy-right {

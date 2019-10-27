@@ -19,8 +19,8 @@
         placeholder="食材を検索"
       />
     </div>
-    <div class="content">
-      <div class="content_btn">
+    <div>
+      <div>
         <button class="btn btn-orange btn-sm">
           <nuxt-link to="/home/food/register" class="nav-link">
             新規作成
