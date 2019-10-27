@@ -1,17 +1,19 @@
 <template>
   <div class="col-sm-12">
-    <div class="register-info border-bottom">
-      <strong>食材をレシピに追加</strong>
-    </div>
     <div class="row">
-      <div class="col-sm-12">
+      <div class="test col-sm-12 border-bottom">
+        <strong>食材をレシピに追加</strong>
+      </div>
+      <div class="test col-sm-12">
         <p>追加したい食材を左の食材リストからクリックすると食材名がされます</p>
       </div>
       <!-- 食材名 -->
       <div class="food-content col-sm-3">
         <strong>食材名</strong>
         <div>
-          {{ foodName }}
+          <span>
+            {{ foodName }}
+          </span>
         </div>
       </div>
       <!-- 使用量 -->
@@ -38,9 +40,9 @@
       </div>
       <!-- 原価 -->
       <div class="food-content col-sm-3">
-        <strong>原価</strong>
+        <strong>使用原価(円)</strong>
         <div>
-          {{ foodCost }}
+          <span> {{ foodCost }} </span>
         </div>
       </div>
       <!-- ボタン -->
@@ -105,6 +107,9 @@ export default {
 </script>
 
 <style scoped>
+.test {
+  padding: 0;
+}
 .food-content {
   background-color: #fff;
   padding: 8px 12px;

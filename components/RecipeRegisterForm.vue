@@ -317,7 +317,7 @@ export default {
       this.food.id = ''
       this.food.amount = ''
       this.food.name = '表示されます'
-      this.food.unit = 'g'
+      this.food.unit = '単位'
       this.food.cost = ''
     },
     // テーブルに食材追加表示
