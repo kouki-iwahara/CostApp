@@ -41,7 +41,7 @@
       <!-- サブヘッダー終わり -->
 
       <!-- 入力フォーム始まり -->
-      <div class="row  offset-3">
+      <div class="form-group row  offset-3">
         <div class="col-sm-12">
           <p>
             レシピデータを入力して下さい。（<span class="require-mark">＊</span
@@ -202,7 +202,7 @@ export default {
         userId: '',
         name: '表示されます',
         amount: '',
-        unit: 'g',
+        unit: '単位',
         cost: ''
       },
       selectedFile: '',
@@ -405,6 +405,10 @@ export default {
 /* /サブヘッダー */
 
 /* 入力フォーム */
+.form-group {
+  margin-bottom: 20px;
+}
+
 .require-mark {
   color: #cb2431;
 }
