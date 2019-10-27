@@ -100,7 +100,11 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="recipe in matchedRecipes" :key="recipe.id">
+              <tr
+                v-for="recipe in matchedRecipes"
+                :key="recipe.id"
+                @click="toRecipePage(matchedRecipes.indexOf(recipe))"
+              >
                 <td>{{ recipe.name }}</td>
                 <td>{{ recipe.cost }}</td>
                 <td>{{ recipe.costRate }}</td>
@@ -205,6 +209,12 @@ export default {
       this.$router.push({
         path: `/home/food/update/${this.food.paramId}/?matchedRecipes=${this.matchedRecipes.length}`
       })
+    },
+    // 選択されたレシピのページへ遷移
+    toRecipePage(index) {
+      const recipe = this.matchedRecipes[index]
+      console.log(recipe)
+      this.$router.push({ path: `/home/recipe/${recipe.id}` })
     }
   }
 }

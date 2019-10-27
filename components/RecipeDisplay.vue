@@ -88,7 +88,10 @@
       <!-- レシピの食材 テーブル-->
       <div class="row offset-3">
         <div class="content_table col-sm-10">
-          <recipe-display-table :recipe-table-foods="computedRecipe.foods" />
+          <recipe-display-table
+            :recipe-table-foods="computedRecipe.foods"
+            @toFoodPage="toFoodPage"
+          />
         </div>
       </div>
     </div>
@@ -154,7 +157,7 @@ export default {
   created() {
     // 受け取ったクエリを整数に変換
     this.recipe.paramId = parseInt(this.$route.params.recipeId)
-    console.log(this.recipes)
+    console.log(this.computedRecipe)
   },
   methods: {
     // 選択されたレシピのページへ遷移
@@ -165,6 +168,13 @@ export default {
     },
     toUpdatePage() {
       this.$router.push({ path: `/recipe/${this.recipe.index}` })
+    },
+    // 選択された食材のページへ遷移
+    toFoodPage(index) {
+      console.log(index)
+      const recipeFood = this.computedRecipe.foods[index]
+      console.log(recipeFood)
+      this.$router.push({ path: `/home/food/${recipeFood.foodId}` })
     }
   }
 }

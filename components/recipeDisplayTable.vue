@@ -13,7 +13,11 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="recipeFood in recipeTableFoods" :key="recipeFood.id">
+        <tr
+          v-for="recipeFood in recipeTableFoods"
+          :key="recipeFood.id"
+          @click="toFoodPage(recipeTableFoods.indexOf(recipeFood))"
+        >
           <td>{{ recipeFood.foodName }}</td>
           <td>
             {{ recipeFood.foodAmount }}
@@ -32,6 +36,11 @@ export default {
     recipeTableFoods: {
       type: Array,
       required: true
+    }
+  },
+  methods: {
+    toFoodPage(index) {
+      this.$emit('toFoodPage', index)
     }
   }
 }
