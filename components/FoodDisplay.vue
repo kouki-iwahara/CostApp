@@ -20,7 +20,7 @@
             <button
               slot="btn"
               type="button"
-              class="btn-form_update btn btn-warning btn-md"
+              class="nav-btn btn btn-warning btn-md"
               @click="toUpdatePage"
             >
               <nuxt-link
@@ -37,30 +37,34 @@
           <div class="card card-list">
             <ul class="list-group list-group-flush">
               <li class="list-group-item">
-                食材名<strong class="float-right">{{ foods.name }}</strong>
+                <div>
+                  <strong>食材名</strong>
+                </div>
+                <span>{{ foods.name }}</span>
               </li>
               <li class="list-group-item">
-                仕入価格<strong class="float-right"
-                  >{{ foods.value }}<span>円</span></strong
-                >
+                <div>
+                  <strong>仕入価格</strong>
+                </div>
+                <span>{{ foods.value }}円</span>
               </li>
               <li class="list-group-item">
-                食材量<strong class="float-right"
-                  >{{ foods.amount }}<span>{{ foods.unit }}</span></strong
-                >
+                <div>
+                  <strong>食材量</strong>
+                </div>
+                <span>{{ foods.amount }}{{ foods.unit }}</span>
               </li>
               <li class="list-group-item">
-                歩留り<strong class="float-right"
-                  >{{ foods.yield }}<span>％</span></strong
-                >
+                <div>
+                  <strong>歩留り</strong>
+                </div>
+                <span>{{ foods.yield }}％</span>
               </li>
               <li class="list-group-item">
-                <span>
-                  原価/単位
-                </span>
-                <strong class="float-right"
-                  >{{ foods.cost }}円/{{ foods.unit }}</strong
-                >
+                <div>
+                  <strong>原価/単位</strong>
+                </div>
+                <span>{{ foods.cost }}円/{{ foods.unit }}</span>
               </li>
             </ul>
           </div>
@@ -207,43 +211,8 @@ export default {
 </script>
 
 <style scoped>
-.card-header {
-  padding: 6px 20px;
-}
-.card-body {
-  padding: 12px 20px;
-}
-
-.card-body_comment {
-  margin-bottom: 10px;
-}
-
-.content_image {
-  margin: 0 auto 20px 0;
-}
-.content_form {
-  margin: 0 0 20px auto;
-}
-.content_form_food-content {
-  margin-bottom: 15px;
-}
-.content_form_cost strong {
-  font-size: 1.5em;
-}
-.content_form_cost strong small {
-  margin-left: 5px;
-}
-.content_comment {
-  margin: 0 auto;
-}
-
-.btn-form {
-  margin: 0 0 0 auto;
-}
-.btn-form:hover {
-  opacity: 0.9;
-}
-.btn-form_update {
+/* サブヘッダー */
+.nav-btn {
   display: block;
   margin: 0 0 0 auto;
   font-weight: 600;
@@ -251,15 +220,40 @@ export default {
   border-color: #ffc107;
   background-image: linear-gradient(-180deg, #f7b733, #fc4a1a 90%);
 }
-.btn-form_update .nav-link {
+.nav-btn .nav-link {
   border: none;
   padding: 0;
   color: #fff;
 }
-/*  */
+/* /サブヘッダー */
+
+/* レシピデータのリスト */
+.card-header {
+  padding: 6px 20px;
+}
+
+.card-body {
+  padding: 12px 20px;
+}
+
+.content_image {
+  margin: 0 auto 20px 0;
+}
+
+.content_form {
+  margin: 0 0 20px auto;
+}
+
+.content_comment {
+  margin: 0 auto;
+}
+
 .content_table {
   margin: 0 auto;
 }
+
+/* /レシピデータのリスト */
+
 .table tbody {
   background-color: #fff;
 }

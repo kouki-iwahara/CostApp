@@ -27,7 +27,6 @@ export default {
     })
     // ユーザー認証がなかったらsigninへ遷移
     if (res.error) {
-      alert(res.error)
       redirect('/signin')
     }
   }
