@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="user-name">
-      <strong>{{ this.$store.state.user.user.email }}さんのマイページ</strong>
+      <strong>{{ $store.state.user.user.email }}さんのマイページ</strong>
     </div>
     <navbar
       :is-food-inactive="{ inactive: isFoodInactive }"
@@ -19,12 +19,11 @@
     </div>
     <div>
       <div>
-        <button class="btn btn-orange float-right">New</button>
-        <strong
-          >{{
-            $store.getters['recipe/recipes'].length
-          }}個のレシピを登録中</strong
-        >
+        <button class="btn btn-orange btn-sm">
+          <nuxt-link to="/home/recipe/register" class="nav-link">
+            新規作成
+          </nuxt-link>
+        </button>
       </div>
       <table class="table mb-0 table-hover">
         <thead class="thead-dark">
@@ -114,17 +113,19 @@ export default {
   border-radius: 0.25em;
   margin: 0 auto;
 }
-
+/* 新規作成ボタン */
 .btn-orange {
+  display: block;
+  margin: 0 0 5px auto;
   color: #fff;
   font-weight: 600;
   border-radius: 0.25em;
   border-color: #ffc107;
-  height: 38px;
   background-image: linear-gradient(-180deg, #f7b733, #fc4a1a 90%);
 }
-.table {
-  margin-top: 20px;
+.btn-orange .nav-link {
+  padding: 0;
+  color: #fff;
 }
 .table td {
   cursor: pointer;

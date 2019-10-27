@@ -1,11 +1,13 @@
 html {
   height: 100%;
 }
+
 body {
   height: 100%;
   color: #343A40;
   background-color: #fff;
 }
+
 .wrapper {
   height: 100vh;
   padding-top: 60px;
@@ -14,34 +16,44 @@ body {
   margin: 0 auto;
   background-color: #fafbfc;
 }
+
+/* 画面を固定してスクロールする */
 .content {
   position: absolute;
   top: 60px;
-  bottom: 15px;
+  bottom:15px;
   right: 0;
-  display: block;
   overflow-x: hidden;
   overflow-y: auto;
 }
+
+/* サブのヘッダー */
 .content_header {
   margin-bottom: 20px;
 }
+
+/* スピナー */
+.spinner-border {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* inputの影を消す */
 *:focus {
   box-shadow: none !important;
 }
-/* あとでjsでクラスを外す */
-.offset-3 {
-  margin-left: -15px;
-}
+
+/* テーブル */
 .table {
   table-layout: fixed;
 }
+
 .table td {
-  cursor: pointer;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
 @media screen and (min-width: 768px) {
   /* 謎の空白があり、offset-3のmarginを調節した */
   .offset-3 {

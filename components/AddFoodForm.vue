@@ -1,58 +1,68 @@
 <template>
-  <div class="row">
-    <div class="register-info col-sm-12 border-bottom border-gray text-danger">
-      <small>＊サイドバーから食材をクリック</small>
-    </div>
-
-    <div class="food-content col-sm-3">
-      <span>食材名</span>
-      <strong>{{ foodName }}</strong>
-    </div>
-    <div class="food-content col-sm-3">
-      <div class="food-content_amount">
-        <span>使用量</span>
+  <div class="col-sm-12">
+    <div class="row">
+      <div class="test col-sm-12 border-bottom">
+        <strong>食材をレシピに追加</strong>
       </div>
-      <div class="input-group input-group-lg">
-        <input
-          type="number"
-          :value="value"
-          class="form-control rounded-0"
-          placeholder="使用量"
-          min="0"
-          aria-describedby="inputGroup-sizing-lg"
-          @input="updateValue"
-        />
-        <div class="input-group-prepend">
-          <span id="inputGroup-sizing-lg" class="input-group-text rounded-0">
-            {{ foodUnit }}
+      <div class="test col-sm-12">
+        <p>追加したい食材を左の食材リストからクリックすると食材名がされます</p>
+      </div>
+      <!-- 食材名 -->
+      <div class="food-content col-sm-3">
+        <strong>食材名</strong>
+        <div>
+          <span>
+            {{ foodName }}
           </span>
         </div>
       </div>
-    </div>
-    <div class="food-content col-sm-3">
-      <span>原価</span>
-      <strong>{{ foodCost }}</strong>
-    </div>
-    <div class="add-btn col-sm-3">
-      <div class="row">
-        <div class="col-sm-12">
-          <button
-            type="button"
-            class="btn btn-outline-success btn-block btn-sm"
-            @click="addFoodToRecipe"
-          >
-            追加
-          </button>
+      <!-- 使用量 -->
+      <div class="food-content col-sm-3">
+        <div class="food-content_amount">
+          <strong>使用量</strong>
         </div>
-        <div class="col-sm-12">
-          <button
-            type="button"
-            class="btn btn-outline-warning btn-block btn-sm"
-            @click="initializeForm"
-          >
-            やめる
-          </button>
+        <div class="input-group input-group-sm">
+          <input
+            type="number"
+            :value="value"
+            class="form-control rounded-0"
+            placeholder="使用量"
+            min="0"
+            aria-describedby="inputGroup-sizing-sm"
+            @input="updateValue"
+          />
+          <div class="input-group-prepend">
+            <span id="inputGroup-sizing-sm" class="input-group-text rounded-0">
+              {{ foodUnit }}
+            </span>
+          </div>
         </div>
+      </div>
+      <!-- 原価 -->
+      <div class="food-content col-sm-3">
+        <strong>使用原価(円)</strong>
+        <div>
+          <span> {{ foodCost }} </span>
+        </div>
+      </div>
+      <!-- ボタン -->
+      <div class="col-sm-3">
+        <button
+          slot="btn"
+          type="button"
+          class="add-btn btn btn-success btn-sm"
+          @click="addFoodToRecipe"
+        >
+          <span>追加</span>
+        </button>
+        <button
+          slot="btn"
+          type="button"
+          class="cancel-btn btn btn-warning btn-sm"
+          @click="initializeForm"
+        >
+          <span>削除</span>
+        </button>
       </div>
     </div>
   </div>
@@ -97,27 +107,28 @@ export default {
 </script>
 
 <style scoped>
-.register-info {
-  margin-top: 20px;
-  margin-bottom: 20px;
+.test {
+  padding: 0;
 }
 .food-content {
-  position: relative;
-}
-.food-content strong {
-  display: block;
-  font-size: 1.25em;
-  border-bottom: 1px darkslategray solid;
-  /* color: #a8aeb5e9; */
-  opacity: 0.8;
-  position: absolute;
-  bottom: 0;
-}
-.food-content_amount {
-  margin-bottom: 5px;
+  background-color: #fff;
+  padding: 8px 12px;
 }
 .add-btn {
-  /* ボタンを中央にしたい */
-  padding-top: 13px;
+  width: 60px;
+  margin-bottom: 15px;
+  font-weight: 600;
+  color: #fff;
+  border-radius: 0.25em;
+  background-color: #28a745;
+  background-image: linear-gradient(-180deg, #34d058, #28a745 90%);
+}
+.cancel-btn {
+  width: 60px;
+  font-weight: 600;
+  color: rgb(72, 72, 72);
+  border-radius: 0.25em;
+  background-color: #f1e05a;
+  background-image: linear-gradient(-180deg, #f1e05a, #d8c114 90%);
 }
 </style>
