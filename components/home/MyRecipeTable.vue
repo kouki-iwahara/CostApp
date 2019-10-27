@@ -127,4 +127,7 @@ export default {
   padding: 0;
   color: #fff;
 }
+.table td {
+  cursor: pointer;
+}
 </style>

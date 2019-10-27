@@ -21,7 +21,7 @@ body {
 .content {
   position: absolute;
   top: 60px;
-  bottom: 15px;
+  bottom:15px;
   right: 0;
   overflow-x: hidden;
   overflow-y: auto;
@@ -49,7 +49,6 @@ body {
 }
 
 .table td {
-  cursor: pointer;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

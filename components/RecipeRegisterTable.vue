@@ -1,10 +1,10 @@
 <template>
   <table class="table">
-    <thead class="thead-light">
+    <thead class="thead-dark">
       <tr>
         <th scope="col">食材名</th>
         <th scope="col">使用量</th>
-        <th scope="col">原価</th>
+        <th scope="col">原価(円/単位)</th>
         <th scope="col">取消</th>
       </tr>
     </thead>
@@ -15,11 +15,11 @@
           {{ food.foodAmount }}
           {{ food.foodUnit }}
         </td>
-        <td>{{ food.foodAmountCost }}</td>
+        <td>{{ food.foodAmountCost }}/{{ food.foodUnit }}</td>
         <td>
           <button
             type="button"
-            class="btn btn-success rounded-circle p-0"
+            class="del-btn btn btn-warning rounded-circle p-0"
             style="width:2rem;height:2rem;"
             @click="deleteFood(recipeTableFoods.indexOf(food))"
           >
@@ -48,4 +48,11 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.del-btn {
+  color: rgb(72, 72, 72);
+  border-radius: 0.25em;
+  background-color: #f1e05a;
+  background-image: linear-gradient(-180deg, #f1e05a, #d8c114 90%);
+}
+</style>

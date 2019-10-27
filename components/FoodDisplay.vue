@@ -265,6 +265,7 @@ export default {
   background-color: #fff;
 }
 .table td {
+  cursor: pointer;
   border-color: #ffc107;
 }
 .table-message {

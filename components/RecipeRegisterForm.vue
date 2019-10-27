@@ -124,7 +124,7 @@
           </nuxt-link>
         </div>
         <!-- 食材登録フォーム min-width: 768pxまで表示 -->
-        <div class="food-add-to-menu-form col-sm-12">
+        <div class="food-add-to-menu-form col-sm-10">
           <add-food-form
             v-model="food.amount"
             :food-name="food.name"
@@ -135,7 +135,7 @@
           />
         </div>
         <!-- 食材テーブル -->
-        <div class="col-sm-12">
+        <div class="food-table col-sm-10">
           <recipe-register-table
             :recipe-table-foods="recipe.tableFoods"
             @deleteFood="deleteFood"
@@ -335,7 +335,7 @@ export default {
         foodDelBtn: 'ー'
       }
       // 入力された食材をテーブルに追加
-      this.recipe.tableFoods.push(foodContent)
+      this.recipe.tableFoods.unshift(foodContent)
 
       // formの初期化
       this.initializeForm()
@@ -441,7 +441,6 @@ export default {
 
 /* 食材登録フォーム */
 .food-add-to-menu-form {
-  margin-bottom: 20px;
   display: none;
 }
 
@@ -450,12 +449,15 @@ export default {
   margin: 20px 0;
 }
 
+.food-table {
+  margin: 0 auto 40px;
+}
 @media screen and (min-width: 768px) {
   .plus-btn {
     display: none;
   }
   .food-add-to-menu-form {
-    margin-bottom: 20px;
+    margin: 0 auto 20px;
     display: flex;
   }
 }

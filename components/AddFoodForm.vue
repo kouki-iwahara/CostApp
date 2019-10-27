@@ -59,7 +59,7 @@
           class="cancel-btn btn btn-warning btn-sm"
           @click="initializeForm"
         >
-          <span>やめる</span>
+          <span>削除</span>
         </button>
       </div>
     </div>
@@ -107,10 +107,11 @@ export default {
 <style scoped>
 .food-content {
   background-color: #fff;
-  padding: 12px 20px;
+  padding: 8px 12px;
 }
 .add-btn {
   width: 60px;
+  margin-bottom: 15px;
   font-weight: 600;
   color: #fff;
   border-radius: 0.25em;
