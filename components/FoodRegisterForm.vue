@@ -2,6 +2,7 @@
   <div>
     <div class="content container-fluid">
       <div class="row offset-3">
+        <!-- サブヘッダー始まり -->
         <div class="content_header col-sm-12">
           <bread-crumb>
             <li
@@ -20,7 +21,7 @@
             <button
               slot="btn"
               type="button"
-              class="btn-form_register btn btn-success btn-md"
+              class="nav-btn btn btn-success btn-md"
               @click="registerFood"
             >
               <div
@@ -33,17 +34,18 @@
             </button>
           </nav-tab>
         </div>
-        <!-- content_header -->
+        <!-- サブヘッダー終わり -->
         <div class="col-sm-12">
           <p>
-            食材データを入力して下さい。（<span class="requireMark">＊</span
+            食材データを入力して下さい。（<span class="require-mark">＊</span
             >は必須入力）
           </p>
         </div>
-        <div class="content_form offset-1 col-sm-4">
+        <div class="content_form col-sm-4">
           <div class="row">
             <div class="col-sm-12">
-              <span class="requireMark">＊</span>
+              <!-- 食材名 -->
+              <span class="require-mark">＊</span>
               <strong>食材名</strong>
               <input-form
                 v-model="food.name"
@@ -51,7 +53,8 @@
                 type="text"
                 class="content_form_input"
               />
-              <span class="requireMark">＊</span>
+              <!-- 仕入れ価格 -->
+              <span class="require-mark">＊</span>
               <strong>仕入価格</strong>
               <input-form
                 v-model="food.value"
@@ -68,7 +71,8 @@
                   </span>
                 </div>
               </input-form>
-              <span class="requireMark">＊</span>
+              <!-- 食材量 -->
+              <span class="require-mark">＊</span>
               <strong>食材量</strong>
               <input-form
                 v-model="food.amount"
@@ -99,7 +103,7 @@
                 type="range"
                 class="custom-range"
               />
-              <div class="content_form_cost">
+              <div class="content_form_label">
                 <strong>原価: {{ foodCost }}</strong>
               </div>
             </div>
@@ -289,7 +293,23 @@ export default {
 </script>
 
 <style scoped>
-.content_form_cost {
+.nav-btn {
+  display: block;
+  margin: 0 0 0 auto;
+  width: 58px;
+  font-weight: 600;
+  color: #fff;
+  border-radius: 0.25em;
+  background-color: #28a745;
+  background-image: linear-gradient(-180deg, #34d058, #28a745 90%);
+}
+.content_image {
+  margin: 0 auto 20px 0;
+}
+.content_form {
+  margin: 0 0 20px auto;
+}
+.content_form_label {
   margin-bottom: 20px;
 }
 .content_form_input {
@@ -308,22 +328,12 @@ export default {
   height: 31px;
 }
 
-.btn-form_register {
-  display: block;
-  margin: 0 0 0 auto;
-  width: 58px;
-  font-weight: 600;
-  color: #fff;
-  border-radius: 0.25em;
-  background-color: #28a745;
-  background-image: linear-gradient(-180deg, #34d058, #28a745 90%);
-}
 /*  */
 .spinner-border {
   width: 1.25rem;
   height: 1.25rem;
 }
-.requireMark {
+.require-mark {
   color: #cb2431;
 }
 </style>

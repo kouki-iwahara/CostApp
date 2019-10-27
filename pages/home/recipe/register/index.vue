@@ -1,18 +1,25 @@
 <template>
-  <div class="wrapper">
-    <my-page-header />
-    <recipe-register-form />
+  <div>
+    <client-only>
+      <Header />
+      <div class="wrapper">
+        <recipe-register-form />
+      </div>
+      <Footer />
+    </client-only>
   </div>
 </template>
 
 <script>
-import MyPageHeader from '~/components/home/MyPageHeader.vue'
+import Header from '~/components/top/Header.vue'
 import RecipeRegisterForm from '~/components/RecipeRegisterForm.vue'
+import Footer from '~/components/common/Footer.vue'
 
 export default {
   components: {
-    MyPageHeader,
-    RecipeRegisterForm
+    Header,
+    RecipeRegisterForm,
+    Footer
   }
 }
 </script>
