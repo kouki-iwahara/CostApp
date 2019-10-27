@@ -14,8 +14,4 @@
 export default {}
 </script>
 
-<style scoped>
-/* .content {
-  padding-top: 20px;
-} */
-</style>
+<style scoped></style>
