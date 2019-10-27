@@ -25,7 +25,7 @@ export default {
     MyRecipeTable,
     Footer
   },
-  async asyncData({ store, redirect }) {
+  async fetch({ store, redirect }) {
     const res = await store.dispatch('recipe/getRecipeData').catch((error) => {
       console.log(error)
     })

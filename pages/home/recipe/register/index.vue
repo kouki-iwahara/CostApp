@@ -23,13 +23,18 @@ export default {
   },
   // データ取得時にユーザー認証がなかったらsigninへ遷移
   async fetch({ store, redirect }) {
-    const res = await store.dispatch('food/getFoodData').catch((error) => {
+    // 食材データ
+    const resFood = await store.dispatch('food/getFoodData').catch((error) => {
       console.log(error)
     })
-    console.log(res)
-    if (res.error) {
+    console.log(resFood)
+    if (resFood.error) {
       redirect('/signin')
     }
+    // レシピデータ（paramのセットに必要）
+    await store.dispatch('recipe/getRecipeData').catch((error) => {
+      console.log(error)
+    })
   }
 }
 </script>

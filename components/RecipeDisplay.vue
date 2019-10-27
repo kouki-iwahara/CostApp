@@ -72,11 +72,11 @@
         全てのレシピ
       </p>
       <ul
-        v-for="item in SidebarRecipes"
+        v-for="item in sidebarRecipes"
         slot="content-list"
         :key="item.id"
         class="list-group list-group-flush"
-        @click="showRecipe(SidebarRecipes.indexOf(item))"
+        @click="showRecipe(sidebarRecipes.indexOf(item))"
       >
         <li class="food-list_item list-group-item border-bottom border-info">
           {{ item.name }}
@@ -108,8 +108,8 @@ export default {
   },
   computed: {
     // サイドバーに表示するレシピ
-    SidebarRecipes() {
-      const recipes = this.$store.getters['recipe/recipes']
+    sidebarRecipes() {
+      const recipes = this.$store.getters['recipe/recipes'].slice()
       return recipes
     },
     // 右ページに表示するレシピ
@@ -128,18 +128,11 @@ export default {
     console.log(this.recipes)
   },
   methods: {
+    // 選択されたレシピのページへ遷移
     showRecipe(index) {
       const recipe = this.$store.getters['recipe/recipes'][index]
       console.log(recipe)
-      this.recipe.index = index
-      this.recipe.name = recipe.name
-      this.recipe.value = recipe.value
-      this.recipe.cost = recipe.cost
-      this.recipe.costRate = recipe.costRate
-      this.recipe.comment = recipe.comment
-      this.recipe.tableFoods = recipe.foods.slice()
-      this.recipe.image = recipe.image
-      console.log(this.recipe.tableFoods)
+      this.$router.push({ path: `/home/recipe/${recipe.id}` })
     },
     toUpdatePage() {
       this.$router.push({ path: `/recipe/${this.recipe.index}` })

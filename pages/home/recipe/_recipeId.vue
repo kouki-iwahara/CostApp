@@ -20,7 +20,7 @@ export default {
     RecipeDisplay,
     Footer
   },
-  async asyncData({ store, redirect }) {
+  async fetch({ store, redirect }) {
     // レシピデータの取得
     const res = await store.dispatch('recipe/getRecipeData').catch((error) => {
       console.log(error)
