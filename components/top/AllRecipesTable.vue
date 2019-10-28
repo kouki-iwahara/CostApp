@@ -59,10 +59,6 @@ export default {
     // レシピが登録されていたらテーブルに表示する
     allUsersRecipes() {
       const recipes = this.$store.getters['recipe/allUsersRecipes']
-      // 取得できなければ何も表示しない
-      if (!recipes) {
-        return
-      }
       return recipes
     }
   },
@@ -73,7 +69,7 @@ export default {
       console.log(recipe)
       // 遷移時にrecipeIdを渡す
       this.$router.push({
-        path: `/allRecipes?recipeId=${recipe.id}`
+        path: `/recipe/${recipe.id}`
       })
     }
   }

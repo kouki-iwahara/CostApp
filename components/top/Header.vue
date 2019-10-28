@@ -29,7 +29,7 @@
               </nuxt-link>
             </li>
             <li class="nav-item">
-              <nuxt-link to="/recipeList" class="nav-link">
+              <nuxt-link to="/recipe" class="nav-link">
                 レシピ一覧
               </nuxt-link>
             </li>

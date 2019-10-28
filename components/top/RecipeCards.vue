@@ -50,7 +50,7 @@ export default {
       console.log(recipe)
       // レシピのidを渡す
       this.$router.push({
-        path: `/allRecipes?recipeId=${recipe.id}`
+        path: `/recipe/recipeId=${recipe.id}`
       })
     }
   }

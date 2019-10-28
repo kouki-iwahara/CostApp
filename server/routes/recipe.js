@@ -5,7 +5,7 @@ const authenticator = require('../auth/authenticator')
 
 router.get('/allRecipes', recipeController.getAllUsersRecipes)
 
-router.get('/', recipeController.getRecipes)
+router.get('/user', recipeController.getRecipes)
 router.post('/', recipeController.registerRecipe)
 
 router.get('/recipeCheckPage', authenticator.isAuthenticated)

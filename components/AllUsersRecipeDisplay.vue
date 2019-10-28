@@ -5,7 +5,7 @@
         <div class="col-sm-12">
           <bread-crumb>
             <li slot="breadcrumb-item" class="breadcrumb-item">
-              <nuxt-link to="/recipeList" class="nav-link">
+              <nuxt-link to="/recipe" class="nav-link">
                 レシピ一覧
               </nuxt-link>
             </li>
@@ -14,7 +14,7 @@
               class="breadcrumb-item"
               aria-current="page"
             >
-              レシピ詳細
+              レシピ
             </li>
           </bread-crumb>
         </div>
@@ -119,7 +119,7 @@ export default {
   },
   created() {
     // 受け取ったクエリを整数に変換
-    const recipeId = parseInt(this.$route.query.recipeId)
+    const recipeId = parseInt(this.$route.params.recipeId)
     const recipes = this.$store.getters['recipe/allUsersRecipes']
     console.log(recipeId)
     // 一致するidのデータを取得
