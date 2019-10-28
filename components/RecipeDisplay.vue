@@ -2,67 +2,96 @@
   <div>
     <div class="content container-fluid">
       <div class="row offset-3">
-        <div class="content_image col-sm-12">
-          <food-image :image="recipe.image" />
+        <!-- サブヘッダー始まり -->
+        <div class="content_header col-sm-12">
+          <bread-crumb>
+            <li
+              slot="breadcrumb-item"
+              class="breadcrumb-item active"
+              aria-current="page"
+            >
+              食材
+            </li>
+          </bread-crumb>
+          <nav-tab
+            :is-view-active="isViewActive"
+            :param-id-page="`/home/recipe/${$route.params.recipeId}`"
+            :register-page="`/home/recipe/register`"
+          >
+            <button
+              slot="btn"
+              type="button"
+              class="nav-btn btn btn-warning btn-md"
+            >
+              <nuxt-link
+                :to="`/home/recipe/update/${recipe.paramId}`"
+                class="nav-link"
+                @click="toUpdatePage"
+              >
+                変更
+              </nuxt-link>
+            </button>
+          </nav-tab>
         </div>
-        <!-- /content_image -->
-        <div class="content_form col-sm-12">
-          <!-- レシピ名 -->
-          <food-content class="content_form_food-content">
-            <span slot="content-label">レシピ名</span>
-            <strong slot="food-content" class="food-content_label-value">
-              {{ recipe.name }}
-            </strong>
-          </food-content>
-          <!-- 売価格 -->
-          <food-content class="content_form_food-content">
-            <span slot="content-label">￥売価格</span>
-            <strong slot="food-content" class="food-content_label-value">
-              {{ recipe.value }}
-            </strong>
-          </food-content>
-          <!-- 原価 -->
-          <food-content class="content_form_food-content">
-            <template slot="content-label">
-              原価
-            </template>
-            <template slot="food-content">
-              {{ recipe.cost }}
-            </template>
-          </food-content>
-          <!-- 原価率 -->
-          <food-content class="content_form_food-content">
-            <template slot="content-label">
-              原価率
-            </template>
-            <template slot="food-content">
-              {{ recipe.costRate }}
-            </template>
-          </food-content>
-        </div>
-        <!-- コメント欄 -->
-        <div class="content_text col-sm-12">
-          <div class="content_text_box border border-dark">
-            <p>
-              {{ recipe.comment }}
-            </p>
+        <!-- サブヘッダー終わり -->
+
+        <!-- レシピデータのリスト始まり -->
+        <div class="content_form col-sm-4">
+          <div class="card card-list">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <div>
+                  <strong>レシピ名</strong>
+                </div>
+                <span>{{ computedRecipe.name }}</span>
+              </li>
+              <li class="list-group-item">
+                <div>
+                  <strong>売価格</strong>
+                </div>
+                <span> {{ computedRecipe.value }}円</span>
+              </li>
+              <li class="list-group-item">
+                <div>
+                  <strong>原価</strong>
+                </div>
+                <span>{{ computedRecipe.cost }}円</span>
+              </li>
+              <li class="list-group-item">
+                <div>
+                  <strong>原価率</strong>
+                </div>
+                <span>{{ computedRecipe.costRate }}%</span>
+              </li>
+            </ul>
           </div>
         </div>
-        <!-- /content_form -->
+        <!-- レシピデータのリスト終わり -->
+
+        <!-- 画像 -->
+        <div class="content_image col-sm-6">
+          <food-image :image="computedRecipe.image" />
+        </div>
+
+        <!-- コメント -->
+        <div class="content_comment col-sm-10">
+          <div class="card">
+            <span class="card-header">コメント</span>
+            <div class="card-body">
+              {{ computedRecipe.comment }}
+            </div>
+          </div>
+        </div>
       </div>
       <!-- row -->
+
+      <!-- レシピの食材 テーブル-->
       <div class="row offset-3">
-        <div class="col-sm-12">
-          <recipe-display-table :recipe-table-foods="recipe.tableFoods" />
-        </div>
-        <div class="btn-form col-sm-6">
-          <button
-            type="button"
-            class="btn btn-info btn-block btn-lg"
-            @click="toUpdatePage"
-          >
-            変更
-          </button>
+        <div class="content_table col-sm-10">
+          <recipe-display-table
+            :recipe-table-foods="computedRecipe.foods"
+            @toFoodPage="toFoodPage"
+          />
         </div>
       </div>
     </div>
@@ -72,13 +101,13 @@
         全てのレシピ
       </p>
       <ul
-        v-for="item in recipes"
+        v-for="item in sidebarRecipes"
         slot="content-list"
         :key="item.id"
         class="list-group list-group-flush"
-        @click="showRecipe($store.getters['recipe/recipes'].indexOf(item))"
+        @click="showRecipe(sidebarRecipes.indexOf(item))"
       >
-        <li class="food-list_item list-group-item border-bottom border-info">
+        <li class="food-list_item list-group-item border-bottom">
           {{ item.name }}
         </li>
       </ul>
@@ -87,120 +116,114 @@
 </template>
 
 <script>
+import BreadCrumb from '~/components/BreadCrumb.vue'
+import NavTab from '~/components/home/NavTab.vue'
 import SideBar from '~/components/SideBar.vue'
 import FoodImage from '~/components/FoodImage.vue'
 import RecipeDisplayTable from '~/components/RecipeDisplayTable.vue'
-import FoodContent from '~/components/FoodContent.vue'
 
 export default {
   components: {
+    BreadCrumb,
+    NavTab,
     SideBar,
     FoodImage,
-    FoodContent,
     RecipeDisplayTable
   },
   data() {
     return {
       recipe: {
-        index: 0,
-        name: '',
-        value: '',
-        cost: '',
-        costRate: '',
-        comment: '',
-        tableFoods: [],
-        image: require('~/assets/pasta.jpg')
-      }
+        paramId: ''
+      },
+      isViewActive: true
     }
   },
   computed: {
-    // レシピが登録されていたらサイドバーに表示する
-    recipes() {
-      const recipes = this.$store.getters['recipe/recipes']
-      // 取得できなければ何も表示しない
-      if (!recipes) {
-        return
-      }
+    // サイドバーに表示するレシピ
+    sidebarRecipes() {
+      const recipes = this.$store.getters['recipe/recipes'].slice()
       return recipes
+    },
+    // 右ページに表示するレシピ
+    computedRecipe() {
+      const recipes = this.$store.getters['recipe/recipes']
+      // 受け取ったparamsのidと一致するレシピを取得
+      const recipe = recipes.find((recipe) => {
+        return recipe.id === this.recipe.paramId
+      })
+      return recipe
     }
   },
   created() {
     // 受け取ったクエリを整数に変換
-    const recipeId = parseInt(this.$route.query.recipeId)
-    const recipes = this.$store.getters['recipe/recipes']
-    // 一致するidのデータを取得
-    const recipe = recipes.find((recipe) => {
-      return recipe.id === recipeId
-    })
-    if (recipe) {
-      this.recipe.name = recipe.name
-      this.recipe.value = recipe.value
-      this.recipe.cost = recipe.cost
-      this.recipe.costRate = recipe.costRate
-      this.recipe.comment = recipe.comment
-      this.recipe.tableFoods = recipe.foods.slice()
-      this.recipe.image = recipe.image
-    }
+    this.recipe.paramId = parseInt(this.$route.params.recipeId)
+    console.log(this.computedRecipe)
   },
   methods: {
+    // 選択されたレシピのページへ遷移
     showRecipe(index) {
       const recipe = this.$store.getters['recipe/recipes'][index]
       console.log(recipe)
-      this.recipe.index = index
-      this.recipe.name = recipe.name
-      this.recipe.value = recipe.value
-      this.recipe.cost = recipe.cost
-      this.recipe.costRate = recipe.costRate
-      this.recipe.comment = recipe.comment
-      this.recipe.tableFoods = recipe.foods.slice()
-      this.recipe.image = recipe.image
-      console.log(this.recipe.tableFoods)
+      this.$router.push({ path: `/home/recipe/${recipe.id}` })
     },
     toUpdatePage() {
       this.$router.push({ path: `/recipe/${this.recipe.index}` })
+    },
+    // 選択された食材のページへ遷移
+    toFoodPage(index) {
+      console.log(index)
+      const recipeFood = this.computedRecipe.foods[index]
+      console.log(recipeFood)
+      this.$router.push({ path: `/home/food/${recipeFood.foodId}` })
     }
   }
 }
 </script>
 
 <style scoped>
-.content {
-  padding-top: 25px;
-  position: absolute;
-  top: 70px;
-  bottom: 0;
-  right: 0;
+/* サブヘッダー */
+/* 変更ボタン */
+.nav-btn {
   display: block;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-.content_image_file {
-  margin: 10px 0;
-}
-.content_form {
-  margin-top: 30px;
-}
-.content_form_food-content {
-  margin-bottom: 10px;
-}
-.content_form_cost {
-  margin-bottom: 20px;
-}
-.content_form_cost strong {
-  display: block;
-  font-size: 1.5rem;
+  margin: 0 0 0 auto;
+  font-weight: 600;
+  border-radius: 0.25em;
+  border-color: #ffc107;
+  background-image: linear-gradient(-180deg, #f7b733, #fc4a1a 90%);
 }
 
-.food-add-to-menu-form {
-  margin-bottom: 20px;
+.nav-btn .nav-link {
+  border: none;
+  padding: 0;
+  color: #fff;
 }
-.content_form .input-group {
-  padding-bottom: 20px;
+
+/* /サブヘッダー */
+
+/* レシピのデータリスト */
+.card-header {
+  padding: 6px 20px;
 }
-.btn-form_checkbox {
-  margin-bottom: 5px;
+
+.card-body {
+  padding: 12px 20px;
 }
-.btn-form {
+
+.content_image {
+  margin: 0 auto 20px 0;
+}
+
+.content_form {
+  margin: 0 0 20px auto;
+}
+
+.content_comment {
+  margin: 0 auto 20px;
+}
+
+.content_table {
   margin: 0 auto;
 }
+
+/* /レシピのデータリスト */
 </style>

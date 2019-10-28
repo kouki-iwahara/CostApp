@@ -17,7 +17,7 @@
           <!-- ページナビ -->
           <nav-tab
             :is-register-active="isRegisterActive"
-            :param-id-page="`/home/reciepe/${recipe.paramId}`"
+            :param-id-page="`/home/recipe/${recipe.paramId}`"
             :register-page="`/home/recipe/register`"
           >
             <button
@@ -240,13 +240,13 @@ export default {
       return Math.round(cost * 10) / 10
     }
   },
-  async created() {
-    const res = await this.$store
-      .dispatch('food/getFoodData')
-      .catch((error) => {
-        console.log(error)
-      })
-    console.log(res)
+  created() {
+    const recipes = this.$store.state.recipe.recipes
+    console.log(recipes)
+    if (recipes.length !== 0) {
+      console.log('jiji')
+      this.recipe.paramId = recipes[0].id
+    }
   },
   methods: {
     // イメージ画像データを取得し、プレビューを作成

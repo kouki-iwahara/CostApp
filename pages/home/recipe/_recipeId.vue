@@ -1,27 +1,32 @@
 <template>
-  <div class="wrapper">
-    <my-page-header />
-    <recipe-display />
+  <div>
+    <client-only>
+      <Header />
+      <div class="wrapper">
+        <recipe-display />
+      </div>
+      <Footer />
+    </client-only>
   </div>
 </template>
-
 <script>
-import MyPageHeader from '~/components/home/MyPageHeader.vue'
+import Header from '~/components/top/Header.vue'
 import RecipeDisplay from '~/components/RecipeDisplay.vue'
+import Footer from '~/components/common/Footer.vue'
 
 export default {
   components: {
-    MyPageHeader,
-    RecipeDisplay
+    Header,
+    RecipeDisplay,
+    Footer
   },
-  async asyncData({ store, redirect }) {
+  async fetch({ store, redirect }) {
     // レシピデータの取得
     const res = await store.dispatch('recipe/getRecipeData').catch((error) => {
       console.log(error)
     })
     // ユーザー認証がなかったらsigninへ遷移
     if (res.error) {
-      alert(res.error)
       redirect('/signin')
     }
   }
