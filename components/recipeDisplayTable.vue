@@ -4,7 +4,10 @@
       <strong>{{ recipeTableFoods.length }}</strong>
       <span>個の食材を使用</span>
     </div>
-    <table class="table mb-0 table-hover">
+    <table
+      class="table mb-0"
+      :class="{ 'table-hover': tableHover, 'table-pointer': tablePointer }"
+    >
       <thead class="thead-dark">
         <tr>
           <th scope="col">食材名</th>
@@ -36,6 +39,14 @@ export default {
     recipeTableFoods: {
       type: Array,
       required: true
+    },
+    tableHover: {
+      type: Boolean,
+      default: true
+    },
+    tablePointer: {
+      type: Boolean,
+      default: true
     }
   },
   methods: {
@@ -52,8 +63,11 @@ export default {
   background-color: #fff;
 }
 
-.table td {
+.table-pointer {
   cursor: pointer;
+}
+
+.table td {
   border-color: #ffc107;
 }
 
