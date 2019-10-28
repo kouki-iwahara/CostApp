@@ -162,7 +162,9 @@ export default {
         name: '',
         value: '',
         comment: '',
+        // 食材データのテーブル
         tableFoods: [],
+        // 食材テーブルのデータをjson形式にして格納する為の配列
         foods: [],
         image: require('~/assets/pasta.jpg')
       },
@@ -171,7 +173,7 @@ export default {
         userId: '',
         name: '表示されます',
         amount: '',
-        unit: 'g',
+        unit: '単位',
         cost: ''
       },
       selectedFile: ''
@@ -208,31 +210,24 @@ export default {
       return Math.round(cost * 10) / 10
     }
   },
-  async created() {
-    const res = await this.$store.dispatch('recipe/getRecipeData')
-    console.log(res)
-    if (res.error) {
-      alert(res.error)
-      this.$router.push({ path: '/signin' })
-      return
-    }
-    await this.$store.dispatch('food/getFoodData').catch((error) => {
-      console.log(error)
+  created() {
+    this.recipe.id = parseInt(this.$route.params.recipeId)
+    const recipes = this.$store.getters['recipe/recipes']
+    // 受け取ったidと一致するレシピを取得
+    const recipe = recipes.find((recipe) => {
+      return recipe.id === this.recipe.id
     })
-
-    const index = this.$route.params.recipeId
-    const recipe = this.$store.getters['recipe/recipes'][index]
     console.log(recipe)
-    this.recipe.id = recipe.id
+    // 取得したデータを代入
     this.recipe.name = recipe.name
     this.recipe.value = recipe.value
     this.recipe.comment = recipe.comment
     this.recipe.image = recipe.image
+    // 食材テーブルに取り消しボタンを格納
     recipe.foods.forEach((food) => {
       food.foodDelBtn = 'ー'
       this.recipe.tableFoods.push(food)
     })
-    console.log(this.recipe.tableFoods)
   },
   methods: {
     // イメージ画像データを取得し、プレビューを作成
@@ -303,7 +298,7 @@ export default {
       this.food.id = ''
       this.food.amount = ''
       this.food.name = '表示されます'
-      this.food.unit = 'g'
+      this.food.unit = '単位'
       this.food.cost = ''
     },
     // テーブルに食材追加表示
@@ -327,7 +322,6 @@ export default {
     },
     // テーブルから食材を削除
     deleteFood(index) {
-      // this.$store.dispatch('recipe/deleteFood', index)
       this.recipe.tableFoods.splice(index, 1)
     },
     // レシピ登録
