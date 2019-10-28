@@ -1,11 +1,13 @@
 <template>
   <div class="col-sm-12">
     <div class="row">
-      <div class="test col-sm-12 border-bottom">
+      <div class="message col-sm-12 border-bottom">
         <strong>食材をレシピに追加</strong>
       </div>
-      <div class="test col-sm-12">
-        <p>追加したい食材を左の食材リストからクリックすると食材名がされます</p>
+      <div class="message col-sm-12">
+        <p>
+          追加したい食材を左の食材リストからクリックすると食材名が表示されます
+        </p>
       </div>
       <!-- 食材名 -->
       <div class="food-content col-sm-3">
@@ -107,13 +109,15 @@ export default {
 </script>
 
 <style scoped>
-.test {
+.message {
   padding: 0;
 }
+
 .food-content {
   background-color: #fff;
   padding: 8px 12px;
 }
+
 .add-btn {
   width: 60px;
   margin-bottom: 15px;
@@ -123,6 +127,7 @@ export default {
   background-color: #28a745;
   background-image: linear-gradient(-180deg, #34d058, #28a745 90%);
 }
+
 .cancel-btn {
   width: 60px;
   font-weight: 600;

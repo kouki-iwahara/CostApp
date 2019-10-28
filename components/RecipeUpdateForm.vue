@@ -1,69 +1,113 @@
 <template>
   <div>
     <div class="content container-fluid">
+      <!-- サブヘッダー始まり -->
       <div class="row offset-3">
-        <div class="content_image col-sm-12">
-          <food-image :image="recipe.image">
-            <template slot="input-file">
-              <input-file @getFileData="getFileData" />
-            </template>
-          </food-image>
+        <div class="content_header col-sm-12">
+          <!-- パンくずリスト -->
+          <bread-crumb>
+            <li
+              slot="breadcrumb-item"
+              class="breadcrumb-item active"
+              aria-current="page"
+            >
+              レシピ
+            </li>
+          </bread-crumb>
+          <!-- ページナビ -->
+          <nav-tab
+            :is-view-active="isViewActive"
+            :param-id-page="`/home/recipe/${recipe.id}`"
+            :register-page="`/home/recipe/register`"
+          >
+            <button
+              slot="btn"
+              type="button"
+              class="nav-btn btn btn-success btn-md"
+              @click="updateRecipe"
+            >
+              <!-- スピナー -->
+              <div v-show="isClickUpdateBtn" class="spinner-border text-light">
+                <span class="sr-only">Loading...</span>
+              </div>
+              <span v-show="!isClickUpdateBtn">更新</span>
+            </button>
+          </nav-tab>
         </div>
-        <!-- /content_image -->
-        <div class="content_form col-sm-12">
+      </div>
+      <!-- サブヘッダー終わり -->
+
+      <!-- 入力フォーム始まり -->
+      <div class="form-group row  offset-3">
+        <div class="col-sm-12">
+          <p>
+            更新するデータを入力して下さい。（<span class="require-mark"
+              >＊</span
+            >は必須入力）
+          </p>
+        </div>
+        <!-- テキスト入力始まり -->
+        <div class="content_form col-sm-4">
           <div class="row">
             <div class="col-sm-12">
+              <!-- レシピ名 -->
+              <span class="require-mark">＊</span>
+              <strong>レシピ名</strong>
               <input-form
                 v-model="recipe.name"
                 placeholder="カルボナーラ"
                 type="text"
                 class="content_form_input"
-              >
-                <template slot="content">
-                  レシピ名
-                </template>
-              </input-form>
+              />
+              <!-- 売価格 -->
+              <strong>売価格<small>(公開されません)</small></strong>
               <input-form
                 v-model="recipe.value"
                 placeholder="100"
                 type="number"
                 class="content_form_input"
               >
-                <template slot="content">
-                  ￥売価格
-                </template>
                 <div slot="input-append" class="input-group-append">
                   <span
-                    id="inputGroup-sizing-lg"
+                    id="inputGroup-sizing-sm"
                     class="input-group-text rounded-0"
                   >
                     円
                   </span>
                 </div>
               </input-form>
-              <food-content class="content_form_food-content">
-                <template slot="content-label">
-                  原価
-                </template>
-                <template slot="food-content">
-                  {{ recipeCost }}
-                </template>
-              </food-content>
-              <food-content class="content_form_food-content">
-                <template slot="content-label">
-                  原価率(％)
-                </template>
-                <template slot="food-content">
-                  {{ recipeCostRate }}
-                </template>
-              </food-content>
+              <!-- 原価 -->
+              <div class="content_form_label">
+                <strong>原価： {{ recipeCost }}</strong>
+              </div>
+              <!-- 原価率 -->
+              <div class="content_form_label">
+                <strong>原価率: {{ recipeCostRate }}</strong>
+              </div>
             </div>
           </div>
+          <!-- /row -->
         </div>
-        <!-- /content_form -->
+        <!-- テキスト入力終わり -->
+
+        <!-- 画像 -->
+        <div class="content_image col-sm-6">
+          <food-image :image="recipe.image">
+            <template slot="input-file">
+              <input-file @getFileData="getFileData" />
+            </template>
+          </food-image>
+        </div>
+        <!-- コメント -->
+        <div class="content_comment col-sm-10">
+          <comment-form v-model="recipe.comment" />
+        </div>
       </div>
-      <!-- row -->
+      <!-- 入力フォーム終わり -->
+
+      <!-- 食材登録始まり -->
       <div class="row offset-3">
+        <!--食材登録の＋ボタン min-width: 768pxまで非表示 -->
         <div class="plus-btn col-sm-12">
           <button
             type="button"
@@ -77,7 +121,8 @@
             ボタン押下でここに遷移する
           </nuxt-link>
         </div>
-        <div class="food-add-to-menu-form col-sm-12">
+        <!-- 食材登録フォーム min-width: 768pxまで表示 -->
+        <div class="food-add-to-menu-form col-sm-10">
           <add-food-form
             v-model="food.amount"
             :food-name="food.name"
@@ -87,35 +132,35 @@
             @initializeForm="initializeForm"
           />
         </div>
-        <div class="col-sm-12">
+        <!-- 食材テーブル -->
+        <div class="food-table col-sm-10">
           <recipe-register-table
             :recipe-table-foods="recipe.tableFoods"
             @deleteFood="deleteFood"
           />
         </div>
-        <div class="col-sm-12">
-          <comment-form v-model="recipe.comment" />
+        <!-- 削除フォーム -->
+        <div class="content_danger col-sm-10">
+          <strong>レシピの削除</strong>
+          <div class="content_danger_form">
+            <div>
+              <p>
+                <strong>削除すると食材からもレシピが削除されます</strong>
+              </p>
+            </div>
+            <button
+              type="button"
+              class="content_danger_btn btn btn-md"
+              @click="deleteRecipe"
+            >
+              <strong>このレシピを削除</strong>
+            </button>
+          </div>
         </div>
-        <div class="btn-form col-sm-6">
-          <button
-            type="button"
-            class="btn btn-info btn-block btn-lg"
-            @click="updateRecipe"
-          >
-            修正
-          </button>
-        </div>
-        <div class="btn-form col-sm-6">
-          <button
-            type="button"
-            class="btn btn-danger btn-block btn-lg"
-            @click="deleteRecipe"
-          >
-            削除
-          </button>
-        </div>
+        <!-- 削除フォーム終わり -->
       </div>
     </div>
+    <!-- /content -->
     <side-bar>
       <ul
         v-for="item in foods"
@@ -124,8 +169,8 @@
         class="list-group list-group-flush"
       >
         <li
-          class="food-list_item list-group-item border-bottom border-info"
-          @click="selectFood($store.getters['food/foods'].indexOf(item))"
+          class="food-list_item list-group-item border-bottom"
+          @click="selectFood(foods.indexOf(item))"
         >
           {{ item.name }}
         </li>
@@ -135,8 +180,9 @@
 </template>
 
 <script>
+import BreadCrumb from '~/components/BreadCrumb.vue'
+import NavTab from '~/components/home/NavTab.vue'
 import FoodImage from '~/components/FoodImage.vue'
-import FoodContent from '~/components/FoodContent.vue'
 import AddFoodForm from '~/components/AddFoodForm.vue'
 import RecipeRegisterTable from '~/components/RecipeRegisterTable.vue'
 import CommentForm from '~/components/CommentForm.vue'
@@ -146,8 +192,9 @@ import SideBar from '~/components/SideBar.vue'
 
 export default {
   components: {
+    BreadCrumb,
+    NavTab,
     FoodImage,
-    FoodContent,
     CommentForm,
     AddFoodForm,
     RecipeRegisterTable,
@@ -176,7 +223,9 @@ export default {
         unit: '単位',
         cost: ''
       },
-      selectedFile: ''
+      selectedFile: '',
+      isViewActive: true,
+      isClickUpdateBtn: false
     }
   },
   computed: {
@@ -316,7 +365,7 @@ export default {
         foodDelBtn: 'ー'
       }
       // 入力された食材をテーブルに追加
-      this.recipe.tableFoods.push(foodContent)
+      this.recipe.tableFoods.unshift(foodContent)
       // formの初期化
       this.initializeForm()
     },
@@ -330,6 +379,8 @@ export default {
       if (!this.recipe.name) {
         return alert('必須項目を入力してください')
       }
+      // スピナー表示
+      this.isClickUpdateBtn = true
       // 画像が選択されていればアップロードとURL取得
       if (this.selectedFile) {
         const upLoadedImageName = await this.upLoadImage(this.selectedFile) // アップロードされた画像のURLを取得
@@ -351,16 +402,17 @@ export default {
       // レシピを更新
       const res = await this.$store.dispatch('recipe/updateRecipe', this.recipe)
       console.log(res)
+      // スピナー非表示
+      this.isClickUpdateBtn = false
       // ユーザー認証が切れていたらsigninに遷移
       if (res.error) {
         alert(res.error)
         this.$router.push({ path: '/signin' })
         return
       }
-      alert(res.message)
       // 成功すれば画面遷移
       if (res.result) {
-        this.$router.push({ path: '/recipe/recipeCheckPage' })
+        this.$router.push({ path: `/home/recipe/${this.recipe.id}` })
       }
     },
     // レシピを削除
@@ -388,57 +440,107 @@ export default {
 </script>
 
 <style scoped>
-.content {
-  padding-top: 25px;
-  position: absolute;
-  top: 70px;
-  bottom: 0;
-  right: 0;
+/* サブヘッダー */
+/* 登録ボタン */
+.nav-btn {
   display: block;
-  overflow-x: hidden;
-  overflow-y: auto;
+  margin: 0 0 0 auto;
+  width: 58px;
+  font-weight: 600;
+  color: #fff;
+  border-radius: 0.25em;
+  background-color: #28a745;
+  background-image: linear-gradient(-180deg, #34d058, #28a745 90%);
 }
-.content_image_file {
-  margin: 10px 0;
+
+/* /サブヘッダー */
+
+/* 入力フォーム */
+.form-group {
+  margin-bottom: 20px;
 }
+
+.require-mark {
+  color: #cb2431;
+}
+
 .content_form {
-  margin-top: 30px;
-}
-.content_form_food-content {
-  margin-bottom: 10px;
-}
-.content_form_cost {
-  margin-bottom: 20px;
-}
-.content_form_cost strong {
-  display: block;
-  font-size: 1.5rem;
+  margin: 0 0 20px auto;
 }
 
-.food-add-to-menu-form {
+.content_form_label {
   margin-bottom: 20px;
-  display: none;
-}
-.content_form .input-group {
-  padding-bottom: 20px;
 }
 
-.btn-form {
+.content_image {
+  margin: 0 auto 20px 0;
+}
+
+.content_form {
+  margin: 0 0 20px auto;
+}
+
+.content_form_input {
+  margin-bottom: 20px;
+}
+
+.content_comment {
   margin: 0 auto;
+}
+
+/* /入力フォーム */
+
+/* 食材登録フォーム */
+.food-add-to-menu-form {
+  display: none;
 }
 
 .plus-btn {
   display: block;
   margin: 20px 0;
 }
+
+.food-table {
+  margin: 0 auto 40px;
+}
 @media screen and (min-width: 768px) {
-  /* 謎の空白があり、offset-3のmarginを調節した */
   .plus-btn {
     display: none;
   }
   .food-add-to-menu-form {
-    margin-bottom: 20px;
+    margin: 0 auto 20px;
     display: flex;
   }
 }
+
+/* /食材登録フォーム */
+
+/* 削除フォーム */
+.content_danger {
+  margin: 0 auto 20px;
+}
+.content_danger_form {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+  border: 1px solid #cb2431;
+}
+.content_danger_form p {
+  font-size: 14px;
+  margin-bottom: 3px;
+}
+
+.content_danger_btn {
+  height: 38px;
+  color: #cb2431;
+  background-color: #e9ecef;
+  background-image: linear-gradient(-180deg, #f4f5f7, #e9ecef 90%);
+}
+.content_danger_btn:hover {
+  color: #fff;
+  background-color: #cb2431;
+  background-image: linear-gradient(-180deg, #de4450, #cb2431 90%);
+}
+
+/* /削除フォーム */
 </style>
