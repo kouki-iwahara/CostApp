@@ -2,6 +2,9 @@
   <div>
     <div class="content">
       <bg-image />
+      <div class="search-bar col-sm-6">
+        <search-bar v-model="searchText" placeholder="レシピを検索" />
+      </div>
       <div class="card-columns">
         <div
           v-for="recipe in allRecipes"
@@ -23,20 +26,41 @@
           </div>
         </div>
       </div>
+      <div v-show="!allRecipes.length" class="no-recipe-message">
+        <p>検索結果はありません</p>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import BgImage from '~/components/top/BgImage.vue'
+import searchBar from '~/components/common/searchBar.vue'
 
 export default {
   components: {
-    BgImage
+    BgImage,
+    searchBar
+  },
+  data() {
+    return {
+      searchText: ''
+    }
   },
   computed: {
     allRecipes() {
-      return this.$store.getters['recipe/allUsersRecipes']
+      const filterRecipes = []
+      const recipes = this.$store.getters['recipe/allUsersRecipes']
+      if (!this.searchText) {
+        return recipes
+      }
+      // 検索のテキストを含む名前を表示する
+      recipes.forEach((recipe) => {
+        if (recipe.name.includes(this.searchText)) {
+          filterRecipes.push(recipe)
+        }
+      })
+      return filterRecipes
     }
   },
   created() {
@@ -46,11 +70,11 @@ export default {
   methods: {
     // クリックしたレシピのページへ遷移
     toRecipePage(index) {
-      const recipe = this.$store.getters['recipe/allUsersRecipes'][index]
+      const recipe = this.allRecipes[index]
       console.log(recipe)
       // レシピのidを渡す
       this.$router.push({
-        path: `/recipe/recipeId=${recipe.id}`
+        path: `/recipe/${recipe.id}`
       })
     }
   }
@@ -61,16 +85,20 @@ export default {
 .content {
   position: static;
 }
+
+.search-bar {
+  margin: 0 auto 30px;
+}
+
 .card-columns {
   padding: 0 15px;
 }
+
 .card:hover {
   cursor: pointer;
   opacity: 0.8;
 }
-.test {
-  width: 300px;
-}
+
 .card-title {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -81,5 +109,11 @@ export default {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4;
   overflow: hidden;
+}
+
+.no-recipe-message {
+  text-align: center;
+  height: 40vh;
+  margin: 30px auto;
 }
 </style>

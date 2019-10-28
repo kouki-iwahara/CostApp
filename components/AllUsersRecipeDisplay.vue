@@ -6,6 +6,11 @@
         <div class="content_header col-sm-12">
           <!-- パンくずリスト -->
           <bread-crumb>
+            <li slot="breadcrumb-item-top" class="breadcrumb-item">
+              <nuxt-link to="/" class="nav-link">
+                トップ
+              </nuxt-link>
+            </li>
             <li slot="breadcrumb-item" class="breadcrumb-item">
               <nuxt-link to="/recipe" class="nav-link">
                 レシピ一覧

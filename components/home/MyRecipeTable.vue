@@ -10,12 +10,7 @@
       }"
     />
     <div class="form  col-sm-6">
-      <input
-        v-model="searchText"
-        type="text"
-        class="form-control"
-        placeholder="レシピを検索"
-      />
+      <search-bar v-model="searchText" placeholder="レシピを検索" />
     </div>
     <div>
       <div>
@@ -55,10 +50,12 @@
 
 <script>
 import Navbar from '~/components/common/Navbar.vue'
+import searchBar from '~/components/common/searchBar.vue'
 
 export default {
   components: {
-    Navbar
+    Navbar,
+    searchBar
   },
   data() {
     return {
