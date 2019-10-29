@@ -18,6 +18,22 @@
             :param-id-page="`/home/food/${food.paramId}`"
             :register-page="`/home/food/register`"
           >
+            <nuxt-link
+              v-show="$store.getters['food/foods'].length"
+              slot="nav-item"
+              :to="`/home/food/${food.paramId}`"
+              class="nav-item nav-link"
+            >
+              表示
+            </nuxt-link>
+            <div
+              v-show="!$store.getters['food/foods'].length"
+              slot="nav-item"
+              class="nav-item nav-link"
+              @click="showAlert"
+            >
+              表示
+            </div>
             <button
               slot="btn"
               type="button"
@@ -221,6 +237,9 @@ export default {
     console.log(this.food.paramId)
   },
   methods: {
+    showAlert() {
+      alert('食材が登録されていません')
+    },
     toFoodPage(index) {
       const food = this.sideBarfoods[index]
       console.log(food)
@@ -316,6 +335,10 @@ export default {
 </script>
 
 <style scoped>
+/* サブヘッダー */
+.nav-item {
+  cursor: pointer;
+}
 .nav-btn {
   display: block;
   margin: 0 0 0 auto;

@@ -1,13 +1,16 @@
 <template>
   <nav>
     <div id="nav-tab" class="nav nav-tabs">
-      <nuxt-link
-        :to="paramIdPage"
-        :class="{ active: isViewActive }"
-        class="nav-item nav-link"
-      >
-        表示
-      </nuxt-link>
+      <slot name="nav-item">
+        <nuxt-link
+          :to="paramIdPage"
+          :class="{ active: isViewActive }"
+          class="nav-item nav-link"
+        >
+          表示
+        </nuxt-link>
+      </slot>
+
       <nuxt-link
         :to="registerPage"
         :class="{ active: isRegisterActive }"

@@ -20,6 +20,22 @@
             :param-id-page="`/home/recipe/${recipe.paramId}`"
             :register-page="`/home/recipe/register`"
           >
+            <nuxt-link
+              v-show="$store.getters['recipe/recipes'].length"
+              slot="nav-item"
+              :to="`/home/recipe/${recipe.paramId}`"
+              class="nav-item nav-link"
+            >
+              表示
+            </nuxt-link>
+            <div
+              v-show="!$store.getters['recipe/recipes'].length"
+              slot="nav-item"
+              class="nav-item nav-link"
+              @click="showAlert"
+            >
+              表示
+            </div>
             <button
               slot="btn"
               type="button"
@@ -273,6 +289,9 @@ export default {
     }
   },
   methods: {
+    showAlert() {
+      alert('レシピが登録されていません')
+    },
     // イメージ画像データを取得し、プレビューを作成
     getFileData(fileData) {
       this.selectedFile = fileData
@@ -414,7 +433,10 @@ export default {
 
 <style scoped>
 /* サブヘッダー */
-/* 登録ボタン */
+.nav-item {
+  cursor: pointer;
+}
+
 .nav-btn {
   display: block;
   margin: 0 0 0 auto;
