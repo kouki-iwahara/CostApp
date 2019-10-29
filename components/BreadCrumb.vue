@@ -1,11 +1,13 @@
 <template>
   <nav aria-label="パンくずリスト">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item">
-        <nuxt-link to="/home/food" class="nav-link">
-          マイページ
-        </nuxt-link>
-      </li>
+      <slot name="breadcrumb-item-top">
+        <li class="breadcrumb-item">
+          <nuxt-link to="/home/food" class="nav-link">
+            マイページ
+          </nuxt-link>
+        </li>
+      </slot>
       <slot name="breadcrumb-item" />
     </ol>
   </nav>

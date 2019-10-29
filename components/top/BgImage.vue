@@ -37,9 +37,9 @@
               class="btn btn-orange btn-lg"
               @click="toSignUp"
             >
-              新規登録（無料）
+              新規登録
             </button>
-            <nuxt-link v-show="!isLogin" to="/recipeList" class="nav-link">
+            <nuxt-link v-show="!isLogin" to="/recipe" class="nav-link">
               公開中のレシピ一覧
             </nuxt-link>
           </div>
@@ -62,7 +62,7 @@ export default {
       this.$router.push('/signup')
     },
     toRecipeList() {
-      this.$router.push('/recipeList')
+      this.$router.push('/recipe')
     }
   }
 }

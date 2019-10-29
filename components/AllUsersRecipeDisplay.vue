@@ -1,11 +1,18 @@
 <template>
   <div>
     <div class="content container-fluid">
+      <!-- サブヘッダー始まり -->
       <div class="row offset-3">
-        <div class="col-sm-12">
+        <div class="content_header col-sm-12">
+          <!-- パンくずリスト -->
           <bread-crumb>
+            <li slot="breadcrumb-item-top" class="breadcrumb-item">
+              <nuxt-link to="/" class="nav-link">
+                トップ
+              </nuxt-link>
+            </li>
             <li slot="breadcrumb-item" class="breadcrumb-item">
-              <nuxt-link to="/recipeList" class="nav-link">
+              <nuxt-link to="/recipe" class="nav-link">
                 レシピ一覧
               </nuxt-link>
             </li>
@@ -14,64 +21,78 @@
               class="breadcrumb-item"
               aria-current="page"
             >
-              レシピ詳細
+              レシピ
             </li>
           </bread-crumb>
         </div>
-        <div class="content_image col-sm-12">
-          <food-image :image="recipe.image" />
-        </div>
-        <!-- /content_image -->
-        <div class="content_form col-sm-12">
-          <!-- レシピ名 -->
-          <food-content class="content_form_food-content">
-            <span slot="content-label">レシピ名</span>
-            <strong slot="food-content" class="food-content_label-value">
-              {{ recipe.name }}
-            </strong>
-          </food-content>
-          <!-- 原価 -->
-          <food-content class="content_form_food-content">
-            <template slot="content-label">
-              原価
-            </template>
-            <template slot="food-content">
-              {{ recipe.cost }}
-            </template>
-          </food-content>
-        </div>
-        <!-- コメント欄 -->
-        <div class="content_text col-sm-12">
-          <div class="content_text_box border border-dark">
-            <p>
-              {{ recipe.comment }}
-            </p>
+      </div>
+      <!-- サブヘッダー終わり -->
+
+      <!-- レシピデータ始まり -->
+      <div class="row offset-3">
+        <!-- データリスト -->
+        <div class="content_form col-sm-4">
+          <div class="card card-list">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <div>
+                  <strong>レシピ名</strong>
+                </div>
+                <span>{{ computedRecipe.name }}</span>
+              </li>
+              <li class="list-group-item">
+                <div>
+                  <strong>原価</strong>
+                </div>
+                <span>{{ computedRecipe.cost }}円</span>
+              </li>
+            </ul>
           </div>
         </div>
-        <!-- /content_form -->
+
+        <!-- 画像 -->
+        <div class="content_image col-sm-6">
+          <food-image :image="computedRecipe.image" />
+        </div>
+
+        <!-- コメント -->
+        <div class="content_comment col-sm-10">
+          <div class="card">
+            <span class="card-header">コメント</span>
+            <div class="card-body">
+              {{ computedRecipe.comment }}
+            </div>
+          </div>
+        </div>
       </div>
-      <!-- row -->
+      <!-- レシピデータリスト終わり -->
+
+      <!-- レシピの食材テーブル-->
       <div class="row offset-3">
-        <div class="col-sm-12">
-          <recipe-display-table :recipe-table-foods="recipe.tableFoods" />
+        <div class="content_table col-sm-10">
+          <recipe-display-table
+            :recipe-table-foods="computedRecipe.foods"
+            :table-hover="isTableHover"
+            :table-pointer="isTablePointer"
+          />
         </div>
       </div>
     </div>
-    <!-- /container-fluid -->
+    <!-- /content -->
+
+    <!-- サイドバー -->
     <side-bar>
       <p slot="content">
         全てのレシピ
       </p>
       <ul
-        v-for="item in allUsersRecipes"
+        v-for="item in sidebarRecipes"
         slot="content-list"
         :key="item.id"
         class="list-group list-group-flush"
-        @click="
-          showRecipe($store.getters['recipe/allUsersRecipes'].indexOf(item))
-        "
+        @click="toRecipePage(sidebarRecipes.indexOf(item))"
       >
-        <li class="food-list_item list-group-item border-bottom border-info">
+        <li class="food-list_item list-group-item border-bottom">
           {{ item.name }}
         </li>
       </ul>
@@ -83,7 +104,6 @@
 import SideBar from '~/components/SideBar.vue'
 import BreadCrumb from '~/components/BreadCrumb.vue'
 import FoodImage from '~/components/FoodImage.vue'
-import FoodContent from '~/components/FoodContent.vue'
 import RecipeDisplayTable from '~/components/RecipeDisplayTable.vue'
 
 export default {
@@ -91,112 +111,76 @@ export default {
     SideBar,
     BreadCrumb,
     FoodImage,
-    FoodContent,
     RecipeDisplayTable
   },
   data() {
     return {
       recipe: {
-        index: 0,
-        name: '',
-        cost: '',
-        comment: '',
-        tableFoods: [],
-        image: require('~/assets/pasta.jpg')
-      }
+        id: ''
+        // image: require('~/assets/pasta.jpg')
+      },
+      isTableHover: false,
+      isTablePointer: false
     }
   },
   computed: {
     // レシピが登録されていたらサイドバーに表示する
-    allUsersRecipes() {
+    sidebarRecipes() {
       const recipes = this.$store.getters['recipe/allUsersRecipes']
-      // 取得できなければ何も表示しない
-      if (!recipes) {
-        return
-      }
       return recipes
+    },
+    // 右ページに表示するレシピ
+    computedRecipe() {
+      const recipes = this.$store.getters['recipe/allUsersRecipes']
+      // 受け取ったparamsのidと一致するレシピを取得
+      const recipe = recipes.find((recipe) => {
+        return recipe.id === this.recipe.id
+      })
+      return recipe
     }
   },
   created() {
     // 受け取ったクエリを整数に変換
-    const recipeId = parseInt(this.$route.query.recipeId)
-    const recipes = this.$store.getters['recipe/allUsersRecipes']
-    console.log(recipeId)
-    // 一致するidのデータを取得
-    const recipe = recipes.find((recipe) => {
-      return recipe.id === recipeId
-    })
-    console.log(recipe)
-    // 一致するidのデータがあれば格納、無ければ配列の先頭を表示
-    if (recipe) {
-      this.recipe.name = recipe.name
-      this.recipe.cost = recipe.cost
-      this.recipe.comment = recipe.comment
-      this.recipe.tableFoods = recipe.foods.slice()
-      this.recipe.image = recipe.image
-    } else {
-      this.recipe.name = recipes[0].name
-      this.recipe.cost = recipes[0].cost
-      this.recipe.comment = recipes[0].comment
-      this.recipe.tableFoods = recipes[0].foods.slice()
-      this.recipe.image = recipes[0].image
-    }
+    this.recipe.id = parseInt(this.$route.params.recipeId)
+    console.log(this.recipe.id)
+    console.log(this.computedRecipe)
   },
   methods: {
-    // サイドバーから選択されたレシピを表示する
-    showRecipe(index) {
+    // サイドバーから選択されたレシピページへ遷移
+    toRecipePage(index) {
       const recipe = this.$store.getters['recipe/allUsersRecipes'][index]
       console.log(recipe)
-      this.recipe.index = index
-      this.recipe.name = recipe.name
-      this.recipe.value = recipe.value
-      this.recipe.cost = recipe.cost
-      this.recipe.costRate = recipe.costRate
-      this.recipe.comment = recipe.comment
-      this.recipe.tableFoods = recipe.foods.slice()
-      this.recipe.image = recipe.image
+      this.$router.push({ path: `/recipe/${recipe.id}` })
     }
   }
 }
 </script>
 
 <style scoped>
-.content {
-  padding-top: 25px;
-  position: absolute;
-  top: 60px;
-  bottom: 0;
-  right: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-.content_image_file {
-  margin: 10px 0;
-}
-.content_form {
-  margin-top: 30px;
-}
-.content_form_food-content {
-  margin-bottom: 10px;
-}
-.content_form_cost {
-  margin-bottom: 20px;
-}
-.content_form_cost strong {
-  display: block;
-  font-size: 1.5rem;
+/* レシピのデータリスト */
+.card-header {
+  padding: 6px 20px;
 }
 
-.food-add-to-menu-form {
-  margin-bottom: 20px;
+.card-body {
+  padding: 12px 20px;
 }
-.content_form .input-group {
-  padding-bottom: 20px;
+
+.content_image {
+  margin: 0 auto 20px 0;
 }
-.btn-form_checkbox {
-  margin-bottom: 5px;
+
+.content_form {
+  margin: 0 0 20px auto;
 }
-.btn-form {
+
+.content_comment {
+  margin: 0 auto 20px;
+}
+
+.content_table {
   margin: 0 auto;
 }
+
+/* /レシピのデータリスト */
 </style>

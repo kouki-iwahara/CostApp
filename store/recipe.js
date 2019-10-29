@@ -43,7 +43,7 @@ export const actions = {
   // ユーザーのレシピデータ取得
   async getRecipeData({ commit }) {
     // 全てのレシピデータとレシピの食材が格納される
-    const res = await this.$axios.$get('/recipe').catch((error) => {
+    const res = await this.$axios.$get('/recipe/user').catch((error) => {
       console.log(error.message)
     })
     if (res.error) {

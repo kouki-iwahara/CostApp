@@ -105,7 +105,7 @@
         slot="content-list"
         :key="item.id"
         class="list-group list-group-flush"
-        @click="showRecipe(sidebarRecipes.indexOf(item))"
+        @click="toRecipePage(sidebarRecipes.indexOf(item))"
       >
         <li class="food-list_item list-group-item border-bottom">
           {{ item.name }}
@@ -161,7 +161,7 @@ export default {
   },
   methods: {
     // 選択されたレシピのページへ遷移
-    showRecipe(index) {
+    toRecipePage(index) {
       const recipe = this.$store.getters['recipe/recipes'][index]
       console.log(recipe)
       this.$router.push({ path: `/home/recipe/${recipe.id}` })
