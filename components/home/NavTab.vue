@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <div id="nav-tab" class="nav nav-tabs" role="tablist">
+    <div id="nav-tab" class="nav nav-tabs">
       <nuxt-link
         :to="paramIdPage"
         :class="{ active: isViewActive }"

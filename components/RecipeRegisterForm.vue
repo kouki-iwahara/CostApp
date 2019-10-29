@@ -146,8 +146,12 @@
     </div>
     <!-- /content -->
     <side-bar>
+      <div slot="sidebar_search">
+        <search-bar v-model="searchText" placeholder="食材名を検索" />
+      </div>
       <ul
         v-for="item in sideBarfoods"
+        v-show="sideBarfoods.length"
         slot="content-list"
         :key="item.id"
         class="list-group list-group-flush"
@@ -159,6 +163,13 @@
           {{ item.name }}
         </li>
       </ul>
+      <div
+        v-show="!sideBarfoods.length"
+        slot="content-list"
+        class="no-result-message"
+      >
+        <p>登録がありません</p>
+      </div>
     </side-bar>
   </div>
 </template>
@@ -173,6 +184,7 @@ import CommentForm from '~/components/CommentForm.vue'
 import inputFile from '~/components/inputFile.vue'
 import InputForm from '~/components/InputForm.vue'
 import SideBar from '~/components/SideBar.vue'
+import searchBar from '~/components/common/searchBar.vue'
 
 export default {
   components: {
@@ -184,7 +196,8 @@ export default {
     RecipeRegisterTable,
     inputFile,
     InputForm,
-    SideBar
+    SideBar,
+    searchBar
   },
   data() {
     return {
@@ -206,6 +219,7 @@ export default {
         cost: ''
       },
       selectedFile: '',
+      searchText: '',
       isRegisterActive: true,
       isClickRegisterBtn: false
     }
@@ -221,7 +235,17 @@ export default {
     },
     // 全ての食材
     sideBarfoods() {
-      return this.$store.getters['food/foods']
+      const filterFoods = []
+      const foods = this.$store.getters['food/foods'].slice()
+      if (!this.searchText) {
+        return foods
+      }
+      foods.forEach((food) => {
+        if (food.name.includes(this.searchText)) {
+          filterFoods.push(food)
+        }
+      })
+      return filterFoods
     },
     // 食材の使用量に対しての原価
     amountCost() {
@@ -296,7 +320,7 @@ export default {
     },
     // サイドバーから食材を選択して表示する
     selectFood(index) {
-      const food = this.$store.getters['food/foods'][index]
+      const food = this.sideBarfoods[index]
       // 食材の重複禁止の為、idが重複しているか調べる
       const overlapId = this.recipe.tableFoods.find((tableFood) => {
         return tableFood.id === food.id
@@ -378,10 +402,10 @@ export default {
         this.$router.push({ path: '/signin' })
         return
       }
-      alert(res.message)
       // 成功すれば画面遷移
       if (res.result) {
-        this.$router.push({ path: '/recipe/recipeCheckPage' })
+        alert(res.message)
+        this.$router.push({ path: '/home/recipe' })
       }
     }
   }
@@ -463,4 +487,9 @@ export default {
 }
 
 /* /食材登録フォーム */
+
+/* サイドバー */
+.no-result-message {
+  text-align: center;
+}
 </style>

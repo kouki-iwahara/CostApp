@@ -10,18 +10,40 @@
         inactive: isRecipeInactive
       }"
     />
-
+    <!-- 検索バー -->
     <div class="form  col-sm-6">
       <search-bar v-model="searchText" placeholder="食材を検索" />
     </div>
+
+    <!-- テーブル -->
     <div>
-      <div>
-        <button class="btn btn-orange btn-sm">
-          <nuxt-link to="/home/food/register" class="nav-link">
-            新規作成
-          </nuxt-link>
-        </button>
+      <!-- テーブル上部のメッセージ -->
+      <div class="table-message">
+        <div>
+          <!-- 食材があれば表示 -->
+          <div v-show="filterFoods.length">
+            <p>
+              <strong>{{ filterFoods.length }}</strong>
+              個のレシピを公開中
+            </p>
+          </div>
+          <!-- 食材が無ければ表示 -->
+          <div v-show="!filterFoods.length">
+            <p>登録がありません</p>
+          </div>
+        </div>
+        <!-- 新規作成ボタン -->
+        <div>
+          <button class="btn btn-orange btn-sm">
+            <nuxt-link to="/home/food/register" class="nav-link">
+              新規作成
+            </nuxt-link>
+          </button>
+        </div>
       </div>
+      <!-- テーブル上部のメッセージ終わり -->
+
+      <!-- テーブルデータ -->
       <table class="table mb-0 table-hover">
         <thead class="thead-dark">
           <tr>
@@ -106,9 +128,17 @@ export default {
   margin: 0 auto;
 }
 
+.table-message {
+  display: flex;
+  justify-content: space-between;
+}
+
+.table-message p {
+  margin-bottom: 0;
+}
+
 .btn-orange {
-  display: block;
-  margin: 0 0 5px auto;
+  margin-bottom: 5px;
   color: #fff;
   font-weight: 600;
   border-radius: 0.25em;

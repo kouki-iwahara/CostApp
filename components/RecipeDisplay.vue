@@ -10,7 +10,7 @@
               class="breadcrumb-item active"
               aria-current="page"
             >
-              食材
+              レシピ
             </li>
           </bread-crumb>
           <nav-tab
@@ -97,20 +97,28 @@
     </div>
     <!-- /container-fluid -->
     <side-bar>
-      <p slot="content">
-        全てのレシピ
-      </p>
+      <div slot="sidebar_search">
+        <search-bar v-model="searchText" placeholder="レシピ名を検索" />
+      </div>
       <ul
-        v-for="item in sidebarRecipes"
+        v-for="item in sideBarRecipes"
+        v-show="sideBarRecipes.length"
         slot="content-list"
         :key="item.id"
         class="list-group list-group-flush"
-        @click="toRecipePage(sidebarRecipes.indexOf(item))"
+        @click="toRecipePage(sideBarRecipes.indexOf(item))"
       >
         <li class="food-list_item list-group-item border-bottom">
           {{ item.name }}
         </li>
       </ul>
+      <div
+        v-show="!sideBarRecipes.length"
+        slot="content-list"
+        class="no-result-message"
+      >
+        <p>登録がありません</p>
+      </div>
     </side-bar>
   </div>
 </template>
@@ -119,6 +127,7 @@
 import BreadCrumb from '~/components/BreadCrumb.vue'
 import NavTab from '~/components/home/NavTab.vue'
 import SideBar from '~/components/SideBar.vue'
+import searchBar from '~/components/common/searchBar.vue'
 import FoodImage from '~/components/FoodImage.vue'
 import RecipeDisplayTable from '~/components/RecipeDisplayTable.vue'
 
@@ -127,6 +136,7 @@ export default {
     BreadCrumb,
     NavTab,
     SideBar,
+    searchBar,
     FoodImage,
     RecipeDisplayTable
   },
@@ -135,18 +145,28 @@ export default {
       recipe: {
         paramId: ''
       },
+      searchText: '',
       isViewActive: true
     }
   },
   computed: {
     // サイドバーに表示するレシピ
-    sidebarRecipes() {
+    sideBarRecipes() {
+      const filterRecipes = []
       const recipes = this.$store.getters['recipe/recipes'].slice()
-      return recipes
+      if (!this.searchText) {
+        return recipes
+      }
+      recipes.forEach((recipe) => {
+        if (recipe.name.includes(this.searchText)) {
+          filterRecipes.push(recipe)
+        }
+      })
+      return filterRecipes
     },
     // 右ページに表示するレシピ
     computedRecipe() {
-      const recipes = this.$store.getters['recipe/recipes']
+      const recipes = this.$store.getters['recipe/recipes'].slice()
       // 受け取ったparamsのidと一致するレシピを取得
       const recipe = recipes.find((recipe) => {
         return recipe.id === this.recipe.paramId
@@ -162,7 +182,7 @@ export default {
   methods: {
     // 選択されたレシピのページへ遷移
     toRecipePage(index) {
-      const recipe = this.$store.getters['recipe/recipes'][index]
+      const recipe = this.sideBarRecipes[index]
       console.log(recipe)
       this.$router.push({ path: `/home/recipe/${recipe.id}` })
     },
@@ -226,4 +246,9 @@ export default {
 }
 
 /* /レシピのデータリスト */
+
+/* サイドバー */
+.no-result-message {
+  text-align: center;
+}
 </style>

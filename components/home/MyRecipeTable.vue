@@ -13,12 +13,29 @@
       <search-bar v-model="searchText" placeholder="レシピを検索" />
     </div>
     <div>
-      <div>
-        <button class="btn btn-orange btn-sm">
-          <nuxt-link to="/home/recipe/register" class="nav-link">
-            新規作成
-          </nuxt-link>
-        </button>
+      <!-- テーブル上部のメッセージ -->
+      <div class="table-message">
+        <div>
+          <!-- レシピがあれば表示 -->
+          <div v-show="filterRecipes.length">
+            <p>
+              <strong>{{ filterRecipes.length }}</strong>
+              個のレシピを公開中
+            </p>
+          </div>
+          <!-- レシピが無ければ表示 -->
+          <div v-show="!filterRecipes.length">
+            <p>登録がありません</p>
+          </div>
+        </div>
+        <!-- 新規登録ボタン -->
+        <div>
+          <button class="btn btn-orange btn-sm">
+            <nuxt-link to="/home/recipe/register" class="nav-link">
+              新規作成
+            </nuxt-link>
+          </button>
+        </div>
       </div>
       <table class="table mb-0 table-hover">
         <thead class="thead-dark">
@@ -108,10 +125,19 @@ export default {
   border-radius: 0.25em;
   margin: 0 auto;
 }
-/* 新規作成ボタン */
+
+/* テーブルメッセージ */
+.table-message {
+  display: flex;
+  justify-content: space-between;
+}
+
+.table-message p {
+  margin-bottom: 0;
+}
+
 .btn-orange {
-  display: block;
-  margin: 0 0 5px auto;
+  margin-bottom: 5px;
   color: #fff;
   font-weight: 600;
   border-radius: 0.25em;

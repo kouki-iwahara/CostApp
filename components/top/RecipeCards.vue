@@ -3,7 +3,7 @@
     <div class="content">
       <bg-image />
       <div class="search-bar col-sm-6">
-        <search-bar v-model="searchText" placeholder="レシピを検索" />
+        <search-bar v-model="searchText" placeholder="レシピ名を検索" />
       </div>
       <div class="card-columns">
         <div
@@ -26,8 +26,8 @@
           </div>
         </div>
       </div>
-      <div v-show="!allRecipes.length" class="no-recipe-message">
-        <p>検索結果はありません</p>
+      <div v-show="!allRecipes.length" class="no-result-message">
+        <p>登録がありません</p>
       </div>
     </div>
   </div>
@@ -111,7 +111,7 @@ export default {
   overflow: hidden;
 }
 
-.no-recipe-message {
+.no-result-message {
   text-align: center;
   height: 40vh;
   margin: 30px auto;

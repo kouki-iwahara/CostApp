@@ -331,9 +331,9 @@ export default {
         this.$router.push({ path: '/signin' })
         return
       }
-      alert(res.message)
       if (res.result) {
-        this.$router.push({ path: '/' })
+        alert(res.message)
+        this.$router.push({ path: '/home/food' })
       }
     }
   }
