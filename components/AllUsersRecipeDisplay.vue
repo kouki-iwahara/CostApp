@@ -82,20 +82,28 @@
 
     <!-- サイドバー -->
     <side-bar>
-      <p slot="content">
-        全てのレシピ
-      </p>
+      <div slot="sidebar_search">
+        <search-bar v-model="searchText" placeholder="レシピ名を検索" />
+      </div>
       <ul
-        v-for="item in sidebarRecipes"
+        v-for="item in sideBarRecipes"
+        v-show="sideBarRecipes.length"
         slot="content-list"
         :key="item.id"
         class="list-group list-group-flush"
-        @click="toRecipePage(sidebarRecipes.indexOf(item))"
+        @click="toRecipePage(sideBarRecipes.indexOf(item))"
       >
         <li class="food-list_item list-group-item border-bottom">
           {{ item.name }}
         </li>
       </ul>
+      <div
+        v-show="!sideBarRecipes.length"
+        slot="content-list"
+        class="no-result-message"
+      >
+        <p>登録がありません</p>
+      </div>
     </side-bar>
   </div>
 </template>
@@ -103,6 +111,7 @@
 <script>
 import SideBar from '~/components/SideBar.vue'
 import BreadCrumb from '~/components/BreadCrumb.vue'
+import searchBar from '~/components/common/searchBar.vue'
 import FoodImage from '~/components/FoodImage.vue'
 import RecipeDisplayTable from '~/components/RecipeDisplayTable.vue'
 
@@ -110,6 +119,7 @@ export default {
   components: {
     SideBar,
     BreadCrumb,
+    searchBar,
     FoodImage,
     RecipeDisplayTable
   },
@@ -119,15 +129,25 @@ export default {
         id: ''
         // image: require('~/assets/pasta.jpg')
       },
+      searchText: '',
       isTableHover: false,
       isTablePointer: false
     }
   },
   computed: {
     // レシピが登録されていたらサイドバーに表示する
-    sidebarRecipes() {
+    sideBarRecipes() {
+      const filterRecipes = []
       const recipes = this.$store.getters['recipe/allUsersRecipes']
-      return recipes
+      if (!this.searchText) {
+        return recipes
+      }
+      recipes.forEach((recipe) => {
+        if (recipe.name.includes(this.searchText)) {
+          filterRecipes.push(recipe)
+        }
+      })
+      return filterRecipes
     },
     // 右ページに表示するレシピ
     computedRecipe() {
@@ -183,4 +203,9 @@ export default {
 }
 
 /* /レシピのデータリスト */
+
+/* サイドバー */
+.no-result-message {
+  text-align: center;
+}
 </style>
