@@ -48,7 +48,7 @@
               </nuxt-link>
             </li>
             <li class="nav-item">
-              <nuxt-link to="/home/recipe" class="nav-link">
+              <nuxt-link to="/recipe" class="nav-link">
                 レシピ一覧
               </nuxt-link>
             </li>
@@ -63,10 +63,10 @@
             <nuxt-link to="/home/food" class="nav-link">
               マイページ
             </nuxt-link>
-            <nuxt-link to="/home/food" class="nav-link">
+            <nuxt-link to="/home/food/register" class="nav-link">
               食材登録
             </nuxt-link>
-            <nuxt-link to="/home/food" class="nav-link">
+            <nuxt-link to="/home/recipe/register" class="nav-link">
               レシピ登録
             </nuxt-link>
 
