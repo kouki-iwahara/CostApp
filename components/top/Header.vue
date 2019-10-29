@@ -7,15 +7,34 @@
         class="nav-list collapse navbar-collapse"
         is-nav
       >
+        <!-- 検索バー -->
         <b-nav-form class="nav-form">
           <b-form-input
+            v-model="searchText"
             size="sm"
             class="mr-sm-2 search-form"
             type="text"
-            placeholder="レシピを検索"
+            placeholder="レシピ名を検索"
           />
-          <b-button size="sm" class="my-2 my-sm-0" type="button">検索</b-button>
         </b-nav-form>
+        <!-- 検索結果 -->
+        <div v-show="searchText" class="header-search-list">
+          <ul
+            v-for="item in searchResults"
+            v-show="searchResults.length"
+            :key="item.id"
+            class="list-group list-group-flush"
+          >
+            <li class="list-group-item">
+              <nuxt-link :to="`/recipe/${item.id}`" class="nav-link match">
+                {{ item.name }}
+              </nuxt-link>
+            </li>
+          </ul>
+          <ul v-show="!searchResults.length" class="list-group-item">
+            <li class="nav-link">登録がありません</li>
+          </ul>
+        </div>
         <b-navbar-nav class="nav-list_item">
           <ul class="navbar-nav">
             <li class="nav-item">
@@ -29,7 +48,7 @@
               </nuxt-link>
             </li>
             <li class="nav-item">
-              <nuxt-link to="/recipe" class="nav-link">
+              <nuxt-link to="/home/recipe" class="nav-link">
                 レシピ一覧
               </nuxt-link>
             </li>
@@ -76,6 +95,7 @@
 export default {
   data() {
     return {
+      searchText: '',
       isLogin: this.$store.getters['user/user']
     }
   },
@@ -85,6 +105,19 @@ export default {
       const pos = this.isLogin.email.indexOf('@')
       const name = this.isLogin.email.substring(0, pos)
       return name
+    },
+    searchResults() {
+      const filterRecipes = []
+      const recipes = this.$store.getters['recipe/allUsersRecipes'].slice()
+      if (!this.searchText) {
+        return filterRecipes
+      }
+      recipes.forEach((recipe) => {
+        if (recipe.name.includes(this.searchText)) {
+          filterRecipes.push(recipe)
+        }
+      })
+      return filterRecipes
     }
   },
   methods: {
@@ -107,6 +140,38 @@ export default {
   padding-right: 0;
   height: 60px;
   background: #24292e;
+}
+
+.header-search-list {
+  position: absolute;
+  top: 50px;
+  bottom: -500px;
+  margin: 2px 0 0 15px;
+  padding: 8px 0;
+  width: 15rem;
+  z-index: 1000;
+  text-align: center;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-radius: 0.25rem;
+}
+.header-search-list .nav-link {
+  color: #212529;
+  height: 24px;
+  padding: 0 24px;
+  line-height: 24px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.header-search-list .match:hover {
+  background: linear-gradient(to right, #f7b733, #fc4a1a);
+  color: #fff;
+}
+.list-group-item {
+  background-color: rgb(235, 234, 234);
+  padding: 10px 0;
+  margin-bottom: 8px;
 }
 
 /* nav-list */
