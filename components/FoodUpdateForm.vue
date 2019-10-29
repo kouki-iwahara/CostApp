@@ -143,9 +143,13 @@
       </div>
     </div>
     <side-bar>
+      <div slot="sidebar_search">
+        <search-bar v-model="searchText" placeholder="食材名を検索" />
+      </div>
       <strong slot="sidebar_content">登録した食材</strong>
       <ul
-        v-for="item in foods"
+        v-for="item in sideBarfoods"
+        v-show="sideBarfoods.length"
         slot="content-list"
         :key="item.id"
         class="list-group list-group-flush"
@@ -154,6 +158,13 @@
           {{ item.name }}
         </li>
       </ul>
+      <div
+        v-show="!sideBarfoods.length"
+        slot="content-list"
+        class="no-result-message"
+      >
+        <p>登録がありません</p>
+      </div>
     </side-bar>
   </div>
 
@@ -162,6 +173,7 @@
 
 <script>
 import SideBar from '~/components/SideBar.vue'
+import searchBar from '~/components/common/searchBar.vue'
 import BreadCrumb from '~/components/BreadCrumb.vue'
 import NavTab from '~/components/home/NavTab.vue'
 import FoodImage from '~/components/FoodImage.vue'
@@ -172,6 +184,7 @@ import InputForm from '~/components/InputForm.vue'
 export default {
   components: {
     SideBar,
+    searchBar,
     BreadCrumb,
     NavTab,
     FoodImage,
@@ -193,16 +206,28 @@ export default {
         image: ''
       },
       matchedRecipeslength: '',
+      searchText: '',
       selectedFile: '',
       isViewActive: true,
       isClickUpdateBtn: false
     }
   },
   computed: {
-    // 全ての食材をサイドバーに表示
-    foods() {
-      const foods = this.$store.getters['food/foods']
-      return foods
+    // サイドバーの食材（検索バーとレンダリングしている）
+    sideBarfoods() {
+      const filterFoods = []
+      const foods = this.$store.getters['food/foods'].slice()
+      // 検索バーにテキストが無ければ全ての食材を表示
+      if (!this.searchText) {
+        return foods
+      }
+      // 検索バーに入力されたテキストを含む食材を表示
+      foods.forEach((food) => {
+        if (food.name.includes(this.searchText)) {
+          filterFoods.push(food)
+        }
+      })
+      return filterFoods
     },
     // 食材の原価
     foodCost() {
@@ -411,5 +436,9 @@ export default {
 }
 .requireMark {
   color: #cb2431;
+}
+/* サイドバー */
+.no-result-message {
+  text-align: center;
 }
 </style>

@@ -162,19 +162,30 @@
     </div>
     <!-- /content -->
     <side-bar>
+      <div slot="sidebar_search">
+        <search-bar v-model="searchText" placeholder="食材名を検索" />
+      </div>
       <ul
-        v-for="item in foods"
+        v-for="item in sideBarfoods"
+        v-show="sideBarfoods.length"
         slot="content-list"
         :key="item.id"
         class="list-group list-group-flush"
       >
         <li
           class="food-list_item list-group-item border-bottom"
-          @click="selectFood(foods.indexOf(item))"
+          @click="selectFood(sideBarfoods.indexOf(item))"
         >
           {{ item.name }}
         </li>
       </ul>
+      <div
+        v-show="!sideBarfoods.length"
+        slot="content-list"
+        class="no-result-message"
+      >
+        <p>登録がありません</p>
+      </div>
     </side-bar>
   </div>
 </template>
@@ -189,6 +200,7 @@ import CommentForm from '~/components/CommentForm.vue'
 import inputFile from '~/components/inputFile.vue'
 import InputForm from '~/components/InputForm.vue'
 import SideBar from '~/components/SideBar.vue'
+import searchBar from '~/components/common/searchBar.vue'
 
 export default {
   components: {
@@ -200,7 +212,8 @@ export default {
     RecipeRegisterTable,
     inputFile,
     InputForm,
-    SideBar
+    SideBar,
+    searchBar
   },
   data() {
     return {
@@ -224,6 +237,7 @@ export default {
         cost: ''
       },
       selectedFile: '',
+      searchText: '',
       isViewActive: true,
       isClickUpdateBtn: false
     }
@@ -237,9 +251,21 @@ export default {
       }
       return '表示されます'
     },
-    // 全ての食材
-    foods() {
-      return this.$store.getters['food/foods']
+    // サイドバーの食材（検索バーとレンダリングしている）
+    sideBarfoods() {
+      const filterFoods = []
+      const foods = this.$store.getters['food/foods'].slice()
+      // 検索バーにテキストが無ければ全ての食材を表示
+      if (!this.searchText) {
+        return foods
+      }
+      // 検索バーに入力されたテキストを含む食材を表示
+      foods.forEach((food) => {
+        if (food.name.includes(this.searchText)) {
+          filterFoods.push(food)
+        }
+      })
+      return filterFoods
     },
     // 食材の使用量に対しての原価
     amountCost() {
@@ -543,4 +569,11 @@ export default {
 }
 
 /* /削除フォーム */
+
+/* サイドバー */
+.no-result-message {
+  text-align: center;
+}
+
+/* /サイドバー */
 </style>
