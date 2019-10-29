@@ -2,9 +2,7 @@
   <div class="container-fluid">
     <div class="sidebar row">
       <div class="sidebar_search col-sm-3 hidden-xs">
-        <div class="nav-list_info  text-dark">
-          <slot name="sidebar_content" />
-        </div>
+        <slot name="sidebar_search" />
       </div>
       <div class="sidebar_list col-sm-3 hidden-xs">
         <div class="sidebar_list_content">

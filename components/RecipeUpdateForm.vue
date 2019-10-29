@@ -429,10 +429,10 @@ export default {
         this.$router.push({ path: '/signin' })
         return
       }
-      alert(res.message)
       // 成功すれば画面遷移
       if (res.result) {
-        this.$router.push({ path: '/recipe/recipeCheckPage' })
+        alert(res.message)
+        this.$router.push({ path: '/home/recipe' })
       }
     }
   }

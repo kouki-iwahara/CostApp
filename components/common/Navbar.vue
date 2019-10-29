@@ -3,12 +3,12 @@
     <b-nav-item
       :class="{ active: isFoodActive, inactive: isFoodInactive }"
       to="/home/food"
-      >食材<span class="badge badge-pill">4</span></b-nav-item
+      >食材</b-nav-item
     >
     <b-nav-item
       :class="{ active: isRecipeActive, inactive: isRecipeInactive }"
       to="/home/recipe"
-      >レシピ<span class="badge badge-pill">4</span></b-nav-item
+      >レシピ</b-nav-item
     >
     <b-nav-item disabled class="inactive" to="#">メニュー(準備中)</b-nav-item>
     <b-nav-item disabled class="inactive" to="#">コース(準備中)</b-nav-item>

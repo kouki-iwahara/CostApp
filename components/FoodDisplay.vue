@@ -119,18 +119,28 @@
       <!-- /content row -->
     </div>
     <side-bar>
-      <strong slot="sidebar_content">登録した食材</strong>
+      <div slot="sidebar_search">
+        <search-bar v-model="searchText" placeholder="食材名を検索" />
+      </div>
       <ul
         v-for="item in sideBarfoods"
+        v-show="sideBarfoods.length"
         slot="content-list"
         :key="item.id"
         class="list-group list-group-flush"
-        @click="showFood(sideBarfoods.indexOf(item))"
+        @click="toFoodPage(sideBarfoods.indexOf(item))"
       >
         <li class="food-list_item list-group-item border-bottom">
           {{ item.name }}
         </li>
       </ul>
+      <div
+        v-show="!sideBarfoods.length"
+        slot="content-list"
+        class="no-result-message"
+      >
+        <p>登録がありません</p>
+      </div>
     </side-bar>
   </div>
 </template>
@@ -139,11 +149,13 @@
 import NavTab from '~/components/home/NavTab.vue'
 import BreadCrumb from '~/components/BreadCrumb.vue'
 import SideBar from '~/components/SideBar.vue'
+import searchBar from '~/components/common/searchBar.vue'
 import FoodImage from '~/components/FoodImage.vue'
 
 export default {
   components: {
     SideBar,
+    searchBar,
     FoodImage,
     NavTab,
     BreadCrumb
@@ -154,13 +166,24 @@ export default {
         paramId: ''
         // image: require('~/assets/pasta.jpg')
       },
+      searchText: '',
       isViewActive: true
     }
   },
   computed: {
     // サイドバーの食材（全ての食材）
     sideBarfoods() {
-      return this.$store.getters['food/foods']
+      const filterFoods = []
+      const foods = this.$store.getters['food/foods'].slice()
+      if (!this.searchText) {
+        return foods
+      }
+      foods.forEach((food) => {
+        if (food.name.includes(this.searchText)) {
+          filterFoods.push(food)
+        }
+      })
+      return filterFoods
     },
     // 右ページに表示する食材
     foods() {
@@ -199,8 +222,8 @@ export default {
   },
   methods: {
     // サイドバーから選択された食材のページへ遷移
-    showFood(index) {
-      const food = this.$store.getters['food/foods'][index]
+    toFoodPage(index) {
+      const food = this.sideBarfoods[index]
       console.log(food)
       this.$router.push({ path: `/home/food/${food.id}` })
     },
@@ -264,6 +287,7 @@ export default {
 
 /* /レシピデータのリスト */
 
+/* テーブル */
 .table tbody {
   background-color: #fff;
 }
@@ -274,4 +298,11 @@ export default {
 .table-message {
   margin-top: 20px;
 }
+/* /テーブル */
+
+/* サイドバー */
+.no-result-message {
+  text-align: center;
+}
+/* /サイドバー */
 </style>
