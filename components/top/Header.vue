@@ -76,12 +76,7 @@
             </div>
           </b-dropdown>
 
-          <button
-            v-else
-            class="signin-btn btn btn-light"
-            type="button"
-            @click="toSignin"
-          >
+          <button v-else class="signin-btn btn" type="button" @click="toSignin">
             ログイン
           </button>
         </div>
@@ -148,15 +143,14 @@ export default {
   bottom: -500px;
   margin: 2px 0 0 15px;
   padding: 8px 0;
-  width: 15rem;
+  width: 12rem;
   z-index: 1000;
-  text-align: center;
   overflow-x: hidden;
   overflow-y: auto;
   border-radius: 0.25rem;
 }
 .header-search-list .nav-link {
-  color: #212529;
+  color: #fff;
   height: 24px;
   padding: 0 24px;
   line-height: 24px;
@@ -166,10 +160,11 @@ export default {
 }
 .header-search-list .match:hover {
   background: linear-gradient(to right, #f7b733, #fc4a1a);
-  color: #fff;
+  color: #212529;
 }
 .list-group-item {
-  background-color: rgb(235, 234, 234);
+  background-color: rgb(2, 2, 2);
+  opacity: 0.9;
   padding: 10px 0;
   margin-bottom: 8px;
 }
@@ -194,6 +189,7 @@ export default {
   padding-right: 15px;
   margin: 0 0 0 auto;
 }
+
 .signout {
   text-align: center;
 }
@@ -219,6 +215,10 @@ export default {
 }
 .nav-form {
   display: none;
+}
+.signin-btn {
+  background-color: #e9ecef;
+  background-image: linear-gradient(-180deg, #f4f5f7, #e9ecef 90%);
 }
 /* /nav-list */
 @media screen and (min-width: 768px) {
