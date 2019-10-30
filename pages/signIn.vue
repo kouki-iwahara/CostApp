@@ -43,6 +43,9 @@
                 ログイン
               </button>
               <div class="nav">
+                <nuxt-link to="/" class="nav-link">
+                  トップ
+                </nuxt-link>
                 <nuxt-link to="/signUp" class="nav-link">
                   アカウント作成
                 </nuxt-link>
@@ -102,7 +105,7 @@ export default {
 }
 .form-signin {
   max-width: 420px;
-  padding: 30px 38px 66px;
+  padding: 30px 38px;
   margin: auto;
   background-color: #fff;
   border: 3px dotted rgba(0, 0, 0, 0.214);
@@ -133,6 +136,7 @@ input[type='password'] {
   justify-content: center;
 }
 .login-form_btn {
+  margin-bottom: 20px;
   height: 46px;
   line-height: 23px;
   box-sizing: border-box;
