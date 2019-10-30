@@ -1,70 +1,78 @@
 <template>
   <div class="col-sm-12">
     <div class="row">
-      <div class="message col-sm-12 border-bottom">
-        <strong>食材をレシピに追加</strong>
-      </div>
-      <div class="message col-sm-12">
-        <p>
-          追加したい食材を左の食材リストからクリックすると食材名が表示されます
-        </p>
-      </div>
-      <!-- 食材名 -->
-      <div class="food-content col-sm-3">
-        <strong>食材名</strong>
-        <div>
-          <span>
-            {{ foodName }}
-          </span>
+      <div class="add-form col-sm-12 border rounded">
+        <div class="message col-sm-12 border-bottom">
+          <strong>食材をレシピに追加</strong>
         </div>
-      </div>
-      <!-- 使用量 -->
-      <div class="food-content col-sm-3">
-        <div class="food-content_amount">
-          <strong>使用量</strong>
+        <div class="message col-sm-12">
+          <p>
+            追加したい食材を左の食材リストからクリックすると食材名が表示されます。<br />
+            使用量を入力し追加して下さい。
+          </p>
         </div>
-        <div class="input-group input-group-sm">
-          <input
-            type="number"
-            :value="value"
-            class="form-control rounded-0"
-            placeholder="使用量"
-            min="0"
-            aria-describedby="inputGroup-sizing-sm"
-            @input="updateValue"
-          />
-          <div class="input-group-prepend">
-            <span id="inputGroup-sizing-sm" class="input-group-text rounded-0">
-              {{ foodUnit }}
-            </span>
+        <div class="row">
+          <!-- 食材名 -->
+          <div class="food-content col-sm-3">
+            <strong>食材名</strong>
+            <div>
+              <span>
+                {{ foodName }}
+              </span>
+            </div>
+          </div>
+          <!-- 使用量 -->
+          <div class="food-content col-sm-3">
+            <div class="food-content_amount">
+              <strong>使用量</strong>
+            </div>
+            <div class="input-group input-group-sm">
+              <input
+                type="number"
+                :value="value"
+                class="form-control rounded-0"
+                placeholder="使用量"
+                min="0"
+                aria-describedby="inputGroup-sizing-sm"
+                @input="updateValue"
+              />
+              <div class="input-group-prepend">
+                <span
+                  id="inputGroup-sizing-sm"
+                  class="input-group-text rounded-0"
+                >
+                  {{ foodUnit }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <!-- 原価 -->
+          <div class="food-content col-sm-3">
+            <strong>使用原価(円)</strong>
+            <div>
+              <span> {{ foodCost }} </span>
+            </div>
+          </div>
+          <!-- ボタン -->
+          <div class="col-sm-3">
+            <button
+              slot="btn"
+              type="button"
+              class="add-btn btn btn-success btn-sm"
+              @click="addFoodToRecipe"
+            >
+              <span>追加</span>
+            </button>
+            <button
+              slot="btn"
+              type="button"
+              class="cancel-btn btn btn-warning btn-sm"
+              @click="initializeForm"
+            >
+              <span>削除</span>
+            </button>
           </div>
         </div>
-      </div>
-      <!-- 原価 -->
-      <div class="food-content col-sm-3">
-        <strong>使用原価(円)</strong>
-        <div>
-          <span> {{ foodCost }} </span>
-        </div>
-      </div>
-      <!-- ボタン -->
-      <div class="col-sm-3">
-        <button
-          slot="btn"
-          type="button"
-          class="add-btn btn btn-success btn-sm"
-          @click="addFoodToRecipe"
-        >
-          <span>追加</span>
-        </button>
-        <button
-          slot="btn"
-          type="button"
-          class="cancel-btn btn btn-warning btn-sm"
-          @click="initializeForm"
-        >
-          <span>削除</span>
-        </button>
       </div>
     </div>
   </div>
@@ -109,12 +117,16 @@ export default {
 </script>
 
 <style scoped>
+.add-form {
+  padding: 15px;
+  background-color: #fff;
+}
 .message {
   padding: 0;
+  margin-bottom: 5px;
 }
 
 .food-content {
-  background-color: #fff;
   padding: 8px 12px;
 }
 
