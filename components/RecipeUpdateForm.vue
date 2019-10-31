@@ -546,8 +546,7 @@ export default {
   margin: 0 auto 20px;
 }
 .content_danger_form {
-  display: flex;
-  justify-content: space-between;
+  text-align: center;
   padding: 16px;
   border: 1px solid #cb2431;
 }
@@ -576,4 +575,12 @@ export default {
 }
 
 /* /サイドバー */
+
+@media screen and (min-width: 830px) {
+  /* 削除ボタンフォーム */
+  .content_danger_form {
+    display: flex;
+    justify-content: space-between;
+  }
+}
 </style>

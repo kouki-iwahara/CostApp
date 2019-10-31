@@ -387,8 +387,7 @@ export default {
   margin: 0 auto;
 }
 .content_danger_form {
-  display: flex;
-  justify-content: space-between;
+  text-align: center;
   padding: 16px;
   border: 1px solid #cb2431;
 }
@@ -440,5 +439,12 @@ export default {
 /* サイドバー */
 .no-result-message {
   text-align: center;
+}
+
+@media screen and (min-width: 500px) {
+  .content_danger_form {
+    display: flex;
+    justify-content: space-between;
+  }
 }
 </style>
