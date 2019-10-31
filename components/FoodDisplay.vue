@@ -95,8 +95,6 @@
                 <th scope="col">レシピ名</th>
                 <th scope="col">原価(円)</th>
                 <th scope="col">原価率(％)</th>
-                <th scope="col">作成日</th>
-                <th scope="col">最終更新</th>
               </tr>
             </thead>
             <tbody>
@@ -108,8 +106,6 @@
                 <td>{{ recipe.name }}</td>
                 <td>{{ recipe.cost }}</td>
                 <td>{{ recipe.costRate }}</td>
-                <td>{{ recipe.createdAt.substring(0, 10) }}</td>
-                <td>{{ recipe.updatedAt.substring(0, 10) }}</td>
               </tr>
             </tbody>
           </table>

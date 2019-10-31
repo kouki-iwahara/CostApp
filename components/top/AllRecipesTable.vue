@@ -29,7 +29,9 @@
         </button>
       </div>
     </div>
-    <table class="table mb-0 table-hover">
+
+    <!-- pc表示のテーブル -->
+    <table class="window-table table mb-0 table-hover">
       <thead class="thead-dark">
         <tr>
           <th scope="col">レシピ名</th>
@@ -48,6 +50,26 @@
           <td>{{ recipe.cost }}</td>
           <td>{{ recipe.createdAt.substring(0, 10) }}</td>
           <td>{{ recipe.updatedAt.substring(0, 10) }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- スマホ表示のテーブル -->
+    <table class="mobile-table table mb-0 table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">レシピ名</th>
+          <th class="cost" scope="col">原価(円)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="recipe in recipes"
+          :key="recipe.id"
+          @click="toAllRecipesPage(recipes.indexOf(recipe))"
+        >
+          <td>{{ recipe.name }}</td>
+          <td class="cost">{{ recipe.cost }}</td>
         </tr>
       </tbody>
     </table>
@@ -104,7 +126,7 @@ export default {
 }
 /* /検索バー */
 
-/* テーブルメッセージ */
+/* テーブル */
 .table-message {
   display: flex;
   justify-content: space-between;
@@ -127,10 +149,27 @@ export default {
   padding: 0;
   color: #fff;
 }
-/* /テーブルメッセージ */
 
 .table td {
   cursor: pointer;
   border-color: #9d9d9d;
+}
+
+/* min-width: 576pxからスマホ用のテーブルに切り替わる */
+.window-table {
+  display: none;
+}
+
+.cost {
+  text-align: right;
+}
+/* /テーブル */
+@media screen and (min-width: 576px) {
+  .window-table {
+    display: table;
+  }
+  .mobile-table {
+    display: none;
+  }
 }
 </style>

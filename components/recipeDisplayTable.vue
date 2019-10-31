@@ -12,7 +12,7 @@
         <tr>
           <th scope="col">食材名</th>
           <th scope="col">使用量</th>
-          <th scope="col">原価(円/単位)</th>
+          <th scope="col">原価<small>(円/単位)</small></th>
         </tr>
       </thead>
       <tbody>
@@ -26,7 +26,9 @@
             {{ recipeFood.foodAmount }}
             {{ recipeFood.foodUnit }}
           </td>
-          <td>{{ recipeFood.foodAmountCost }}</td>
+          <td>
+            {{ recipeFood.foodAmountCost }}{{ `/${recipeFood.foodUnit}` }}
+          </td>
         </tr>
       </tbody>
     </table>
