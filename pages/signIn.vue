@@ -55,6 +55,7 @@
         </div>
       </div>
     </div>
+
     <Footer />
   </div>
 </template>
@@ -97,7 +98,7 @@ export default {
 
 <style scoped>
 .wrapper {
-  border: none;
+  padding-top: 60px;
 }
 /* フォーム */
 .login-form {

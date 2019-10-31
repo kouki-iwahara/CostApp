@@ -11,7 +11,7 @@
             </div>
             <div class="service-message_title">
               <strong>
-                利益と原価管理、レシピ制作支援サービス
+                利益と原価管理<span>、</span><br />レシピ制作支援サービス
               </strong>
             </div>
             <div class="service-message_count">
@@ -72,6 +72,9 @@ export default {
 .bg-mask {
   height: 100%;
   background: rgba(255, 255, 255, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .bg-image {
   height: 400px;
@@ -85,8 +88,6 @@ export default {
 .service-message {
   text-align: center;
   font-size: 1.3em;
-  position: absolute;
-  top: 100px;
 }
 .service-message_title {
   margin-bottom: 16px;
@@ -110,5 +111,26 @@ export default {
 }
 .nav-link:hover {
   text-decoration: underline;
+}
+.service-message_title span {
+  display: none;
+}
+.service-message_title br {
+  display: initial;
+}
+@media screen and (min-width: 415px) {
+  .bg-mask {
+    display: block;
+  }
+  .service-message {
+    position: absolute;
+    top: 100px;
+  }
+  .service-message_title span {
+    display: initial;
+  }
+  .service-message_title br {
+    display: none;
+  }
 }
 </style>

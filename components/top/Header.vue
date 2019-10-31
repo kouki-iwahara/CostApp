@@ -1,7 +1,9 @@
 <template>
   <div>
     <b-navbar class="header fixed-top navbar" type="dark" toggleable="md">
-      <b-navbar-toggle target="nav_collapse" />
+      <div class="header_toggle">
+        <b-navbar-toggle target="nav_collapse" />
+      </div>
       <b-collapse
         id="nav_collapse"
         class="nav-list collapse navbar-collapse"
@@ -35,6 +37,7 @@
             <li class="nav-link">登録がありません</li>
           </ul>
         </div>
+        <!-- min-width: 768pxまで表示 -->
         <b-navbar-nav class="nav-list_item">
           <ul class="navbar-nav">
             <li class="nav-item">
@@ -55,6 +58,53 @@
           </ul>
         </b-navbar-nav>
         <!-- /nav-list_item -->
+
+        <!-- min-width: 768pxから表示 -->
+        <b-navbar-nav class="nav-list_item-mobile">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <nuxt-link to="/" class="nav-link">
+                トップ
+              </nuxt-link>
+            </li>
+            <li v-show="isLogin" class="nav-item">
+              <nuxt-link to="/home/food" class="nav-link">
+                マイページ
+              </nuxt-link>
+            </li>
+            <li class="nav-item">
+              <nuxt-link to="/recipe" class="nav-link">
+                レシピ一覧
+              </nuxt-link>
+            </li>
+            <li v-show="isLogin" class="nav-item">
+              <nuxt-link to="/home/food/register" class="nav-link">
+                食材登録
+              </nuxt-link>
+            </li>
+            <li v-show="isLogin" class="nav-item">
+              <nuxt-link to="/home/recipe/register" class="nav-link">
+                レシピ登録
+              </nuxt-link>
+            </li>
+            <li
+              v-show="isLogin"
+              class="nav-item nav-link nav-list_item-mobile_sign"
+              @click="signOut"
+            >
+              <strong>ログアウト</strong>
+            </li>
+            <li
+              v-show="!isLogin"
+              class="nav-item nav-link nav-list_item-mobile_sign"
+              @click="toSignin"
+            >
+              <strong>ログイン</strong>
+            </li>
+          </ul>
+        </b-navbar-nav>
+
+        <!-- min-width: 768pxまで表示 -->
         <div class="nav-list_item_btn">
           <b-dropdown v-if="isLogin" variant="light" right>
             <template v-slot:button-content>
@@ -136,7 +186,9 @@ export default {
   height: 60px;
   background: #24292e;
 }
-
+.header_toggle {
+  padding-left: 15px;
+}
 .header-search-list {
   position: absolute;
   top: 50px;
@@ -171,9 +223,10 @@ export default {
 
 /* nav-list */
 .nav-list {
+  background-color: black;
   margin: 0 auto;
   max-width: 1024px;
-  opacity: 0.9;
+  opacity: 0.8;
 }
 .nav-item .nav-link {
   color: #fff;
@@ -181,11 +234,28 @@ export default {
 }
 
 .nav-list_item {
+  display: none;
+}
+
+.nav-list_item-mobile {
   display: flex;
-  justify-content: flex-end;
-  padding-left: 17px;
+  padding-top: 30px;
+  padding-left: 15px;
+}
+
+.nav-list_item-mobile .nav-link {
+  margin-bottom: 10px;
+}
+
+.nav-list_item-mobile_sign {
+  cursor: pointer;
+  margin-top: 30px;
+}
+.nav-list_item-mobile_sign strong {
+  color: #fff;
 }
 .nav-list_item_btn {
+  display: none;
   padding-right: 15px;
   margin: 0 0 0 auto;
 }
@@ -222,17 +292,36 @@ export default {
 }
 /* /nav-list */
 @media screen and (min-width: 768px) {
+  .header_toggle {
+    padding-left: 0;
+  }
   .nav-list {
     margin: 0 auto;
     height: 60px;
     max-width: 1024px;
+    background: #24292e;
   }
+
   .nav-form {
     display: block;
   }
+
   .nav-link {
     height: 60px;
     line-height: 45px;
+  }
+
+  .nav-list_item {
+    display: flex;
+    padding-left: 15px;
+  }
+
+  .nav-list_item-mobile {
+    display: none;
+  }
+
+  .nav-list_item_btn {
+    display: block;
   }
 }
 </style>
