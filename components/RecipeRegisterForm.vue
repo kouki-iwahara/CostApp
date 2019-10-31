@@ -125,7 +125,7 @@
 
       <!-- 食材登録始まり -->
       <div class="row offset-3">
-        <!--食材登録の＋ボタン min-width: 768pxまで非表示 -->
+        <!--スマホ食材登録の＋ボタン min-width: 768pxまで非表示 -->
         <div class="plus-btn col-sm-12">
           <button
             type="button"
@@ -135,7 +135,7 @@
             ＋
           </button>
           <span>食材を登録</span>
-          <nuxt-link to="/addFoodToRecipePage" class="nav-link">
+          <nuxt-link to="/home/recipe/register/addFood" class="nav-link">
             ボタン押下でここに遷移する
           </nuxt-link>
         </div>
