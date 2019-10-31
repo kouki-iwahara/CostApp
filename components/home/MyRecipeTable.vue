@@ -37,7 +37,9 @@
           </button>
         </div>
       </div>
-      <table class="table mb-0 table-hover">
+
+      <!-- pc表示用テーブル -->
+      <table class="window-table table mb-0 table-hover">
         <thead class="thead-dark">
           <tr>
             <th scope="col">レシピ名</th>
@@ -58,6 +60,28 @@
             <td>{{ recipe.costRate }}</td>
             <td>{{ recipe.createdAt.substring(0, 10) }}</td>
             <td>{{ recipe.updatedAt.substring(0, 10) }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- スマホ表示用テーブル -->
+      <table class="mobile-table table mb-0 table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">レシピ名</th>
+            <th scope="col">原価(円)</th>
+            <th scope="col">原価率(％)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="recipe in filterRecipes"
+            :key="recipe.id"
+            @click="toRecipeIdPage(filterRecipes.indexOf(recipe))"
+          >
+            <td>{{ recipe.name }}</td>
+            <td>{{ recipe.cost }}</td>
+            <td>{{ recipe.costRate }}</td>
           </tr>
         </tbody>
       </table>
@@ -150,5 +174,18 @@ export default {
 }
 .table td {
   cursor: pointer;
+}
+
+.window-table {
+  display: none;
+}
+
+@media screen and (min-width: 576px) {
+  .window-table {
+    display: table;
+  }
+  .mobile-table {
+    display: none;
+  }
 }
 </style>

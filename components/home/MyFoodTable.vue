@@ -43,12 +43,12 @@
       </div>
       <!-- テーブル上部のメッセージ終わり -->
 
-      <!-- テーブルデータ -->
-      <table class="table mb-0 table-hover">
+      <!-- pc表示用テーブル -->
+      <table class="window-table table mb-0 table-hover">
         <thead class="thead-dark">
           <tr>
             <th scope="col">食材名</th>
-            <th scope="col">原価(円/単位)</th>
+            <th scope="col">原価<small>(円/単位)</small></th>
             <th scope="col">作成日</th>
             <th scope="col">最終更新</th>
           </tr>
@@ -63,6 +63,26 @@
             <td>{{ food.cost }}{{ `/${food.unit}` }}</td>
             <td>{{ food.createdAt.substring(0, 10) }}</td>
             <td>{{ food.updatedAt.substring(0, 10) }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- スマホ表示テーブル -->
+      <table class="mobile-table table mb-0 table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">食材名</th>
+            <th class="cost" scope="col">原価<small>(円/単位)</small></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="food in filterFoods"
+            :key="food.id"
+            @click="toFoodIdPage(filterFoods.indexOf(food))"
+          >
+            <td>{{ food.name }}</td>
+            <td class="cost">{{ food.cost }}{{ `/${food.unit}` }}</td>
           </tr>
         </tbody>
       </table>
@@ -151,5 +171,19 @@ export default {
 }
 .table td {
   cursor: pointer;
+}
+.window-table {
+  display: none;
+}
+.cost {
+  text-align: right;
+}
+@media screen and (min-width: 576px) {
+  .window-table {
+    display: table;
+  }
+  .mobile-table {
+    display: none;
+  }
 }
 </style>
