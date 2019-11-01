@@ -13,21 +13,25 @@
         </div>
         <div class="row">
           <!-- 食材名 -->
-          <div class="food-content col-sm-3">
+          <div class="food-content col-sm-4">
             <strong>食材名</strong>
             <div>
               <span>
                 {{ foodName }}
               </span>
             </div>
+            <div>
+              <small> {{ foodCost }} </small>
+            </div>
           </div>
           <!-- 使用量 -->
-          <div class="food-content col-sm-3">
+          <div class="food-content col-sm-5">
             <div class="food-content_amount">
               <strong>使用量</strong>
             </div>
             <div class="input-group input-group-sm">
               <input
+                ref="addFood"
                 type="number"
                 :value="value"
                 class="form-control rounded-0"
@@ -47,12 +51,12 @@
             </div>
           </div>
           <!-- 原価 -->
-          <div class="food-content col-sm-3">
+          <!-- <div class="food-content col-sm-3">
             <strong>使用原価(円)</strong>
             <div>
               <span> {{ foodCost }} </span>
             </div>
-          </div>
+          </div> -->
           <!-- ボタン -->
           <div class="col-sm-3">
             <button
@@ -91,11 +95,16 @@ export default {
     },
     foodCost: {
       type: [Number, String],
-      required: true
+      default: null
     },
     foodUnit: {
       type: String,
       required: true
+    }
+  },
+  mounted() {
+    if (this.$route.query.recipeFood) {
+      this.$refs.addFood.focus()
     }
   },
   methods: {

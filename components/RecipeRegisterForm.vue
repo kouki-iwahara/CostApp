@@ -131,13 +131,11 @@
             type="button"
             class="btn btn-success rounded-circle p-0"
             style="width:2rem;height:2rem;"
+            @click="toAddFoodPage"
           >
             ＋
           </button>
           <span>食材を登録</span>
-          <nuxt-link to="/home/recipe/register/addFood" class="nav-link">
-            ボタン押下でここに遷移する
-          </nuxt-link>
         </div>
         <!-- 食材登録フォーム min-width: 768pxまで表示 -->
         <div class="food-add-to-menu-form col-sm-10">
@@ -265,11 +263,11 @@ export default {
     },
     // 食材の使用量に対しての原価
     amountCost() {
-      if (!this.food.amount) {
-        return '表示されます'
+      if (this.food.name === '表示されます') {
+        return
       }
       const cost = this.food.cost * this.food.amount
-      return Math.round(cost * 10) / 10
+      return Math.round(cost * 10) / 10 + '円'
     },
     // レシピの原価（食材原価の合計）
     recipeCost() {
@@ -281,11 +279,15 @@ export default {
     }
   },
   created() {
+    // サイドバーの遷移先を設定
     const recipes = this.$store.state.recipe.recipes
     console.log(recipes)
     if (recipes.length !== 0) {
-      console.log('jiji')
       this.recipe.paramId = recipes[0].id
+    }
+    // 追加する食材データがクエリに格納されていればフォームに食材を表示
+    if (this.$route.query.recipeFood) {
+      this.addFoodToMobileForm()
     }
   },
   methods: {
@@ -354,6 +356,36 @@ export default {
       this.food.name = food.name
       this.food.unit = food.unit
       this.food.cost = food.cost
+    },
+    // スマホ画面の食材追加フォームの表示
+    addFoodToMobileForm() {
+      // 追加する食材データが無ければ返す
+      if (!this.$route.query.recipeFood.id) {
+        return
+      }
+      // フォームに表示
+      const food = this.$route.query.recipeFood
+      this.food.amount = ''
+      this.food.id = food.id
+      this.food.name = food.name
+      this.food.unit = food.unit
+      this.food.cost = food.cost
+      // 食材テーブルのクエリが無い場合（スマホの画面スライドにより無くなる場合有り）
+      if (!this.$route.query.tableFoods) {
+        return
+      }
+      const tableFoods = this.$route.query.tableFoods.slice()
+      // 食材テーブルの配列に食材が追加されていればテーブルに表示する
+      if (tableFoods.length !== 0) {
+        console.log('query.tableFoods', tableFoods)
+        // 画面横スライドで、データはあるが読み取れなくなるのでidの所持で分岐した
+        if (tableFoods[0].id) {
+          this.$route.query.tableFoods.forEach((food) => {
+            console.log(food)
+            this.recipe.tableFoods.push(food)
+          })
+        }
+      }
     },
     // 食材追加フォームの初期化
     initializeForm() {
@@ -426,6 +458,13 @@ export default {
         alert(res.message)
         this.$router.push({ path: '/home/recipe' })
       }
+    },
+    // スマホ画面の食材追加ページへ遷移
+    toAddFoodPage() {
+      this.$router.push({
+        path: '/home/recipe/register/addFood',
+        query: { tableFoods: this.recipe.tableFoods }
+      })
     }
   }
 }
@@ -486,8 +525,12 @@ export default {
 /* /入力フォーム */
 
 /* 食材登録フォーム */
-.food-add-to-menu-form {
+/* .food-add-to-menu-form {
   display: none;
+} */
+.food-add-to-menu-form {
+  margin: 0 auto 20px;
+  display: flex;
 }
 
 .plus-btn {

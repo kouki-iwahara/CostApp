@@ -39,6 +39,7 @@ export default {
   },
   data() {
     return {
+      recipeFoods: [],
       searchText: ''
     }
   },
@@ -58,9 +59,30 @@ export default {
       return filterFoods
     }
   },
+  created() {
+    // this.recipeFoods = this.$route.query.recipeFoods.slice()
+    this.recipeFoods = [{ name: 'jijij', age: '23' }].slice()
+  },
   methods: {
     selectFood(index) {
-      console.log(index)
+      const food = this.foods[index]
+      console.log(food)
+      // 食材の重複禁止の為、idが重複しているか調べる
+      if (this.$route.query.tableFoods) {
+        const overlapId = this.$route.query.tableFoods.find((tableFood) => {
+          return tableFood.id === food.id
+        })
+        // idが重複していた場合
+        if (overlapId) {
+          alert('その食材は使われています')
+          return
+        }
+      }
+      // 選択した食材をクエリにセットして画面遷移
+      this.$router.push({
+        path: '/home/recipe/register',
+        query: { recipeFood: food, tableFoods: this.$route.query.tableFoods }
+      })
     }
   }
 }
