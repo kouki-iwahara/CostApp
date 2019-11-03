@@ -126,7 +126,7 @@
       <!-- 食材登録始まり -->
       <div class="row offset-3">
         <!--スマホ食材登録の＋ボタン min-width: 768pxまで非表示 -->
-        <div class="plus-btn col-sm-12">
+        <div class="plus-btn col-sm-10">
           <button
             type="button"
             class="btn btn-success rounded-circle p-0"
@@ -135,9 +135,9 @@
           >
             ＋
           </button>
-          <span>食材を登録</span>
+          <span>食材を追加</span>
         </div>
-        <!-- 食材登録フォーム min-width: 768pxまで表示 -->
+        <!-- 食材登録フォーム -->
         <div class="food-add-to-menu-form col-sm-10">
           <add-food-form
             v-model="food.amount"
@@ -148,12 +148,41 @@
             @initializeForm="initializeForm"
           />
         </div>
-        <!-- 食材テーブル -->
+        <!-- 食材テーブル min-width: 768pxまで表示 -->
         <div class="food-table col-sm-10">
           <recipe-register-table
             :recipe-table-foods="recipe.tableFoods"
             @deleteFood="deleteFood"
           />
+        </div>
+        <!-- スマホ用レシピ食材表示 -->
+        <div
+          v-for="tableFood in recipe.tableFoods"
+          :key="tableFood.id"
+          class="mobile-table col-sm-10"
+        >
+          <div class="mobile-table_content border-bottom">
+            <div>
+              <strong>{{ tableFood.foodName }}</strong>
+
+              <small
+                >{{ tableFood.foodAmountCost }}/{{ tableFood.foodUnit }}</small
+              >
+            </div>
+            <div>
+              <strong
+                >{{ tableFood.foodAmount }}{{ tableFood.foodUnit }}</strong
+              >
+              <button
+                type="button"
+                class="del-btn btn btn-warning rounded-circle p-0"
+                style="width:1.5rem;height:1.5rem;"
+                @click="deleteFood(recipe.tableFoods.indexOf(tableFood))"
+              >
+                {{ tableFood.foodDelBtn }}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
       <!-- 食材登録終わり -->
@@ -267,7 +296,7 @@ export default {
         return
       }
       const cost = this.food.cost * this.food.amount
-      return Math.round(cost * 10) / 10 + '円'
+      return Math.round(cost * 10) / 10
     },
     // レシピの原価（食材原価の合計）
     recipeCost() {
@@ -425,6 +454,8 @@ export default {
       if (!this.recipe.name) {
         return alert('必須項目を入力してください')
       }
+      // スピナー表示
+      this.isClickRegisterBtn = true
       // 画像が選択されていればアップロードとURL取得
       if (this.selectedFile) {
         const upLoadedImageName = await this.upLoadImage(this.selectedFile) // アップロードされた画像のURLを取得
@@ -447,6 +478,8 @@ export default {
         'recipe/registerRecipe',
         this.recipe
       )
+      // スピナー非表示
+      this.isClickRegisterBtn = false
       // ユーザー認証が切れていたらsigninに遷移
       if (res.error) {
         alert(res.error)
@@ -535,12 +568,30 @@ export default {
 
 .plus-btn {
   display: block;
-  margin: 20px 0;
+  margin: 20px auto;
 }
 
 .food-table {
-  margin: 0 auto 40px;
+  display: none;
 }
+
+.mobile-table {
+  display: block;
+  margin: 0 auto;
+}
+
+.mobile-table_content {
+  display: flex;
+  padding: 12px 6px;
+  justify-content: space-between;
+  background-color: #fff;
+}
+
+.mobile-table small,
+.mobile-table button {
+  display: block;
+}
+
 @media screen and (min-width: 768px) {
   .plus-btn {
     display: none;
@@ -548,6 +599,15 @@ export default {
   .food-add-to-menu-form {
     margin: 0 auto 20px;
     display: flex;
+  }
+
+  .food-table {
+    display: table;
+    margin: 0 auto 40px;
+  }
+
+  .mobile-table {
+    display: none;
   }
 }
 

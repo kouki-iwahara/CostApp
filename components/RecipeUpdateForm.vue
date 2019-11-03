@@ -112,14 +112,12 @@
           <button
             type="button"
             class="btn btn-success rounded-circle p-0"
-            style="width:2rem;height:2rem;"
+            style="width:1.5rem;height:1.5rem;"
+            @click="toAddFoodPage"
           >
             ＋
           </button>
-          <span>食材を登録</span>
-          <nuxt-link to="/addFoodToRecipePage" class="nav-link">
-            ボタン押下でここに遷移する
-          </nuxt-link>
+          <span>食材を追加</span>
         </div>
         <!-- 食材登録フォーム min-width: 768pxまで表示 -->
         <div class="food-add-to-menu-form col-sm-10">
@@ -138,6 +136,35 @@
             :recipe-table-foods="recipe.tableFoods"
             @deleteFood="deleteFood"
           />
+        </div>
+        <!-- スマホ用レシピ食材表示 -->
+        <div
+          v-for="tableFood in recipe.tableFoods"
+          :key="tableFood.id"
+          class="mobile-table col-sm-10"
+        >
+          <div class="mobile-table_content border-bottom">
+            <div>
+              <strong>{{ tableFood.foodName }}</strong>
+
+              <small
+                >{{ tableFood.foodAmountCost }}/{{ tableFood.foodUnit }}</small
+              >
+            </div>
+            <div>
+              <strong
+                >{{ tableFood.foodAmount }}{{ tableFood.foodUnit }}</strong
+              >
+              <button
+                type="button"
+                class="del-btn btn btn-warning rounded-circle p-0"
+                style="width:1.5rem;height:1.5rem;"
+                @click="deleteFood(recipe.tableFoods.indexOf(tableFood))"
+              >
+                {{ tableFood.foodDelBtn }}
+              </button>
+            </div>
+          </div>
         </div>
         <!-- 削除フォーム -->
         <div class="content_danger col-sm-10">
@@ -269,8 +296,8 @@ export default {
     },
     // 食材の使用量に対しての原価
     amountCost() {
-      if (!this.food.amount) {
-        return '表示されます'
+      if (this.food.name === '表示されます') {
+        return
       }
       const cost = this.food.cost * this.food.amount
       return Math.round(cost * 10) / 10
@@ -298,11 +325,17 @@ export default {
     this.recipe.value = recipe.value
     this.recipe.comment = recipe.comment
     this.recipe.image = recipe.image
-    // 食材テーブルに取り消しボタンを格納
-    recipe.foods.forEach((food) => {
-      food.foodDelBtn = 'ー'
-      this.recipe.tableFoods.push(food)
-    })
+    // 食材を選んでいない場合、登録されている初期の食材データをテーブルに表示（食材を選んでいればthis.addFoodToMobileForm()で食材がテーブルに表示される）
+    if (!this.$route.query.tableFoods)
+      // 食材テーブルにレシピに登録されている食材を表示
+      recipe.foods.forEach((food) => {
+        food.foodDelBtn = 'ー'
+        this.recipe.tableFoods.push(food)
+      })
+    // 追加する食材データがクエリに格納されていればフォームに食材を表示
+    if (this.$route.query.recipeFood) {
+      this.addFoodToMobileForm()
+    }
   },
   methods: {
     // イメージ画像データを取得し、プレビューを作成
@@ -367,6 +400,36 @@ export default {
       this.food.name = food.name
       this.food.unit = food.unit
       this.food.cost = food.cost
+    },
+    // スマホ画面の食材追加フォームの表示
+    addFoodToMobileForm() {
+      // 追加する食材データが無ければ返す
+      if (!this.$route.query.recipeFood.id) {
+        return
+      }
+      // フォームに表示
+      const food = this.$route.query.recipeFood
+      this.food.amount = ''
+      this.food.id = food.id
+      this.food.name = food.name
+      this.food.unit = food.unit
+      this.food.cost = food.cost
+      // 食材テーブルのクエリが無い場合（スマホの画面スライドにより無くなる場合有り）
+      if (!this.$route.query.tableFoods) {
+        return
+      }
+      const tableFoods = this.$route.query.tableFoods.slice()
+      // 食材テーブルの配列に食材が追加されていればテーブルに表示する
+      if (tableFoods.length !== 0) {
+        console.log('query.tableFoods', tableFoods)
+        // 画面横スライドで、データはあるが読み取れなくなるのでidの所持で分岐した
+        if (tableFoods[0].foodId) {
+          this.$route.query.tableFoods.forEach((food) => {
+            console.log(food)
+            this.recipe.tableFoods.push(food)
+          })
+        }
+      }
     },
     // 食材追加フォームの初期化
     initializeForm() {
@@ -460,6 +523,16 @@ export default {
         alert(res.message)
         this.$router.push({ path: '/home/recipe' })
       }
+    },
+    // スマホ画面の食材追加ページへ遷移
+    toAddFoodPage() {
+      this.$router.push({
+        path: '/home/recipe/register/addFood',
+        query: {
+          tableFoods: this.recipe.tableFoods,
+          isUpdateId: this.$route.params.recipeId
+        }
+      })
     }
   }
 }
@@ -517,9 +590,9 @@ export default {
 /* /入力フォーム */
 
 /* 食材登録フォーム */
-.food-add-to-menu-form {
+/* .food-add-to-menu-form {
   display: none;
-}
+} */
 
 .plus-btn {
   display: block;
@@ -527,7 +600,24 @@ export default {
 }
 
 .food-table {
-  margin: 0 auto 40px;
+  display: none;
+}
+
+.mobile-table {
+  display: block;
+  margin: 0 auto;
+}
+
+.mobile-table_content {
+  display: flex;
+  padding: 12px 6px;
+  justify-content: space-between;
+  background-color: #fff;
+}
+
+.mobile-table small,
+.mobile-table button {
+  display: block;
 }
 @media screen and (min-width: 768px) {
   .plus-btn {
@@ -537,13 +627,22 @@ export default {
     margin: 0 auto 20px;
     display: flex;
   }
+
+  .food-table {
+    display: table;
+    margin: 0 auto 40px;
+  }
+
+  .mobile-food-table {
+    display: none;
+  }
 }
 
 /* /食材登録フォーム */
 
 /* 削除フォーム */
 .content_danger {
-  margin: 0 auto 20px;
+  margin: 20px auto 20px;
 }
 .content_danger_form {
   text-align: center;

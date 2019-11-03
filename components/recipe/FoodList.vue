@@ -60,8 +60,7 @@ export default {
     }
   },
   created() {
-    // this.recipeFoods = this.$route.query.recipeFoods.slice()
-    this.recipeFoods = [{ name: 'jijij', age: '23' }].slice()
+    console.log(this.$route.query.tableFoods)
   },
   methods: {
     selectFood(index) {
@@ -69,14 +68,23 @@ export default {
       console.log(food)
       // 食材の重複禁止の為、idが重複しているか調べる
       if (this.$route.query.tableFoods) {
+        console.log(this.$route.query.tableFoods)
         const overlapId = this.$route.query.tableFoods.find((tableFood) => {
-          return tableFood.id === food.id
+          return tableFood.foodId === food.id
         })
         // idが重複していた場合
         if (overlapId) {
           alert('その食材は使われています')
           return
         }
+      }
+      // アップデートの場合はアップデートのページへ遷移
+      if (this.$route.query.isUpdateId) {
+        this.$router.push({
+          path: `/home/recipe/update/${this.$route.query.isUpdateId}`,
+          query: { recipeFood: food, tableFoods: this.$route.query.tableFoods }
+        })
+        return
       }
       // 選択した食材をクエリにセットして画面遷移
       this.$router.push({
