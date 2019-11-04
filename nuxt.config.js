@@ -1,4 +1,13 @@
-module.exports = {
+// setBaseURL for Axios
+const env = process.env.NODE_ENV || 'development'
+let API_URL
+if (env === 'development' || env === 'test') {
+  API_URL = 'http://localhost:3000'
+} else {
+  API_URL = process.env.API_URL
+}
+
+export default {
   mode: 'universal',
   /*
    ** Headers of the page
@@ -48,7 +57,7 @@ module.exports = {
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: { baseURL: API_URL },
   /*
    ** Build configuration
    */
