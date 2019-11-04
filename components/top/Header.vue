@@ -196,7 +196,7 @@ export default {
   margin: 2px 0 0 15px;
   padding: 8px 0;
   width: 12rem;
-  z-index: 1000;
+  z-index: 1030;
   overflow-x: hidden;
   overflow-y: auto;
   border-radius: 0.25rem;
