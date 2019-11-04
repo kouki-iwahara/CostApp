@@ -20,21 +20,21 @@ export default {
     Header,
     FoodDisplay,
     Footer
-  },
-  async fetch({ store, redirect }) {
-    // 食材データの取得
-    const resFood = await store.dispatch('food/getFoodData').catch((error) => {
-      console.log(error)
-    })
-    // ページ遷移時にユーザー認証がなかったらsigninへ遷移
-    if (resFood.error) {
-      redirect('/signin')
-    }
-    // レシピデータの取得
-    await store.dispatch('recipe/getRecipeData').catch((error) => {
-      console.log(error)
-    })
   }
+  // async fetch({ store, redirect }) {
+  //   // 食材データの取得
+  //   const resFood = await store.dispatch('food/getFoodData').catch((error) => {
+  //     console.log(error)
+  //   })
+  //   // ページ遷移時にユーザー認証がなかったらsigninへ遷移
+  //   if (resFood.error) {
+  //     redirect('/signin')
+  //   }
+  //   // レシピデータの取得
+  //   await store.dispatch('recipe/getRecipeData').catch((error) => {
+  //     console.log(error)
+  //   })
+  // }
 }
 </script>
 
