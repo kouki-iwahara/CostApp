@@ -224,10 +224,10 @@ import FoodImage from '~/components/FoodImage.vue'
 import AddFoodForm from '~/components/AddFoodForm.vue'
 import RecipeRegisterTable from '~/components/RecipeRegisterTable.vue'
 import CommentForm from '~/components/CommentForm.vue'
-import inputFile from '~/components/inputFile.vue'
 import InputForm from '~/components/InputForm.vue'
 import SideBar from '~/components/SideBar.vue'
 import searchBar from '~/components/common/searchBar.vue'
+import InputFile from '~/components/InputFile.vue'
 
 export default {
   components: {
@@ -237,7 +237,7 @@ export default {
     CommentForm,
     AddFoodForm,
     RecipeRegisterTable,
-    inputFile,
+    InputFile,
     InputForm,
     SideBar,
     searchBar

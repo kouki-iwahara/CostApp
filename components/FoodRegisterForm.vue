@@ -171,7 +171,7 @@ import BreadCrumb from '~/components/BreadCrumb.vue'
 import NavTab from '~/components/home/NavTab.vue'
 import FoodImage from '~/components/FoodImage.vue'
 import CommentForm from '~/components/CommentForm.vue'
-import inputFile from '~/components/inputFile.vue'
+import InputFile from '~/components/InputFile.vue'
 import InputForm from '~/components/InputForm.vue'
 
 export default {
@@ -182,7 +182,7 @@ export default {
     NavTab,
     FoodImage,
     CommentForm,
-    inputFile,
+    InputFile,
     InputForm
   },
   data() {
