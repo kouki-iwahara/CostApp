@@ -7,10 +7,10 @@ if (env === 'development' || env === 'test') {
   API_URL = process.env.API_URL
 }
 
-export default {
+module.exports = {
   mode: 'universal',
   /*
-   ** Headers of the page
+   ** Headers zof the page
    */
   head: {
     title: process.env.npm_package_name || '',
