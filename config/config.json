@@ -19,7 +19,7 @@
     "username": "b9da74462d1601",
     "password": "8c744252",
     "database": "heroku_859019e03417ca3",
-    "host": "0.0.0.0",
+    "host": "127.0.0.1",
     "dialect": "mysql",
     "operatorsAliases": false
   }
