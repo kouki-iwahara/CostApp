@@ -21,7 +21,7 @@ export default {
     AllUsersRecipeDisplay,
     Footer
   },
-  async asyncData({ store }) {
+  async fetch({ store }) {
     await store.dispatch('recipe/getAllUsersRecipes').catch((error) => {
       console.log(error)
     })

@@ -26,12 +26,22 @@ export default {
     MyFoodTable,
     Footer
   },
-  async created() {
-    await this.$store.dispatch('food/getFoodData').catch((error) => {
+  async fetch({ store, redirect }) {
+    // 食材データの取得
+    const resFood = await store.dispatch('food/getFoodData').catch((error) => {
       console.log(error)
     })
-    // ユーザー認証がなかったらsigninへ遷移
+    // ページ遷移時にユーザー認証がなかったらsigninへ遷移
+    if (resFood.error) {
+      redirect('/signin')
+    }
   }
+  // async created() {
+  //   await this.$store.dispatch('food/getFoodData').catch((error) => {
+  //     console.log(error)
+  //   })
+  //   // ユーザー認証がなかったらsigninへ遷移
+  // }
 }
 </script>
 

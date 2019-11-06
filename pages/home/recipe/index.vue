@@ -24,16 +24,16 @@ export default {
     MyPageDisplay,
     MyRecipeTable,
     Footer
+  },
+  async fetch({ store, redirect }) {
+    const res = await store.dispatch('recipe/getRecipeData').catch((error) => {
+      console.log(error)
+    })
+    // ユーザー認証がなかったらsigninへ遷移
+    if (res.error) {
+      redirect('/signin')
+    }
   }
-  // async fetch({ store, redirect }) {
-  //   const res = await store.dispatch('recipe/getRecipeData').catch((error) => {
-  //     console.log(error)
-  //   })
-  //   // ユーザー認証がなかったらsigninへ遷移
-  //   if (res.error) {
-  //     redirect('/signin')
-  //   }
-  // }
 }
 </script>
 
