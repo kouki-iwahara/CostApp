@@ -25,18 +25,18 @@ export default {
     // searchBar,
     FoodList,
     Footer
-  }
+  },
   // データ取得時にユーザー認証がなかったらsigninへ遷移
-  // async fetch({ store, redirect }) {
-  //   // 食材データ
-  //   const resFood = await store.dispatch('food/getFoodData').catch((error) => {
-  //     console.log(error)
-  //   })
-  //   console.log(resFood)
-  //   if (resFood.error) {
-  //     redirect('/signin')
-  //   }
-  // }
+  async fetch({ store, redirect }) {
+    // 食材データ
+    const resFood = await store.dispatch('food/getFoodData').catch((error) => {
+      console.log(error)
+    })
+    console.log(resFood)
+    if (resFood.error) {
+      redirect('/signin')
+    }
+  }
 }
 </script>
 
