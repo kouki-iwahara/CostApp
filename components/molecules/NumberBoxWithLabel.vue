@@ -11,15 +11,21 @@
         class="form-control rounded"
         @input="updateValue"
       />
-      <div slot="input-append" class="input-group-append">
-        <span-text
+      <div class="input-group-append">
+        <slot name="input-append" />
+        <!-- <span-text
           v-show="isFoodValue"
           id="inputGroup-sizing-sm"
           class="input-group-text rounded-0"
         >
           円
-        </span-text>
-        <unit-select-box v-show="isFoodAmount" class="custom-select" />
+        </span-text> -->
+
+        <!-- <unit-select-box
+          v-show="isFoodAmount"
+          v-model="foodUnit"
+          class="custom-select"
+        /> -->
       </div>
     </div>
   </div>
@@ -28,15 +34,11 @@
 <script>
 import InputLabel from '~/components/atoms/Label/InputLabel'
 import NumberInput from '~/components/atoms/NumberBox/NumberInput'
-import SpanText from '~/components/atoms/Text/SpanText'
-import UnitSelectBox from '~/components/atoms/SelectBox/UnitSelectBox'
 
 export default {
   components: {
     InputLabel,
-    NumberInput,
-    UnitSelectBox,
-    SpanText
+    NumberInput
   },
   props: {
     value: {
@@ -54,14 +56,6 @@ export default {
     placeholder: {
       type: String,
       default: null
-    },
-    isFoodValue: {
-      type: Boolean,
-      default: null
-    },
-    isFoodAmount: {
-      type: Boolean,
-      default: null
     }
   },
   methods: {
@@ -73,9 +67,6 @@ export default {
 </script>
 
 <style scoped>
-.input-group-text {
-}
-
 .custom-select {
   margin-left: 5px;
   padding: 2px 28px 1px 12px;

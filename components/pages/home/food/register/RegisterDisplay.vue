@@ -4,51 +4,11 @@
       <div class="row offset-3">
         <!-- サブヘッダー始まり -->
         <div class="content_header col-sm-12">
-          <!-- パンくずリスト -->
-          <bread-crumb
-            class="content_header_bread-crumb"
-            :link="`/home/food/`"
-            list-name="食材"
-          >
-            <span slot="link-name">マイページ</span>
-          </bread-crumb>
-
-          <nav-tab
+          <sub-header
             :is-register-active="isRegisterActive"
-            :param-id-page="`/home/food/${food.paramId}`"
-            :register-page="`/home/food/register`"
-          >
-            <nuxt-link
-              v-show="$store.getters['food/foods'].length"
-              slot="nav-item"
-              :to="`/home/food/${food.paramId}`"
-              class="nav-item nav-link"
-            >
-              表示
-            </nuxt-link>
-            <div
-              v-show="!$store.getters['food/foods'].length"
-              slot="nav-item"
-              class="nav-item nav-link"
-              @click="showAlert"
-            >
-              表示
-            </div>
-            <button
-              slot="btn"
-              type="button"
-              class="nav-btn btn btn-success btn-md"
-              @click="registerFood"
-            >
-              <div
-                v-show="isClickRegisterBtn"
-                class="spinner-border text-light"
-              >
-                <span class="sr-only">Loading...</span>
-              </div>
-              <span v-show="!isClickRegisterBtn">登録</span>
-            </button>
-          </nav-tab>
+            :is-click-register-btn="isClickRegisterBtn"
+            @registerFood="registerFood"
+          />
         </div>
         <!-- サブヘッダー終わり -->
         <div class="col-sm-12">
@@ -77,7 +37,15 @@
                 placeholder="仕入価格を入力"
                 :is-food-value="true"
                 class="content_form_input"
-              />
+              >
+                <span-text
+                  id="inputGroup-sizing-sm"
+                  slot="input-append"
+                  class="input-group-text rounded-0"
+                >
+                  円
+                </span-text>
+              </number-box-with-label>
               <!-- 食材量 -->
               <number-box-with-label
                 v-model="food.amount"
@@ -86,7 +54,13 @@
                 placeholder="食材量を入力"
                 :is-food-amount="true"
                 class="content_form_input"
-              />
+              >
+                <unit-select-box
+                  slot="input-append"
+                  v-model="food.unit"
+                  class="custom-select"
+                />
+              </number-box-with-label>
               <!-- 歩留まり -->
               <range-with-label
                 v-model="food.yield"
@@ -142,24 +116,26 @@
 </template>
 
 <script>
-import BreadCrumb from '~/components/molecules/BreadCrumb/BreadCrumb.vue'
+import SubHeader from '~/components/organisms/SubHeader/SubHeader'
 import TextBoxWithLabel from '~/components/molecules/TextBoxWithLabel'
 import NumberBoxWithLabel from '~/components/molecules/NumberBoxWithLabel'
+import SpanText from '~/components/atoms/Text/SpanText'
+import UnitSelectBox from '~/components/atoms/SelectBox/UnitSelectBox'
 import RangeWithLabel from '~/components/molecules/RangeWithLabel'
 import StrongText from '~/components/atoms/Text/StrongText'
 import SideBar from '~/components/SideBar.vue'
 import searchBar from '~/components/common/searchBar.vue'
-import NavTab from '~/components/home/NavTab.vue'
 import FoodImage from '~/components/FoodImage.vue'
 import CommentForm from '~/components/CommentForm.vue'
 import InputFile from '~/components/InputFile.vue'
 
 export default {
   components: {
-    BreadCrumb,
+    SubHeader,
+    SpanText,
+    UnitSelectBox,
     SideBar,
     searchBar,
-    NavTab,
     FoodImage,
     CommentForm,
     InputFile,
@@ -220,9 +196,6 @@ export default {
     console.log(this.food.paramId)
   },
   methods: {
-    showAlert() {
-      alert('食材が登録されていません')
-    },
     toFoodPage(index) {
       const food = this.sideBarfoods[index]
       console.log(food)
@@ -319,14 +292,11 @@ export default {
 
 <style scoped>
 /* サブヘッダー */
-.content_header_bread-crumb {
+.content_header {
   margin: 20px 0 10px;
 }
 
-.nav-item {
-  cursor: pointer;
-}
-.nav-btn {
+/* .nav-btn {
   display: block;
   margin: 0 0 0 auto;
   width: 58px;
@@ -335,7 +305,7 @@ export default {
   border-radius: 0.25em;
   background-color: #28a745;
   background-image: linear-gradient(-180deg, #34d058, #28a745 90%);
-}
+} */
 .content_image {
   margin: 0 auto 20px 0;
 }
@@ -346,7 +316,7 @@ export default {
   margin-bottom: 20px;
 }
 .content_form_input {
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .content_comment {
