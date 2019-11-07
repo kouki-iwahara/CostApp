@@ -12,9 +12,6 @@
         @input="updateValue"
       />
       <div slot="input-append" class="input-group-append">
-        <!-- <unit v-show="isFoodValue">
-          円
-        </unit> -->
         <span-text
           v-show="isFoodValue"
           id="inputGroup-sizing-sm"

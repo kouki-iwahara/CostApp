@@ -4,15 +4,15 @@
       <div class="row offset-3">
         <!-- サブヘッダー始まり -->
         <div class="content_header col-sm-12">
-          <bread-crumb>
-            <li
-              slot="breadcrumb-item"
-              class="breadcrumb-item active"
-              aria-current="page"
-            >
-              食材
-            </li>
+          <!-- パンくずリスト -->
+          <bread-crumb
+            class="content_header_bread-crumb"
+            :link="`/home/food/`"
+            list-name="食材"
+          >
+            <span slot="link-name">マイページ</span>
           </bread-crumb>
+
           <nav-tab
             :is-register-active="isRegisterActive"
             :param-id-page="`/home/food/${food.paramId}`"
@@ -142,13 +142,13 @@
 </template>
 
 <script>
+import BreadCrumb from '~/components/molecules/BreadCrumb/BreadCrumb.vue'
 import TextBoxWithLabel from '~/components/molecules/TextBoxWithLabel'
 import NumberBoxWithLabel from '~/components/molecules/NumberBoxWithLabel'
 import RangeWithLabel from '~/components/molecules/RangeWithLabel'
 import StrongText from '~/components/atoms/Text/StrongText'
 import SideBar from '~/components/SideBar.vue'
 import searchBar from '~/components/common/searchBar.vue'
-import BreadCrumb from '~/components/BreadCrumb.vue'
 import NavTab from '~/components/home/NavTab.vue'
 import FoodImage from '~/components/FoodImage.vue'
 import CommentForm from '~/components/CommentForm.vue'
@@ -156,9 +156,9 @@ import InputFile from '~/components/InputFile.vue'
 
 export default {
   components: {
+    BreadCrumb,
     SideBar,
     searchBar,
-    BreadCrumb,
     NavTab,
     FoodImage,
     CommentForm,
@@ -319,6 +319,10 @@ export default {
 
 <style scoped>
 /* サブヘッダー */
+.content_header_bread-crumb {
+  margin: 20px 0 10px;
+}
+
 .nav-item {
   cursor: pointer;
 }
