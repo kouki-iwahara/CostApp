@@ -57,74 +57,51 @@
             >は必須入力）
           </p>
         </div>
+        <!-- 食材データ入力フォーム -->
         <div class="content_form col-sm-4">
           <div class="row">
             <div class="col-sm-12">
               <!-- 食材名 -->
-              <span class="require-mark">＊</span>
-              <strong>食材名</strong>
-              <input-form
+              <text-box-with-label
                 v-model="food.name"
-                placeholder="小麦粉"
-                type="text"
+                require-mark="＊"
+                label-name="食材名"
+                placeholder="食材名を入力"
                 class="content_form_input"
               />
               <!-- 仕入れ価格 -->
-              <span class="require-mark">＊</span>
-              <strong>仕入価格</strong>
-              <input-form
+              <number-box-with-label
                 v-model="food.value"
-                placeholder="100"
-                type="number"
+                require-mark="＊"
+                label-name="仕入価格"
+                placeholder="仕入価格を入力"
+                :is-food-value="true"
                 class="content_form_input"
-              >
-                <div slot="input-append" class="input-group-append">
-                  <span
-                    id="inputGroup-sizing-sm"
-                    class="input-group-text rounded-0"
-                  >
-                    円
-                  </span>
-                </div>
-              </input-form>
-              <!-- 食材量 -->
-              <span class="require-mark">＊</span>
-              <strong>食材量</strong>
-              <input-form
-                v-model="food.amount"
-                placeholder="100"
-                type="number"
-                class="content_form_input"
-              >
-                <div slot="input-append" class="input-group-append">
-                  <select
-                    id="validationCustom04"
-                    v-model="food.unit"
-                    class="custom-select"
-                    required
-                  >
-                    <option selected disabled value="">単位</option>
-                    <option>g</option>
-                    <option>kg</option>
-                    <option>ml</option>
-                    <option>L</option>
-                    <option>cc</option>
-                  </select>
-                </div>
-              </input-form>
-              <strong>歩留り</strong>{{ food.yield }}<span>％</span>
-              <input
-                id="customRange1"
-                v-model="food.yield"
-                type="range"
-                class="custom-range"
               />
+              <!-- 食材量 -->
+              <number-box-with-label
+                v-model="food.amount"
+                require-mark="＊"
+                label-name="食材量"
+                placeholder="食材量を入力"
+                :is-food-amount="true"
+                class="content_form_input"
+              />
+              <!-- 歩留まり -->
+              <range-with-label
+                v-model="food.yield"
+                label-name="歩留り"
+                :food-yield="food.yield"
+                class="content_form_input"
+              />
+              <!-- 原価の計算の結果 -->
               <div class="content_form_label">
-                <strong>原価: {{ foodCost }}</strong>
+                <strong-text> 原価: {{ foodCost }} </strong-text>
               </div>
             </div>
           </div>
         </div>
+        <!-- 食材データ入力フォーム終わり -->
         <div class="content_image col-sm-6">
           <food-image :image="food.image">
             <template slot="input-file">
@@ -165,6 +142,10 @@
 </template>
 
 <script>
+import TextBoxWithLabel from '~/components/molecules/TextBoxWithLabel'
+import NumberBoxWithLabel from '~/components/molecules/NumberBoxWithLabel'
+import RangeWithLabel from '~/components/molecules/RangeWithLabel'
+import StrongText from '~/components/atoms/Text/StrongText'
 import SideBar from '~/components/SideBar.vue'
 import searchBar from '~/components/common/searchBar.vue'
 import BreadCrumb from '~/components/BreadCrumb.vue'
@@ -172,7 +153,6 @@ import NavTab from '~/components/home/NavTab.vue'
 import FoodImage from '~/components/FoodImage.vue'
 import CommentForm from '~/components/CommentForm.vue'
 import InputFile from '~/components/InputFile.vue'
-import InputForm from '~/components/InputForm.vue'
 
 export default {
   components: {
@@ -183,7 +163,10 @@ export default {
     FoodImage,
     CommentForm,
     InputFile,
-    InputForm
+    TextBoxWithLabel,
+    NumberBoxWithLabel,
+    RangeWithLabel,
+    StrongText
   },
   data() {
     return {
@@ -379,9 +362,7 @@ export default {
   width: 1.25rem;
   height: 1.25rem;
 }
-.require-mark {
-  color: #cb2431;
-}
+
 /* サイドバー */
 .no-result-message {
   text-align: center;
