@@ -11,6 +11,7 @@
           />
         </div>
 
+        <!-- 登録メッセージ -->
         <div class="col-sm-12">
           <paragraph-text>
             食材データを入力して下さい。（<span class="require-mark">＊</span
@@ -93,30 +94,14 @@
       <!-- row -->
     </div>
     <!-- container-fluid -->
-    <side-bar>
-      <div slot="sidebar_search">
-        <search-bar v-model="searchText" placeholder="食材名を検索" />
-      </div>
-      <ul
-        v-for="item in sideBarfoods"
-        v-show="sideBarfoods.length"
-        slot="content-list"
-        :key="item.id"
-        class="list-group list-group-flush"
-        @click="toFoodPage(sideBarfoods.indexOf(item))"
-      >
-        <li class="food-list_item list-group-item border-bottom">
-          {{ item.name }}
-        </li>
-      </ul>
-      <div
-        v-show="!sideBarfoods.length"
-        slot="content-list"
-        class="no-result-message"
-      >
-        <p>登録がありません</p>
-      </div>
-    </side-bar>
+
+    <!-- サイドバー -->
+    <side-bar
+      v-model="searchText"
+      placeholder="食材名を検索"
+      :items="sideBarfoods"
+      @toFoodPage="toFoodPage"
+    />
   </div>
 </template>
 
@@ -131,8 +116,7 @@ import RangeWithLabel from '~/components/molecules/RangeWithLabel'
 import StrongText from '~/components/atoms/Text/StrongText'
 import ImageWithInputFile from '~/components/molecules/image/ImageWithInputFile'
 import TextAreaWithLabel from '~/components/molecules/TextArea/TextAreaWithLabel'
-import SideBar from '~/components/SideBar.vue'
-import searchBar from '~/components/common/searchBar.vue'
+import SideBar from '~/components/organisms/SideBar/SideBar'
 
 export default {
   components: {
@@ -146,8 +130,7 @@ export default {
     StrongText,
     ImageWithInputFile,
     TextAreaWithLabel,
-    SideBar,
-    searchBar
+    SideBar
   },
   data() {
     return {
@@ -201,6 +184,7 @@ export default {
     console.log(this.food.paramId)
   },
   methods: {
+    // サイドバーから選択された食材ページへ遷移
     toFoodPage(index) {
       const food = this.sideBarfoods[index]
       console.log(food)
