@@ -76,12 +76,13 @@
           </div>
         </div>
         <!-- 食材データ入力フォーム終わり -->
+
+        <!-- 画像 -->
         <div class="content_image col-sm-6">
-          <food-image :image="food.image">
-            <template slot="input-file">
-              <input-file @getFileData="getFileData" />
-            </template>
-          </food-image>
+          <image-with-input-file
+            :image="food.image"
+            @getFileData="getFileData"
+          />
         </div>
         <div class="content_comment col-sm-10">
           <comment-form v-model="food.comment" />
@@ -123,26 +124,24 @@ import SpanText from '~/components/atoms/Text/SpanText'
 import UnitSelectBox from '~/components/atoms/SelectBox/UnitSelectBox'
 import RangeWithLabel from '~/components/molecules/RangeWithLabel'
 import StrongText from '~/components/atoms/Text/StrongText'
+import ImageWithInputFile from '~/components/molecules/image/ImageWithInputFile'
 import SideBar from '~/components/SideBar.vue'
 import searchBar from '~/components/common/searchBar.vue'
-import FoodImage from '~/components/FoodImage.vue'
 import CommentForm from '~/components/CommentForm.vue'
-import InputFile from '~/components/InputFile.vue'
 
 export default {
   components: {
     SubHeader,
     SpanText,
     UnitSelectBox,
-    SideBar,
-    searchBar,
-    FoodImage,
-    CommentForm,
-    InputFile,
     TextBoxWithLabel,
     NumberBoxWithLabel,
     RangeWithLabel,
-    StrongText
+    StrongText,
+    ImageWithInputFile,
+    SideBar,
+    searchBar,
+    CommentForm
   },
   data() {
     return {
@@ -296,16 +295,6 @@ export default {
   margin: 20px 0 10px;
 }
 
-/* .nav-btn {
-  display: block;
-  margin: 0 0 0 auto;
-  width: 58px;
-  font-weight: 600;
-  color: #fff;
-  border-radius: 0.25em;
-  background-color: #28a745;
-  background-image: linear-gradient(-180deg, #34d058, #28a745 90%);
-} */
 .content_image {
   margin: 0 auto 20px 0;
 }

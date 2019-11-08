@@ -13,19 +13,6 @@
       />
       <div class="input-group-append">
         <slot name="input-append" />
-        <!-- <span-text
-          v-show="isFoodValue"
-          id="inputGroup-sizing-sm"
-          class="input-group-text rounded-0"
-        >
-          円
-        </span-text> -->
-
-        <!-- <unit-select-box
-          v-show="isFoodAmount"
-          v-model="foodUnit"
-          class="custom-select"
-        /> -->
       </div>
     </div>
   </div>

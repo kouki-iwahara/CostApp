@@ -18,6 +18,11 @@ export default {
       type: Boolean,
       require: true
     }
+  },
+  methods: {
+    registerFood() {
+      this.$emit('registerFood')
+    }
   }
 }
 </script>
