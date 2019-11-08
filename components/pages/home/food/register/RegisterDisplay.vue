@@ -2,7 +2,7 @@
   <div>
     <div class="content container-fluid">
       <div class="row offset-3">
-        <!-- サブヘッダー始まり -->
+        <!-- パンくずリストとナビタブ -->
         <div class="content_header col-sm-12">
           <sub-header
             :is-register-active="isRegisterActive"
@@ -10,13 +10,14 @@
             @registerFood="registerFood"
           />
         </div>
-        <!-- サブヘッダー終わり -->
+
         <div class="col-sm-12">
-          <p>
+          <paragraph-text>
             食材データを入力して下さい。（<span class="require-mark">＊</span
             >は必須入力）
-          </p>
+          </paragraph-text>
         </div>
+
         <!-- 食材データ入力フォーム -->
         <div class="content_form col-sm-4">
           <div class="row">
@@ -75,7 +76,6 @@
             </div>
           </div>
         </div>
-        <!-- 食材データ入力フォーム終わり -->
 
         <!-- 画像 -->
         <div class="content_image col-sm-6">
@@ -84,11 +84,15 @@
             @getFileData="getFileData"
           />
         </div>
+
+        <!-- コメント -->
         <div class="content_comment col-sm-10">
-          <comment-form v-model="food.comment" />
+          <text-area-with-label v-model="food.comment" />
         </div>
       </div>
+      <!-- row -->
     </div>
+    <!-- container-fluid -->
     <side-bar>
       <div slot="sidebar_search">
         <search-bar v-model="searchText" placeholder="食材名を検索" />
@@ -118,6 +122,7 @@
 
 <script>
 import SubHeader from '~/components/organisms/SubHeader/SubHeader'
+import ParagraphText from '~/components/atoms/Text/ParagraphText'
 import TextBoxWithLabel from '~/components/molecules/TextBoxWithLabel'
 import NumberBoxWithLabel from '~/components/molecules/NumberBoxWithLabel'
 import SpanText from '~/components/atoms/Text/SpanText'
@@ -125,13 +130,14 @@ import UnitSelectBox from '~/components/atoms/SelectBox/UnitSelectBox'
 import RangeWithLabel from '~/components/molecules/RangeWithLabel'
 import StrongText from '~/components/atoms/Text/StrongText'
 import ImageWithInputFile from '~/components/molecules/image/ImageWithInputFile'
+import TextAreaWithLabel from '~/components/molecules/TextArea/TextAreaWithLabel'
 import SideBar from '~/components/SideBar.vue'
 import searchBar from '~/components/common/searchBar.vue'
-import CommentForm from '~/components/CommentForm.vue'
 
 export default {
   components: {
     SubHeader,
+    ParagraphText,
     SpanText,
     UnitSelectBox,
     TextBoxWithLabel,
@@ -139,9 +145,9 @@ export default {
     RangeWithLabel,
     StrongText,
     ImageWithInputFile,
+    TextAreaWithLabel,
     SideBar,
-    searchBar,
-    CommentForm
+    searchBar
   },
   data() {
     return {
