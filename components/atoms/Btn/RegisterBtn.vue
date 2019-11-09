@@ -4,7 +4,7 @@
     class="nav-btn btn btn-success btn-md"
     @click="registerFood"
   >
-    <div v-show="isClickRegisterBtn" class="spinner-border text-light">
+    <div v-show="isClickBtn" class="spinner-border text-light">
       <span class="sr-only">Loading...</span>
     </div>
     <span v-show="!isClickRegisterBtn">登録</span>
@@ -14,7 +14,7 @@
 <script>
 export default {
   props: {
-    isClickRegisterBtn: {
+    isClickBtn: {
       type: Boolean,
       require: true
     }

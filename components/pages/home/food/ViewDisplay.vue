@@ -3,36 +3,16 @@
     <div class="content container-fluid">
       <div class="row offset-3">
         <div class="content_header col-sm-12">
-          <bread-crumb>
-            <li
-              slot="breadcrumb-item"
-              class="breadcrumb-item active"
-              aria-current="page"
-            >
-              食材
-            </li>
-          </bread-crumb>
-          <nav-tab
-            :is-view-active="isViewActive"
-            :param-id-page="`/home/food/${$route.params.foodId}`"
-            :register-page="`/home/food/register`"
-          >
-            <button
+          <!-- パンくずリストとナビタブ -->
+          <sub-header :is-view-active="isViewActive">
+            <change-btn
               slot="btn"
-              type="button"
-              class="nav-btn btn btn-warning btn-md"
-              @click="toUpdatePage"
-            >
-              <nuxt-link
-                :to="`/home/food/update/${food.paramId}`"
-                class="nav-link"
-              >
-                変更
-              </nuxt-link>
-            </button>
-          </nav-tab>
+              :link="`/home/food/update/${food.paramId}`"
+            />
+          </sub-header>
         </div>
-        <!-- /content_header -->
+
+        <!-- 食材のデータリスト -->
         <div class="content_form col-sm-4">
           <div class="card card-list">
             <ul class="list-group list-group-flush">
@@ -142,19 +122,23 @@
 </template>
 
 <script>
-import NavTab from '~/components/home/NavTab.vue'
-import BreadCrumb from '~/components/BreadCrumb.vue'
+import SubHeader from '~/components/organisms/SubHeader/SubHeader'
+import ChangeBtn from '~/components/molecules/Btn/ChangeBtn'
+// import NavTab from '~/components/home/NavTab.vue'
+// import BreadCrumb from '~/components/BreadCrumb.vue'
 import SideBar from '~/components/SideBar.vue'
 import searchBar from '~/components/common/searchBar.vue'
 import FoodImage from '~/components/FoodImage.vue'
 
 export default {
   components: {
+    SubHeader,
+    ChangeBtn,
     SideBar,
     searchBar,
-    FoodImage,
-    NavTab,
-    BreadCrumb
+    FoodImage
+    // NavTab,
+    // BreadCrumb
   },
   data() {
     return {
@@ -241,18 +225,8 @@ export default {
 
 <style scoped>
 /* サブヘッダー */
-.nav-btn {
-  display: block;
-  margin: 0 0 0 auto;
-  font-weight: 600;
-  border-radius: 0.25em;
-  border-color: #ffc107;
-  background-image: linear-gradient(-180deg, #f7b733, #fc4a1a 90%);
-}
-.nav-btn .nav-link {
-  border: none;
-  padding: 0;
-  color: #fff;
+.content_header {
+  margin: 20px 0;
 }
 /* /サブヘッダー */
 

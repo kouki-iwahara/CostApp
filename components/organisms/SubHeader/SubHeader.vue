@@ -16,10 +16,7 @@
       :to="`/home/food/${food.paramId}`"
     >
       <template slot="btn">
-        <register-btn
-          :is-click-register-btn="isClickRegisterBtn"
-          @registerFood="registerFood"
-        />
+        <slot name="btn" />
       </template>
     </tab-link>
   </div>
@@ -28,22 +25,17 @@
 <script>
 import BreadCrumb from '~/components/molecules/BreadCrumb/BreadCrumb.vue'
 import TabLink from '~/components/molecules/NavTab/TabLink'
-import RegisterBtn from '~/components/atoms/btn/RegisterBtn'
 
 export default {
   components: {
     BreadCrumb,
-    TabLink,
-    RegisterBtn
+    TabLink
   },
   props: {
     isViewActive: {
       type: Boolean
     },
     isRegisterActive: {
-      type: Boolean
-    },
-    isClickRegisterBtn: {
       type: Boolean
     }
   },
@@ -55,11 +47,8 @@ export default {
     }
   },
   created() {
-    this.food.paramId = this.$store.getters['food/foods'][0].id
-  },
-  methods: {
-    registerFood() {
-      this.$emit('registerFood')
+    if (this.$store.getters['food/foods'].length !== 0) {
+      this.food.paramId = this.$store.getters['food/foods'][0].id
     }
   }
 }

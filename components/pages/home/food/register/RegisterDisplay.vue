@@ -6,9 +6,15 @@
         <div class="content_header col-sm-12">
           <sub-header
             :is-register-active="isRegisterActive"
-            :is-click-register-btn="isClickRegisterBtn"
+            :is-click-btn="isClickBtn"
             @registerFood="registerFood"
-          />
+          >
+            <register-btn
+              slot="btn"
+              :is-click-btn="isClickBtn"
+              @registerFood="registerFood"
+            />
+          </sub-header>
         </div>
 
         <!-- 登録メッセージ -->
@@ -107,6 +113,7 @@
 
 <script>
 import SubHeader from '~/components/organisms/SubHeader/SubHeader'
+import RegisterBtn from '~/components/atoms/btn/RegisterBtn'
 import ParagraphText from '~/components/atoms/Text/ParagraphText'
 import TextBoxWithLabel from '~/components/molecules/TextBoxWithLabel'
 import NumberBoxWithLabel from '~/components/molecules/NumberBoxWithLabel'
@@ -121,6 +128,7 @@ import SideBar from '~/components/organisms/SideBar/SideBar'
 export default {
   components: {
     SubHeader,
+    RegisterBtn,
     ParagraphText,
     SpanText,
     UnitSelectBox,
@@ -147,7 +155,7 @@ export default {
       selectedFile: '',
       searchText: '',
       isRegisterActive: true,
-      isClickRegisterBtn: false
+      isClickBtn: false
     }
   },
   computed: {
@@ -176,12 +184,6 @@ export default {
       }
       return '表示されます'
     }
-  },
-  created() {
-    if (this.sideBarfoods.length !== 0) {
-      this.food.paramId = this.sideBarfoods[0].id
-    }
-    console.log(this.food.paramId)
   },
   methods: {
     // サイドバーから選択された食材ページへ遷移
@@ -248,7 +250,7 @@ export default {
         return
       }
       // スピナー表示
-      this.isClickRegisterBtn = true
+      this.isClickBtn = true
       // 画像が選択されていればアップロード
       if (this.selectedFile) {
         const upLoadedImageName = await this.upLoadImage(this.selectedFile)
@@ -261,7 +263,7 @@ export default {
       const res = await this.$store.dispatch('food/registerFood', this.food)
       console.log(res)
       // スピナー非表示
-      this.isClickRegisterBtn = false
+      this.isClickBtn = false
       // ユーザー認証が切れていたらsigninに遷移
       if (res.error) {
         alert(res.error)
