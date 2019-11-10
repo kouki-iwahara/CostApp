@@ -185,7 +185,7 @@
 
 <script>
 import SubHeader from '~/components/organisms/SubHeader/SubHeader'
-import RegisterBtn from '~/components/molecules/btn/RegisterBtn'
+import RegisterBtn from '~/components/molecules/Btn/RegisterBtn'
 // import BreadCrumb from '~/components/BreadCrumb.vue'
 // import NavTab from '~/components/home/NavTab.vue'
 import FoodImage from '~/components/FoodImage.vue'
