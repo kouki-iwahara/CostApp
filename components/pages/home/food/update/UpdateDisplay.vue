@@ -3,7 +3,14 @@
     <div class="content container-fluid">
       <div class="row offset-3">
         <div class="content_header col-sm-12">
-          <bread-crumb>
+          <sub-header :is-view-active="isViewActive">
+            <update-btn
+              slot="btn"
+              :is-click-btn="isClickBtn"
+              @updateFood="updateFood"
+            />
+          </sub-header>
+          <!-- <bread-crumb>
             <li
               slot="breadcrumb-item"
               class="breadcrumb-item active"
@@ -23,12 +30,12 @@
               class="btn-form_register btn btn-success btn-md"
               @click="updateFood"
             >
-              <div v-show="isClickUpdateBtn" class="spinner-border text-light">
+              <div v-show="isClickBtn" class="spinner-border text-light">
                 <span class="sr-only">Loading...</span>
               </div>
-              <span v-show="!isClickUpdateBtn">更新</span>
+              <span v-show="!isClickBtn">更新</span>
             </button>
-          </nav-tab>
+          </nav-tab> -->
         </div>
         <!--  -->
         <div class="col-sm-12">
@@ -172,10 +179,12 @@
 </template>
 
 <script>
+import SubHeader from '~/components/organisms/SubHeader/SubHeader'
+import UpdateBtn from '~/components/molecules/Btn/UpdateBtn'
 import SideBar from '~/components/SideBar.vue'
 import searchBar from '~/components/common/searchBar.vue'
-import BreadCrumb from '~/components/BreadCrumb.vue'
-import NavTab from '~/components/home/NavTab.vue'
+// import BreadCrumb from '~/components/BreadCrumb.vue'
+// import NavTab from '~/components/home/NavTab.vue'
 import FoodImage from '~/components/FoodImage.vue'
 import InputFile from '~/components/InputFile.vue'
 import CommentForm from '~/components/CommentForm.vue'
@@ -183,10 +192,12 @@ import InputForm from '~/components/InputForm.vue'
 
 export default {
   components: {
+    SubHeader,
+    UpdateBtn,
     SideBar,
     searchBar,
-    BreadCrumb,
-    NavTab,
+    // BreadCrumb,
+    // NavTab,
     FoodImage,
     CommentForm,
     InputFile,
@@ -209,7 +220,7 @@ export default {
       searchText: '',
       selectedFile: '',
       isViewActive: true,
-      isClickUpdateBtn: false
+      isClickBtn: false
     }
   },
   computed: {
@@ -321,7 +332,7 @@ export default {
         return
       }
       // スピナー表示
-      this.isClickUpdateBtn = true
+      this.isClickBtn = true
       // 画像が選択されていればアップロード
       if (this.selectedFile) {
         const upLoadedImageName = await this.upLoadImage(this.selectedFile)
@@ -333,7 +344,7 @@ export default {
       // 食材データを更新
       const res = await this.$store.dispatch('food/updateFood', this.food)
       // スピナー非表示
-      this.isClickUpdateBtn = false
+      this.isClickBtn = false
       // ユーザー認証が切れていたらsigninに遷移
       if (res.error) {
         alert(res.error)

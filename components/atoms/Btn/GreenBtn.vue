@@ -2,24 +2,21 @@
   <button
     type="button"
     class="nav-btn btn btn-success btn-md"
-    @click="registerFood"
+    @click="
+      updateFood()
+      registerFood()
+    "
   >
-    <div v-show="isClickBtn" class="spinner-border text-light">
-      <span class="sr-only">Loading...</span>
-    </div>
-    <span v-show="!isClickRegisterBtn">登録</span>
+    <slot />
   </button>
 </template>
 
 <script>
 export default {
-  props: {
-    isClickBtn: {
-      type: Boolean,
-      require: true
-    }
-  },
   methods: {
+    updateFood() {
+      this.$emit('updateFood')
+    },
     registerFood() {
       this.$emit('registerFood')
     }

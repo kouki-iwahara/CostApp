@@ -124,8 +124,6 @@
 <script>
 import SubHeader from '~/components/organisms/SubHeader/SubHeader'
 import ChangeBtn from '~/components/molecules/Btn/ChangeBtn'
-// import NavTab from '~/components/home/NavTab.vue'
-// import BreadCrumb from '~/components/BreadCrumb.vue'
 import SideBar from '~/components/SideBar.vue'
 import searchBar from '~/components/common/searchBar.vue'
 import FoodImage from '~/components/FoodImage.vue'
@@ -137,14 +135,11 @@ export default {
     SideBar,
     searchBar,
     FoodImage
-    // NavTab,
-    // BreadCrumb
   },
   data() {
     return {
       food: {
         paramId: ''
-        // image: require('~/assets/pasta.jpg')
       },
       searchText: '',
       isViewActive: true
@@ -224,12 +219,6 @@ export default {
 </script>
 
 <style scoped>
-/* サブヘッダー */
-.content_header {
-  margin: 20px 0;
-}
-/* /サブヘッダー */
-
 /* レシピデータのリスト */
 .card-header {
   padding: 6px 20px;

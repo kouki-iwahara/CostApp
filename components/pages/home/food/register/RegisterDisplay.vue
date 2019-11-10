@@ -4,11 +4,7 @@
       <div class="row offset-3">
         <!-- パンくずリストとナビタブ -->
         <div class="content_header col-sm-12">
-          <sub-header
-            :is-register-active="isRegisterActive"
-            :is-click-btn="isClickBtn"
-            @registerFood="registerFood"
-          >
+          <sub-header :is-register-active="isRegisterActive">
             <register-btn
               slot="btn"
               :is-click-btn="isClickBtn"
@@ -113,7 +109,7 @@
 
 <script>
 import SubHeader from '~/components/organisms/SubHeader/SubHeader'
-import RegisterBtn from '~/components/atoms/btn/RegisterBtn'
+import RegisterBtn from '~/components/molecules/btn/RegisterBtn'
 import ParagraphText from '~/components/atoms/Text/ParagraphText'
 import TextBoxWithLabel from '~/components/molecules/TextBoxWithLabel'
 import NumberBoxWithLabel from '~/components/molecules/NumberBoxWithLabel'
@@ -283,10 +279,6 @@ export default {
 
 <style scoped>
 /* サブヘッダー */
-.content_header {
-  margin: 20px 0 10px;
-}
-
 .content_image {
   margin: 0 auto 20px 0;
 }
