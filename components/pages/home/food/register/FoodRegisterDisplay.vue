@@ -115,7 +115,7 @@
 
 <script>
 import SubHeader from '~/components/organisms/SubHeader/SubHeader'
-import RegisterBtn from '~/components/molecules/btn/RegisterBtn'
+import RegisterBtn from '~/components/molecules/Btn/RegisterBtn'
 import ParagraphText from '~/components/atoms/Text/ParagraphText'
 import TextBoxWithLabel from '~/components/molecules/TextBoxWithLabel'
 import NumberBoxWithLabel from '~/components/molecules/NumberBoxWithLabel'
@@ -123,7 +123,7 @@ import SpanText from '~/components/atoms/Text/SpanText'
 import UnitSelectBox from '~/components/atoms/SelectBox/UnitSelectBox'
 import RangeWithLabel from '~/components/molecules/RangeWithLabel'
 import StrongText from '~/components/atoms/Text/StrongText'
-import ImageWithInputFile from '~/components/molecules/image/ImageWithInputFile'
+import ImageWithInputFile from '~/components/molecules/Image/ImageWithInputFile'
 import TextAreaWithLabel from '~/components/molecules/TextArea/TextAreaWithLabel'
 import SideBar from '~/components/organisms/SideBar/SideBar'
 
