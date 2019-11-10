@@ -7,6 +7,8 @@
         </nuxt-link>
       </list-item>
 
+      <slot name="list-item" />
+
       <list-item class="breadcrumb-item active" aria-current="page">
         {{ listName }}
       </list-item>
