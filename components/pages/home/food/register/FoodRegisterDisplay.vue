@@ -2,188 +2,145 @@
   <div>
     <div class="content container-fluid">
       <div class="row offset-3">
-        <!-- サブヘッダー始まり -->
+        <!-- パンくずリストとナビタブ -->
         <div class="content_header col-sm-12">
-          <bread-crumb>
-            <li
-              slot="breadcrumb-item"
-              class="breadcrumb-item active"
-              aria-current="page"
-            >
-              食材
-            </li>
-          </bread-crumb>
-          <nav-tab
+          <sub-header
+            list-name="食材"
+            :is-values="$store.getters['food/foods']"
             :is-register-active="isRegisterActive"
             :param-id-page="`/home/food/${food.paramId}`"
             :register-page="`/home/food/register`"
           >
-            <nuxt-link
-              v-show="$store.getters['food/foods'].length"
-              slot="nav-item"
-              :to="`/home/food/${food.paramId}`"
-              class="nav-item nav-link"
-            >
-              表示
-            </nuxt-link>
-            <div
-              v-show="!$store.getters['food/foods'].length"
-              slot="nav-item"
-              class="nav-item nav-link"
-              @click="showAlert"
-            >
-              表示
-            </div>
-            <button
+            <register-btn
               slot="btn"
-              type="button"
-              class="nav-btn btn btn-success btn-md"
-              @click="registerFood"
-            >
-              <div
-                v-show="isClickRegisterBtn"
-                class="spinner-border text-light"
-              >
-                <span class="sr-only">Loading...</span>
-              </div>
-              <span v-show="!isClickRegisterBtn">登録</span>
-            </button>
-          </nav-tab>
+              :is-click-btn="isClickBtn"
+              @registerFood="registerFood"
+            />
+          </sub-header>
         </div>
-        <!-- サブヘッダー終わり -->
+
+        <!-- 登録メッセージ -->
         <div class="col-sm-12">
-          <p>
+          <paragraph-text>
             食材データを入力して下さい。（<span class="require-mark">＊</span
             >は必須入力）
-          </p>
+          </paragraph-text>
         </div>
+
+        <!-- 食材データ入力フォーム -->
         <div class="content_form col-sm-4">
           <div class="row">
             <div class="col-sm-12">
               <!-- 食材名 -->
-              <span class="require-mark">＊</span>
-              <strong>食材名</strong>
-              <input-form
+              <text-box-with-label
                 v-model="food.name"
-                placeholder="小麦粉"
-                type="text"
+                require-mark="＊"
+                label-name="食材名"
+                placeholder="食材名を入力"
                 class="content_form_input"
               />
               <!-- 仕入れ価格 -->
-              <span class="require-mark">＊</span>
-              <strong>仕入価格</strong>
-              <input-form
+              <number-box-with-label
                 v-model="food.value"
-                placeholder="100"
-                type="number"
+                require-mark="＊"
+                label-name="仕入価格"
+                placeholder="仕入価格を入力"
+                :is-food-value="true"
                 class="content_form_input"
               >
-                <div slot="input-append" class="input-group-append">
-                  <span
-                    id="inputGroup-sizing-sm"
-                    class="input-group-text rounded-0"
-                  >
-                    円
-                  </span>
-                </div>
-              </input-form>
+                <span-text
+                  id="inputGroup-sizing-sm"
+                  slot="input-append"
+                  class="input-group-text rounded-0"
+                >
+                  円
+                </span-text>
+              </number-box-with-label>
               <!-- 食材量 -->
-              <span class="require-mark">＊</span>
-              <strong>食材量</strong>
-              <input-form
+              <number-box-with-label
                 v-model="food.amount"
-                placeholder="100"
-                type="number"
+                require-mark="＊"
+                label-name="食材量"
+                placeholder="食材量を入力"
+                :is-food-amount="true"
                 class="content_form_input"
               >
-                <div slot="input-append" class="input-group-append">
-                  <select
-                    id="validationCustom04"
-                    v-model="food.unit"
-                    class="custom-select"
-                    required
-                  >
-                    <option selected disabled value="">単位</option>
-                    <option>g</option>
-                    <option>kg</option>
-                    <option>ml</option>
-                    <option>L</option>
-                    <option>cc</option>
-                  </select>
-                </div>
-              </input-form>
-              <strong>歩留り</strong>{{ food.yield }}<span>％</span>
-              <input
-                id="customRange1"
+                <unit-select-box
+                  slot="input-append"
+                  v-model="food.unit"
+                  class="custom-select"
+                />
+              </number-box-with-label>
+              <!-- 歩留まり -->
+              <range-with-label
                 v-model="food.yield"
-                type="range"
-                class="custom-range"
+                label-name="歩留り"
+                :food-yield="food.yield"
+                class="content_form_input"
               />
+              <!-- 原価の計算の結果 -->
               <div class="content_form_label">
-                <strong>原価: {{ foodCost }}</strong>
+                <strong-text> 原価: {{ foodCost }} </strong-text>
               </div>
             </div>
           </div>
         </div>
+
+        <!-- 画像 -->
         <div class="content_image col-sm-6">
-          <food-image :image="food.image">
-            <template slot="input-file">
-              <input-file @getFileData="getFileData" />
-            </template>
-          </food-image>
+          <image-with-input-file
+            :image="food.image"
+            @getFileData="getFileData"
+          />
         </div>
+
+        <!-- コメント -->
         <div class="content_comment col-sm-10">
-          <comment-form v-model="food.comment" />
+          <text-area-with-label v-model="food.comment" />
         </div>
       </div>
+      <!-- row -->
     </div>
-    <side-bar>
-      <div slot="sidebar_search">
-        <search-bar v-model="searchText" placeholder="食材名を検索" />
-      </div>
-      <ul
-        v-for="item in sideBarfoods"
-        v-show="sideBarfoods.length"
-        slot="content-list"
-        :key="item.id"
-        class="list-group list-group-flush"
-        @click="toFoodPage(sideBarfoods.indexOf(item))"
-      >
-        <li class="food-list_item list-group-item border-bottom">
-          {{ item.name }}
-        </li>
-      </ul>
-      <div
-        v-show="!sideBarfoods.length"
-        slot="content-list"
-        class="no-result-message"
-      >
-        <p>登録がありません</p>
-      </div>
-    </side-bar>
+    <!-- container-fluid -->
+
+    <!-- サイドバー -->
+    <side-bar
+      v-model="searchText"
+      placeholder="食材名を検索"
+      :items="sideBarfoods"
+      @toFoodPage="toFoodPage"
+    />
   </div>
 </template>
 
 <script>
-import SideBar from '~/components/SideBar.vue'
-import searchBar from '~/components/common/searchBar.vue'
-import BreadCrumb from '~/components/BreadCrumb.vue'
-import NavTab from '~/components/home/NavTab.vue'
-import FoodImage from '~/components/FoodImage.vue'
-import CommentForm from '~/components/CommentForm.vue'
-import InputFile from '~/components/InputFile.vue'
-import InputForm from '~/components/InputForm.vue'
+import SubHeader from '~/components/organisms/SubHeader/SubHeader'
+import RegisterBtn from '~/components/molecules/btn/RegisterBtn'
+import ParagraphText from '~/components/atoms/Text/ParagraphText'
+import TextBoxWithLabel from '~/components/molecules/TextBoxWithLabel'
+import NumberBoxWithLabel from '~/components/molecules/NumberBoxWithLabel'
+import SpanText from '~/components/atoms/Text/SpanText'
+import UnitSelectBox from '~/components/atoms/SelectBox/UnitSelectBox'
+import RangeWithLabel from '~/components/molecules/RangeWithLabel'
+import StrongText from '~/components/atoms/Text/StrongText'
+import ImageWithInputFile from '~/components/molecules/image/ImageWithInputFile'
+import TextAreaWithLabel from '~/components/molecules/TextArea/TextAreaWithLabel'
+import SideBar from '~/components/organisms/SideBar/SideBar'
 
 export default {
   components: {
-    SideBar,
-    searchBar,
-    BreadCrumb,
-    NavTab,
-    FoodImage,
-    CommentForm,
-    InputFile,
-    InputForm
+    SubHeader,
+    RegisterBtn,
+    ParagraphText,
+    SpanText,
+    UnitSelectBox,
+    TextBoxWithLabel,
+    NumberBoxWithLabel,
+    RangeWithLabel,
+    StrongText,
+    ImageWithInputFile,
+    TextAreaWithLabel,
+    SideBar
   },
   data() {
     return {
@@ -200,7 +157,7 @@ export default {
       selectedFile: '',
       searchText: '',
       isRegisterActive: true,
-      isClickRegisterBtn: false
+      isClickBtn: false
     }
   },
   computed: {
@@ -231,15 +188,13 @@ export default {
     }
   },
   created() {
-    if (this.sideBarfoods.length !== 0) {
-      this.food.paramId = this.sideBarfoods[0].id
+    const foods = this.$store.getters['food/foods']
+    if (foods.length !== 0) {
+      this.food.paramId = foods[0].id
     }
-    console.log(this.food.paramId)
   },
   methods: {
-    showAlert() {
-      alert('食材が登録されていません')
-    },
+    // サイドバーから選択された食材ページへ遷移
     toFoodPage(index) {
       const food = this.sideBarfoods[index]
       console.log(food)
@@ -303,7 +258,7 @@ export default {
         return
       }
       // スピナー表示
-      this.isClickRegisterBtn = true
+      this.isClickBtn = true
       // 画像が選択されていればアップロード
       if (this.selectedFile) {
         const upLoadedImageName = await this.upLoadImage(this.selectedFile)
@@ -316,7 +271,7 @@ export default {
       const res = await this.$store.dispatch('food/registerFood', this.food)
       console.log(res)
       // スピナー非表示
-      this.isClickRegisterBtn = false
+      this.isClickBtn = false
       // ユーザー認証が切れていたらsigninに遷移
       if (res.error) {
         alert(res.error)
@@ -326,6 +281,7 @@ export default {
       console.log(res.result)
       // 登録成功で表示ページへ遷移
       if (res.result) {
+        alert(res.message)
         const food = res.result
         this.$router.push({ path: `/home/food/${food.id}` })
       }
@@ -336,19 +292,6 @@ export default {
 
 <style scoped>
 /* サブヘッダー */
-.nav-item {
-  cursor: pointer;
-}
-.nav-btn {
-  display: block;
-  margin: 0 0 0 auto;
-  width: 58px;
-  font-weight: 600;
-  color: #fff;
-  border-radius: 0.25em;
-  background-color: #28a745;
-  background-image: linear-gradient(-180deg, #34d058, #28a745 90%);
-}
 .content_image {
   margin: 0 auto 20px 0;
 }
@@ -359,7 +302,7 @@ export default {
   margin-bottom: 20px;
 }
 .content_form_input {
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .content_comment {
@@ -379,9 +322,7 @@ export default {
   width: 1.25rem;
   height: 1.25rem;
 }
-.require-mark {
-  color: #cb2431;
-}
+
 /* サイドバー */
 .no-result-message {
   text-align: center;

@@ -3,32 +3,19 @@
     <div class="content container-fluid">
       <div class="row offset-3">
         <div class="content_header col-sm-12">
-          <bread-crumb>
-            <li
-              slot="breadcrumb-item"
-              class="breadcrumb-item active"
-              aria-current="page"
-            >
-              食材
-            </li>
-          </bread-crumb>
-          <nav-tab
+          <sub-header
+            list-name="食材"
+            :is-values="$store.getters['food/foods']"
             :is-view-active="isViewActive"
             :param-id-page="`/home/food/${food.paramId}`"
             :register-page="`/home/food/register`"
           >
-            <button
+            <update-btn
               slot="btn"
-              type="button"
-              class="btn-form_register btn btn-success btn-md"
-              @click="updateFood"
-            >
-              <div v-show="isClickUpdateBtn" class="spinner-border text-light">
-                <span class="sr-only">Loading...</span>
-              </div>
-              <span v-show="!isClickUpdateBtn">更新</span>
-            </button>
-          </nav-tab>
+              :is-click-btn="isClickBtn"
+              @updateFood="updateFood"
+            />
+          </sub-header>
         </div>
         <!--  -->
         <div class="col-sm-12">
@@ -153,6 +140,7 @@
         slot="content-list"
         :key="item.id"
         class="list-group list-group-flush"
+        @click="toFoodPage(sideBarfoods.indexOf(item))"
       >
         <li class="food-list_item list-group-item border-bottom">
           {{ item.name }}
@@ -172,10 +160,12 @@
 </template>
 
 <script>
+import SubHeader from '~/components/organisms/SubHeader/SubHeader'
+import UpdateBtn from '~/components/molecules/Btn/UpdateBtn'
 import SideBar from '~/components/SideBar.vue'
 import searchBar from '~/components/common/searchBar.vue'
-import BreadCrumb from '~/components/BreadCrumb.vue'
-import NavTab from '~/components/home/NavTab.vue'
+// import BreadCrumb from '~/components/BreadCrumb.vue'
+// import NavTab from '~/components/home/NavTab.vue'
 import FoodImage from '~/components/FoodImage.vue'
 import InputFile from '~/components/InputFile.vue'
 import CommentForm from '~/components/CommentForm.vue'
@@ -183,10 +173,12 @@ import InputForm from '~/components/InputForm.vue'
 
 export default {
   components: {
+    SubHeader,
+    UpdateBtn,
     SideBar,
     searchBar,
-    BreadCrumb,
-    NavTab,
+    // BreadCrumb,
+    // NavTab,
     FoodImage,
     CommentForm,
     InputFile,
@@ -209,7 +201,7 @@ export default {
       searchText: '',
       selectedFile: '',
       isViewActive: true,
-      isClickUpdateBtn: false
+      isClickBtn: false
     }
   },
   computed: {
@@ -321,7 +313,7 @@ export default {
         return
       }
       // スピナー表示
-      this.isClickUpdateBtn = true
+      this.isClickBtn = true
       // 画像が選択されていればアップロード
       if (this.selectedFile) {
         const upLoadedImageName = await this.upLoadImage(this.selectedFile)
@@ -333,7 +325,7 @@ export default {
       // 食材データを更新
       const res = await this.$store.dispatch('food/updateFood', this.food)
       // スピナー非表示
-      this.isClickUpdateBtn = false
+      this.isClickBtn = false
       // ユーザー認証が切れていたらsigninに遷移
       if (res.error) {
         alert(res.error)
@@ -360,6 +352,11 @@ export default {
         alert(res.message)
         this.$router.push({ path: '/home/food' })
       }
+    },
+    toFoodPage(index) {
+      const food = this.sideBarfoods[index]
+      console.log(food)
+      this.$router.push({ path: `/home/food/${food.id}` })
     }
   }
 }

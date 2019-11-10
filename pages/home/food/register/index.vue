@@ -3,7 +3,7 @@
     <client-only>
       <Header />
       <div class="wrapper">
-        <food-register-form />
+        <food-register-display />
       </div>
       <Footer />
     </client-only>
@@ -12,13 +12,13 @@
 
 <script>
 import Header from '~/components/top/Header.vue'
-import FoodRegisterForm from '~/components/FoodRegisterForm.vue'
+import FoodRegisterDisplay from '~/components/pages/home/food/register/FoodRegisterDisplay'
 import Footer from '~/components/common/Footer.vue'
 
 export default {
   components: {
     Header,
-    FoodRegisterForm,
+    FoodRegisterDisplay,
     Footer
   },
   async fetch({ store, redirect }) {

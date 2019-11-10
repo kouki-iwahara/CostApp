@@ -28,7 +28,7 @@ body {
 
 /* サブのヘッダー */
 .content_header {
-  margin-bottom: 20px;
+  margin: 20px 0;
 }
 
 /* スピナー */
@@ -61,6 +61,12 @@ body {
 .offset-3 {
   margin-left: -15px;
 }
+
+/* 必須（＊）印 */
+.require-mark {
+  color: #cb2431;
+}
+
 @media screen and (min-width: 768px) {
   /* 謎の空白があり、offset-3のmarginを調節した */
   .offset-3 {

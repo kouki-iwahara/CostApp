@@ -3,7 +3,7 @@
     <client-only>
       <Header />
       <div class="wrapper">
-        <food-update-form />
+        <food-update-display />
       </div>
       <Footer />
     </client-only>
@@ -12,13 +12,13 @@
 
 <script>
 import Header from '~/components/top/Header.vue'
-import FoodUpdateForm from '~/components/FoodUpdateForm.vue'
+import FoodUpdateDisplay from '~/components/pages/home/food/update/FoodUpdateDisplay'
 import Footer from '~/components/common/Footer.vue'
 
 export default {
   components: {
     Header,
-    FoodUpdateForm,
+    FoodUpdateDisplay,
     Footer
   },
   async fetch({ store, redirect }) {

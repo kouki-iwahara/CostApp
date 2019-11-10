@@ -4,34 +4,19 @@
       <div class="row offset-3">
         <!-- サブヘッダー始まり -->
         <div class="content_header col-sm-12">
-          <bread-crumb>
-            <li
-              slot="breadcrumb-item"
-              class="breadcrumb-item active"
-              aria-current="page"
-            >
-              レシピ
-            </li>
-          </bread-crumb>
-          <nav-tab
-            :is-view-active="isViewActive"
-            :param-id-page="`/home/recipe/${$route.params.recipeId}`"
+          <!-- パンくずリストとナビタブ -->
+          <sub-header
+            list-name="レシピ"
+            :is-values="$store.getters['recipe/recipes']"
+            :param-id-page="`/home/recipe/${recipe.paramId}`"
             :register-page="`/home/recipe/register`"
+            :is-view-active="isViewActive"
           >
-            <button
+            <change-btn
               slot="btn"
-              type="button"
-              class="nav-btn btn btn-warning btn-md"
-            >
-              <nuxt-link
-                :to="`/home/recipe/update/${recipe.paramId}`"
-                class="nav-link"
-                @click="toUpdatePage"
-              >
-                変更
-              </nuxt-link>
-            </button>
-          </nav-tab>
+              :link="`/home/recipe/update/${recipe.paramId}`"
+            />
+          </sub-header>
         </div>
         <!-- サブヘッダー終わり -->
 
@@ -124,8 +109,8 @@
 </template>
 
 <script>
-import BreadCrumb from '~/components/BreadCrumb.vue'
-import NavTab from '~/components/home/NavTab.vue'
+import SubHeader from '~/components/organisms/SubHeader/SubHeader'
+import ChangeBtn from '~/components/molecules/Btn/ChangeBtn'
 import SideBar from '~/components/SideBar.vue'
 import searchBar from '~/components/common/searchBar.vue'
 import FoodImage from '~/components/FoodImage.vue'
@@ -133,8 +118,8 @@ import RecipeDisplayTable from '~/components/RecipeDisplayTable.vue'
 
 export default {
   components: {
-    BreadCrumb,
-    NavTab,
+    SubHeader,
+    ChangeBtn,
     SideBar,
     searchBar,
     FoodImage,
@@ -203,14 +188,14 @@ export default {
 <style scoped>
 /* サブヘッダー */
 /* 変更ボタン */
-.nav-btn {
+/* .nav-btn {
   display: block;
   margin: 0 0 0 auto;
   font-weight: 600;
   border-radius: 0.25em;
   border-color: #ffc107;
   background-image: linear-gradient(-180deg, #f7b733, #fc4a1a 90%);
-}
+} */
 
 .nav-btn .nav-link {
   border: none;

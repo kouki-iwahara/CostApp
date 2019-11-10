@@ -3,7 +3,7 @@
     <client-only>
       <Header />
       <div class="wrapper">
-        <recipe-update-form />
+        <recipe-update-display />
       </div>
       <Footer />
     </client-only>
@@ -12,13 +12,13 @@
 
 <script>
 import Header from '~/components/top/Header.vue'
-import RecipeUpdateForm from '~/components/RecipeUpdateForm.vue'
+import RecipeUpdateDisplay from '~/components/pages/home/recipe/update/RecipeUpdateDisplay'
 import Footer from '~/components/common/Footer.vue'
 
 export default {
   components: {
     Header,
-    RecipeUpdateForm,
+    RecipeUpdateDisplay,
     Footer
   },
   // データ取得時にユーザー認証がなかったらsigninへ遷移
