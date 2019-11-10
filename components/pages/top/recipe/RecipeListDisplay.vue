@@ -2,20 +2,9 @@
   <div class="content container-fluid">
     <!-- ヘッド部分始まり -->
     <div class="row">
-      <div class="col-sm-6">
-        <bread-crumb>
-          <li slot="breadcrumb-item-top" class="breadcrumb-item">
-            <nuxt-link to="/" class="nav-link">
-              トップ
-            </nuxt-link>
-          </li>
-          <li
-            slot="breadcrumb-item"
-            class="breadcrumb-item active"
-            aria-current="page"
-          >
-            レシピ一覧
-          </li>
+      <div class="content_header col-sm-6">
+        <bread-crumb :link="`/`" list-name="レシピ一覧">
+          <span slot="link-name">トップ</span>
         </bread-crumb>
       </div>
       <div class="col-sm-12">
@@ -37,7 +26,9 @@
 </template>
 
 <script>
-import BreadCrumb from '~/components/BreadCrumb.vue'
+import BreadCrumb from '~/components/molecules/BreadCrumb/BreadCrumb.vue'
+
+// import BreadCrumb from '~/components/BreadCrumb.vue'
 import AllRecipesTable from '~/components/top/AllRecipesTable.vue'
 
 export default {

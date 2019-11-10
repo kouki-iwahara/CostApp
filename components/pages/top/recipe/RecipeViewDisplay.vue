@@ -5,24 +5,14 @@
       <div class="row offset-3">
         <div class="content_header col-sm-12">
           <!-- パンくずリスト -->
-          <bread-crumb>
-            <li slot="breadcrumb-item-top" class="breadcrumb-item">
-              <nuxt-link to="/" class="nav-link">
-                トップ
-              </nuxt-link>
-            </li>
-            <li slot="breadcrumb-item" class="breadcrumb-item">
+          <bread-crumb link="/" list-name="レシピ">
+            <span slot="link-name">トップ</span>
+
+            <list-item slot="list-item" class="breadcrumb-item">
               <nuxt-link to="/recipe" class="nav-link">
                 レシピ一覧
               </nuxt-link>
-            </li>
-            <li
-              slot="breadcrumb-item"
-              class="breadcrumb-item"
-              aria-current="page"
-            >
-              レシピ
-            </li>
+            </list-item>
           </bread-crumb>
         </div>
       </div>
@@ -109,14 +99,16 @@
 </template>
 
 <script>
+import ListItem from '~/components/atoms/List/ListItem'
 import SideBar from '~/components/SideBar.vue'
-import BreadCrumb from '~/components/BreadCrumb.vue'
+import BreadCrumb from '~/components/molecules/BreadCrumb/BreadCrumb'
 import searchBar from '~/components/common/searchBar.vue'
 import FoodImage from '~/components/FoodImage.vue'
 import RecipeDisplayTable from '~/components/RecipeDisplayTable.vue'
 
 export default {
   components: {
+    ListItem,
     SideBar,
     BreadCrumb,
     searchBar,
@@ -177,6 +169,10 @@ export default {
 </script>
 
 <style scoped>
+.nav-link {
+  padding: 0;
+  display: inline-block;
+}
 /* レシピのデータリスト */
 .card-header {
   padding: 6px 20px;

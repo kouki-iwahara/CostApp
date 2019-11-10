@@ -3,7 +3,7 @@
     <client-only>
       <Header />
       <div class="wrapper">
-        <all-users-recipe-display />
+        <recipe-view-display />
       </div>
       <Footer />
     </client-only>
@@ -12,13 +12,13 @@
 
 <script>
 import Header from '~/components/top/Header.vue'
-import AllUsersRecipeDisplay from '~/components/AllUsersRecipeDisplay.vue'
+import RecipeViewDisplay from '~/components/pages/top/recipe/RecipeViewDisplay'
 import Footer from '~/components/common/Footer.vue'
 
 export default {
   components: {
     Header,
-    AllUsersRecipeDisplay,
+    RecipeViewDisplay,
     Footer
   },
   async fetch({ store }) {
