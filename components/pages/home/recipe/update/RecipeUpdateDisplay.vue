@@ -4,54 +4,19 @@
       <!-- サブヘッダー始まり -->
       <div class="row offset-3">
         <div class="content_header col-sm-12">
-          <!-- パンくずリスト -->
-          <bread-crumb>
-            <li
-              slot="breadcrumb-item"
-              class="breadcrumb-item active"
-              aria-current="page"
-            >
-              レシピ
-            </li>
-          </bread-crumb>
-          <!-- ページナビ -->
-          <nav-tab
-            :is-register-active="isRegisterActive"
+          <sub-header
+            list-name="レシピ"
+            :is-values="$store.getters['recipe/recipes']"
+            :is-view-active="isViewActive"
             :param-id-page="`/home/recipe/${recipe.paramId}`"
             :register-page="`/home/recipe/register`"
           >
-            <nuxt-link
-              v-show="$store.getters['recipe/recipes'].length"
-              slot="nav-item"
-              :to="`/home/recipe/${recipe.paramId}`"
-              class="nav-item nav-link"
-            >
-              表示
-            </nuxt-link>
-            <div
-              v-show="!$store.getters['recipe/recipes'].length"
-              slot="nav-item"
-              class="nav-item nav-link"
-              @click="showAlert"
-            >
-              表示
-            </div>
-            <button
+            <update-btn
               slot="btn"
-              type="button"
-              class="nav-btn btn btn-success btn-md"
-              @click="registerRecipe"
-            >
-              <!-- スピナー -->
-              <div
-                v-show="isClickRegisterBtn"
-                class="spinner-border text-light"
-              >
-                <span class="sr-only">Loading...</span>
-              </div>
-              <span v-show="!isClickRegisterBtn">登録</span>
-            </button>
-          </nav-tab>
+              :is-click-btn="isClickBtn"
+              @updateRecipe="updateRecipe"
+            />
+          </sub-header>
         </div>
       </div>
       <!-- サブヘッダー終わり -->
@@ -60,7 +25,8 @@
       <div class="form-group row  offset-3">
         <div class="col-sm-12">
           <p>
-            レシピデータを入力して下さい。（<span class="require-mark">＊</span
+            更新するデータを入力して下さい。（<span class="require-mark"
+              >＊</span
             >は必須入力）
           </p>
         </div>
@@ -125,19 +91,19 @@
 
       <!-- 食材登録始まり -->
       <div class="row offset-3">
-        <!--スマホ食材登録の＋ボタン min-width: 768pxまで非表示 -->
-        <div class="plus-btn col-sm-10">
+        <!--食材登録の＋ボタン min-width: 768pxまで非表示 -->
+        <div class="plus-btn col-sm-12">
           <button
             type="button"
             class="btn btn-success rounded-circle p-0"
-            style="width:2rem;height:2rem;"
+            style="width:1.5rem;height:1.5rem;"
             @click="toAddFoodPage"
           >
             ＋
           </button>
           <span>食材を追加</span>
         </div>
-        <!-- 食材登録フォーム -->
+        <!-- 食材登録フォーム min-width: 768pxまで表示 -->
         <div class="food-add-to-menu-form col-sm-10">
           <add-food-form
             v-model="food.amount"
@@ -148,7 +114,7 @@
             @initializeForm="initializeForm"
           />
         </div>
-        <!-- 食材テーブル min-width: 768pxまで表示 -->
+        <!-- 食材テーブル -->
         <div class="food-table col-sm-10">
           <recipe-register-table
             :recipe-table-foods="recipe.tableFoods"
@@ -184,8 +150,26 @@
             </div>
           </div>
         </div>
+        <!-- 削除フォーム -->
+        <div class="content_danger col-sm-10">
+          <strong>レシピの削除</strong>
+          <div class="content_danger_form">
+            <div>
+              <p>
+                <strong>削除すると食材からもレシピが削除されます</strong>
+              </p>
+            </div>
+            <button
+              type="button"
+              class="content_danger_btn btn btn-md"
+              @click="deleteRecipe"
+            >
+              <strong>このレシピを削除</strong>
+            </button>
+          </div>
+        </div>
+        <!-- 削除フォーム終わり -->
       </div>
-      <!-- 食材登録終わり -->
     </div>
     <!-- /content -->
     <side-bar>
@@ -218,21 +202,21 @@
 </template>
 
 <script>
-import BreadCrumb from '~/components/BreadCrumb.vue'
-import NavTab from '~/components/home/NavTab.vue'
+import SubHeader from '~/components/organisms/SubHeader/SubHeader'
+import UpdateBtn from '~/components/molecules/Btn/UpdateBtn'
 import FoodImage from '~/components/FoodImage.vue'
 import AddFoodForm from '~/components/AddFoodForm.vue'
 import RecipeRegisterTable from '~/components/RecipeRegisterTable.vue'
 import CommentForm from '~/components/CommentForm.vue'
+import InputFile from '~/components/InputFile.vue'
 import InputForm from '~/components/InputForm.vue'
 import SideBar from '~/components/SideBar.vue'
 import searchBar from '~/components/common/searchBar.vue'
-import InputFile from '~/components/InputFile.vue'
 
 export default {
   components: {
-    BreadCrumb,
-    NavTab,
+    SubHeader,
+    UpdateBtn,
     FoodImage,
     CommentForm,
     AddFoodForm,
@@ -245,11 +229,13 @@ export default {
   data() {
     return {
       recipe: {
-        paramId: '',
+        id: '',
         name: '',
         value: '',
         comment: '',
+        // 食材データのテーブル
         tableFoods: [],
+        // 食材テーブルのデータをjson形式にして格納する為の配列
         foods: [],
         image: require('~/assets/pasta.jpg')
       },
@@ -263,8 +249,8 @@ export default {
       },
       selectedFile: '',
       searchText: '',
-      isRegisterActive: true,
-      isClickRegisterBtn: false
+      isViewActive: true,
+      isClickBtn: false
     }
   },
   computed: {
@@ -276,13 +262,15 @@ export default {
       }
       return '表示されます'
     },
-    // 全ての食材
+    // サイドバーの食材（検索バーとレンダリングしている）
     sideBarfoods() {
       const filterFoods = []
       const foods = this.$store.getters['food/foods'].slice()
+      // 検索バーにテキストが無ければ全ての食材を表示
       if (!this.searchText) {
         return foods
       }
+      // 検索バーに入力されたテキストを含む食材を表示
       foods.forEach((food) => {
         if (food.name.includes(this.searchText)) {
           filterFoods.push(food)
@@ -301,6 +289,7 @@ export default {
     // レシピの原価（食材原価の合計）
     recipeCost() {
       let cost = 0
+      // const foodContents = this.$store.getters['recipe/foodContents']
       this.recipe.tableFoods.forEach((tableFood) => {
         cost += parseFloat(tableFood.foodAmountCost)
       })
@@ -308,21 +297,31 @@ export default {
     }
   },
   created() {
-    // サイドバーの遷移先を設定
-    const recipes = this.$store.state.recipe.recipes
-    console.log(recipes)
-    if (recipes.length !== 0) {
-      this.recipe.paramId = recipes[0].id
-    }
+    this.recipe.id = parseInt(this.$route.params.recipeId)
+    const recipes = this.$store.getters['recipe/recipes']
+    // 受け取ったidと一致するレシピを取得
+    const recipe = recipes.find((recipe) => {
+      return recipe.id === this.recipe.id
+    })
+    console.log(recipe)
+    // 取得したデータを代入
+    this.recipe.name = recipe.name
+    this.recipe.value = recipe.value
+    this.recipe.comment = recipe.comment
+    this.recipe.image = recipe.image
+    // 食材を選んでいない場合、登録されている初期の食材データをテーブルに表示（食材を選んでいればthis.addFoodToMobileForm()で食材がテーブルに表示される）
+    if (!this.$route.query.tableFoods)
+      // 食材テーブルにレシピに登録されている食材を表示
+      recipe.foods.forEach((food) => {
+        food.foodDelBtn = 'ー'
+        this.recipe.tableFoods.push(food)
+      })
     // 追加する食材データがクエリに格納されていればフォームに食材を表示
     if (this.$route.query.recipeFood) {
       this.addFoodToMobileForm()
     }
   },
   methods: {
-    showAlert() {
-      alert('レシピが登録されていません')
-    },
     // イメージ画像データを取得し、プレビューを作成
     getFileData(fileData) {
       this.selectedFile = fileData
@@ -370,10 +369,10 @@ export default {
     },
     // サイドバーから食材を選択して表示する
     selectFood(index) {
-      const food = this.sideBarfoods[index]
+      const food = this.$store.getters['food/foods'][index]
       // 食材の重複禁止の為、idが重複しているか調べる
       const overlapId = this.recipe.tableFoods.find((tableFood) => {
-        return tableFood.id === food.id
+        return tableFood.foodId === food.id
       })
       // idが重複していた場合
       if (overlapId) {
@@ -408,7 +407,7 @@ export default {
       if (tableFoods.length !== 0) {
         console.log('query.tableFoods', tableFoods)
         // 画面横スライドで、データはあるが読み取れなくなるのでidの所持で分岐した
-        if (tableFoods[0].id) {
+        if (tableFoods[0].foodId) {
           this.$route.query.tableFoods.forEach((food) => {
             console.log(food)
             this.recipe.tableFoods.push(food)
@@ -431,7 +430,7 @@ export default {
       }
       // 追加する食材情報
       const foodContent = {
-        id: this.food.id,
+        foodId: this.food.id,
         foodName: this.food.name,
         foodAmount: this.food.amount,
         foodUnit: this.food.unit,
@@ -440,7 +439,6 @@ export default {
       }
       // 入力された食材をテーブルに追加
       this.recipe.tableFoods.unshift(foodContent)
-
       // formの初期化
       this.initializeForm()
     },
@@ -449,13 +447,13 @@ export default {
       this.recipe.tableFoods.splice(index, 1)
     },
     // レシピ登録
-    async registerRecipe() {
+    async updateRecipe() {
       // レシピ名が必須登録
       if (!this.recipe.name) {
         return alert('必須項目を入力してください')
       }
       // スピナー表示
-      this.isClickRegisterBtn = true
+      this.isClickBtn = true
       // 画像が選択されていればアップロードとURL取得
       if (this.selectedFile) {
         const upLoadedImageName = await this.upLoadImage(this.selectedFile) // アップロードされた画像のURLを取得
@@ -465,21 +463,39 @@ export default {
       this.recipe.cost = this.recipeCost
       this.recipe.costRate = this.recipeCostRate
       // 食材を選んでいたらサーバーに送る為にjson型に変換
-      // if文の条件を'foodContents'にしたら意図した条件分岐をしなかった
+      // if文の条件を'!this.recipe.tableFoods'にしたら意図した条件分岐をしなかった
+      console.log(this.recipe.tableFoods)
       if (this.recipe.tableFoods.length !== 0) {
         this.recipe.tableFoods.forEach((tableFood) => {
           const jsonFood = JSON.stringify(tableFood)
           this.recipe.foods.push(jsonFood)
         })
       }
-      console.log(this.recipe.foods)
-      // レシピを登録
-      const res = await this.$store.dispatch(
-        'recipe/registerRecipe',
-        this.recipe
-      )
+      console.log(this.recipe)
+      // レシピを更新
+      const res = await this.$store.dispatch('recipe/updateRecipe', this.recipe)
+      console.log(res)
       // スピナー非表示
-      this.isClickRegisterBtn = false
+      this.isClickBtn = false
+      // ユーザー認証が切れていたらsigninに遷移
+      if (res.error) {
+        alert(res.error)
+        this.$router.push({ path: '/signin' })
+        return
+      }
+      // 成功すれば画面遷移
+      if (res.result) {
+        this.$router.push({ path: `/home/recipe/${this.recipe.id}` })
+      }
+    },
+    // レシピを削除
+    async deleteRecipe() {
+      // 成功で削除されたレシピが格納される
+      const res = await this.$store.dispatch(
+        'recipe/deleteRecipe',
+        this.recipe.id
+      )
+      console.log(res)
       // ユーザー認証が切れていたらsigninに遷移
       if (res.error) {
         alert(res.error)
@@ -496,7 +512,10 @@ export default {
     toAddFoodPage() {
       this.$router.push({
         path: '/home/recipe/register/addFood',
-        query: { tableFoods: this.recipe.tableFoods }
+        query: {
+          tableFoods: this.recipe.tableFoods,
+          isUpdateId: this.$route.params.recipeId
+        }
       })
     }
   }
@@ -505,10 +524,7 @@ export default {
 
 <style scoped>
 /* サブヘッダー */
-.nav-item {
-  cursor: pointer;
-}
-
+/* 登録ボタン */
 .nav-btn {
   display: block;
   margin: 0 0 0 auto;
@@ -561,14 +577,10 @@ export default {
 /* .food-add-to-menu-form {
   display: none;
 } */
-.food-add-to-menu-form {
-  margin: 0 auto 20px;
-  display: flex;
-}
 
 .plus-btn {
   display: block;
-  margin: 20px auto;
+  margin: 20px 0;
 }
 
 .food-table {
@@ -591,7 +603,6 @@ export default {
 .mobile-table button {
   display: block;
 }
-
 @media screen and (min-width: 768px) {
   .plus-btn {
     display: none;
@@ -613,8 +624,46 @@ export default {
 
 /* /食材登録フォーム */
 
+/* 削除フォーム */
+.content_danger {
+  margin: 20px auto 20px;
+}
+.content_danger_form {
+  text-align: center;
+  padding: 16px;
+  border: 1px solid #cb2431;
+}
+.content_danger_form p {
+  font-size: 14px;
+  margin-bottom: 3px;
+}
+
+.content_danger_btn {
+  height: 38px;
+  color: #cb2431;
+  background-color: #e9ecef;
+  background-image: linear-gradient(-180deg, #f4f5f7, #e9ecef 90%);
+}
+.content_danger_btn:hover {
+  color: #fff;
+  background-color: #cb2431;
+  background-image: linear-gradient(-180deg, #de4450, #cb2431 90%);
+}
+
+/* /削除フォーム */
+
 /* サイドバー */
 .no-result-message {
   text-align: center;
+}
+
+/* /サイドバー */
+
+@media screen and (min-width: 830px) {
+  /* 削除ボタンフォーム */
+  .content_danger_form {
+    display: flex;
+    justify-content: space-between;
+  }
 }
 </style>

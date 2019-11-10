@@ -4,7 +4,13 @@
       <div class="row offset-3">
         <div class="content_header col-sm-12">
           <!-- パンくずリストとナビタブ -->
-          <sub-header :is-view-active="isViewActive">
+          <sub-header
+            list-name="食材"
+            :param-id-page="`/home/food/${food.paramId}`"
+            :register-page="`/home/food/register`"
+            :is-values="$store.getters['food/foods']"
+            :is-view-active="isViewActive"
+          >
             <change-btn
               slot="btn"
               :link="`/home/food/update/${food.paramId}`"

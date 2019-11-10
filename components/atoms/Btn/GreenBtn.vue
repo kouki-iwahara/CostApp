@@ -3,8 +3,10 @@
     type="button"
     class="nav-btn btn btn-success btn-md"
     @click="
-      updateFood()
       registerFood()
+      updateFood()
+      registerRecipe()
+      updateRecipe()
     "
   >
     <slot />
@@ -19,6 +21,12 @@ export default {
     },
     registerFood() {
       this.$emit('registerFood')
+    },
+    registerRecipe() {
+      this.$emit('registerRecipe')
+    },
+    updateRecipe() {
+      this.$emit('updateRecipe')
     }
   }
 }

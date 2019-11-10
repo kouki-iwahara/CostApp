@@ -4,7 +4,13 @@
       <div class="row offset-3">
         <!-- パンくずリストとナビタブ -->
         <div class="content_header col-sm-12">
-          <sub-header :is-register-active="isRegisterActive">
+          <sub-header
+            list-name="食材"
+            :is-values="$store.getters['food/foods']"
+            :is-register-active="isRegisterActive"
+            :param-id-page="`/home/food/${food.paramId}`"
+            :register-page="`/home/food/register`"
+          >
             <register-btn
               slot="btn"
               :is-click-btn="isClickBtn"
@@ -181,6 +187,12 @@ export default {
       return '表示されます'
     }
   },
+  created() {
+    const foods = this.$store.getters['food/foods']
+    if (foods.length !== 0) {
+      this.food.paramId = foods[0].id
+    }
+  },
   methods: {
     // サイドバーから選択された食材ページへ遷移
     toFoodPage(index) {
@@ -269,6 +281,7 @@ export default {
       console.log(res.result)
       // 登録成功で表示ページへ遷移
       if (res.result) {
+        alert(res.message)
         const food = res.result
         this.$router.push({ path: `/home/food/${food.id}` })
       }

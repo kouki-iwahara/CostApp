@@ -1,5 +1,5 @@
 <template>
-  <green-btn @updateFood="updateFood">
+  <green-btn @updateFood="updateFood" @updateRecipe="updateRecipe">
     <spinner v-show="isClickBtn" />
     <span v-show="!isClickBtn">更新</span>
   </green-btn>
@@ -23,6 +23,9 @@ export default {
   methods: {
     updateFood() {
       this.$emit('updateFood')
+    },
+    updateRecipe() {
+      this.$emit('updateRecipe')
     }
   }
 }

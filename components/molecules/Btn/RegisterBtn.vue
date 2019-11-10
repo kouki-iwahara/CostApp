@@ -1,5 +1,5 @@
 <template>
-  <green-btn @registerFood="registerFood">
+  <green-btn @registerRecipe="registerRecipe()" @registerFood="registerFood()">
     <spinner v-show="isClickBtn" />
     <span v-show="!isClickBtn">登録</span>
   </green-btn>
@@ -23,6 +23,9 @@ export default {
   methods: {
     registerFood() {
       this.$emit('registerFood')
+    },
+    registerRecipe() {
+      this.$emit('registerRecipe')
     }
   }
 }

@@ -1,18 +1,18 @@
 <template>
   <nav>
     <div id="nav-tab" class="nav nav-tabs">
-      <!-- 食材が登録されていたらリンクを表示 -->
+      <!-- 登録されていたらリンクを表示 -->
       <nuxt-link
-        v-show="$store.getters['food/foods'].length"
+        v-show="isValues.length"
         :to="paramIdPage"
         :class="{ active: isViewActive }"
         class="nav-item nav-link"
       >
         表示
       </nuxt-link>
-      <!-- 食材が登録されていなかったらアラート -->
+      <!-- 登録されていなかったらアラート -->
       <div
-        v-show="!$store.getters['food/foods'].length"
+        v-show="!isValues.length"
         slot="nav-item"
         class="nav-item nav-link"
         @click="showAlert"
@@ -48,11 +48,15 @@ export default {
     },
     isRegisterActive: {
       type: Boolean
+    },
+    isValues: {
+      type: Array,
+      default: null
     }
   },
   methods: {
     showAlert() {
-      alert('食材が登録されていません')
+      alert('登録されていません')
     }
   }
 }

@@ -3,39 +3,19 @@
     <div class="content container-fluid">
       <div class="row offset-3">
         <div class="content_header col-sm-12">
-          <sub-header :is-view-active="isViewActive">
+          <sub-header
+            list-name="食材"
+            :is-values="$store.getters['food/foods']"
+            :is-view-active="isViewActive"
+            :param-id-page="`/home/food/${food.paramId}`"
+            :register-page="`/home/food/register`"
+          >
             <update-btn
               slot="btn"
               :is-click-btn="isClickBtn"
               @updateFood="updateFood"
             />
           </sub-header>
-          <!-- <bread-crumb>
-            <li
-              slot="breadcrumb-item"
-              class="breadcrumb-item active"
-              aria-current="page"
-            >
-              食材
-            </li>
-          </bread-crumb>
-          <nav-tab
-            :is-view-active="isViewActive"
-            :param-id-page="`/home/food/${food.paramId}`"
-            :register-page="`/home/food/register`"
-          >
-            <button
-              slot="btn"
-              type="button"
-              class="btn-form_register btn btn-success btn-md"
-              @click="updateFood"
-            >
-              <div v-show="isClickBtn" class="spinner-border text-light">
-                <span class="sr-only">Loading...</span>
-              </div>
-              <span v-show="!isClickBtn">更新</span>
-            </button>
-          </nav-tab> -->
         </div>
         <!--  -->
         <div class="col-sm-12">
@@ -160,6 +140,7 @@
         slot="content-list"
         :key="item.id"
         class="list-group list-group-flush"
+        @click="toFoodPage(sideBarfoods.indexOf(item))"
       >
         <li class="food-list_item list-group-item border-bottom">
           {{ item.name }}
@@ -371,6 +352,11 @@ export default {
         alert(res.message)
         this.$router.push({ path: '/home/food' })
       }
+    },
+    toFoodPage(index) {
+      const food = this.sideBarfoods[index]
+      console.log(food)
+      this.$router.push({ path: `/home/food/${food.id}` })
     }
   }
 }

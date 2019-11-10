@@ -3,7 +3,7 @@
     <client-only>
       <Header />
       <div class="wrapper">
-        <recipe-register-form />
+        <recipe-register-display />
       </div>
       <Footer />
     </client-only>
@@ -12,13 +12,13 @@
 
 <script>
 import Header from '~/components/top/Header.vue'
-import RecipeRegisterForm from '~/components/RecipeRegisterForm.vue'
+import RecipeRegisterDisplay from '~/components/pages/home/recipe/register/RecipeRegisterDisplay'
 import Footer from '~/components/common/Footer.vue'
 
 export default {
   components: {
     Header,
-    RecipeRegisterForm,
+    RecipeRegisterDisplay,
     Footer
   },
   // データ取得時にユーザー認証がなかったらsigninへ遷移
