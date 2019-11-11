@@ -36,12 +36,7 @@ export default {
   methods: {
     // レシピ詳細画面へ遷移
     toRecipePage(index) {
-      const recipe = this.recipes[index]
-      console.log(recipe)
-      // 遷移時にrecipeIdを渡す
-      this.$router.push({
-        path: `/recipe/${recipe.id}`
-      })
+      this.$emit('toRecipePage', index)
     }
   }
 }

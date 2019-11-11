@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="user-name">
+    <!-- <div class="user-name">
       <strong>{{ $store.state.user.user.email }}さんのマイページ</strong>
-    </div>
+    </div> -->
 
     <navbar
       :is-food-active="{ active: isFoodActive }"

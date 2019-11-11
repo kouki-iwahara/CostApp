@@ -36,8 +36,16 @@
     <div class="row">
       <div class="col-sm-12">
         <!-- min-width: 576pxから切り替わる -->
-        <recipe-table class="window-table" :recipes="recipes" />
-        <mobile-recipe-table class="mobile-table" :recipes="recipes" />
+        <recipe-table
+          class="window-table"
+          :recipes="recipes"
+          @toRecipePage="toRecipePage"
+        />
+        <mobile-recipe-table
+          class="mobile-table"
+          :recipes="recipes"
+          @toRecipePage="toRecipePage"
+        />
       </div>
     </div>
     <!-- テーブル終わり -->
@@ -81,6 +89,14 @@ export default {
         }
       })
       return filterRecipes
+    }
+  },
+  methods: {
+    // 画面遷移時にfoodIdを渡す
+    toRecipePage(index) {
+      const recipe = this.recipes[index]
+      console.log(recipe)
+      this.$router.push({ path: `/home/recipe/${recipe.id}` })
     }
   }
 }

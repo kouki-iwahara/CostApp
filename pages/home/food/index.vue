@@ -4,9 +4,10 @@
       <Header />
       <div class="wrapper">
         <!-- 読み込む順番でサイドバーが動かないことがある -->
-        <my-page-display>
+        <!-- <my-page-display>
           <my-food-table slot="my-table" />
-        </my-page-display>
+        </my-page-display> -->
+        <!-- <my-food-list-display /> -->
       </div>
       <Footer />
     </client-only>
@@ -15,15 +16,13 @@
 
 <script>
 import Header from '~/components/top/Header.vue'
-import MyPageDisplay from '~/components/home/MyPageDisplay.vue'
-import MyFoodTable from '~/components/home/MyFoodTable.vue'
+// import MyFoodListDisplay from '~/components/organisms/MyPage/MyFoodListDisplay.vue'
 import Footer from '~/components/common/Footer.vue'
 
 export default {
   components: {
     Header,
-    MyPageDisplay,
-    MyFoodTable,
+    // MyFoodListDisplay,
     Footer
   },
   async fetch({ store, redirect }) {
