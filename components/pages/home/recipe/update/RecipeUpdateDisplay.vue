@@ -13,6 +13,7 @@
           >
             <update-btn
               slot="btn"
+              class="content_header_btn"
               :is-click-btn="isClickBtn"
               @updateRecipe="updateRecipe"
             />

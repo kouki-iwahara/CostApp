@@ -14,6 +14,7 @@
           >
             <register-btn
               slot="btn"
+              class="content_header_btn"
               :is-click-btn="isClickBtn"
               @registerRecipe="registerRecipe"
             />
@@ -186,8 +187,6 @@
 <script>
 import SubHeader from '~/components/organisms/SubHeader/SubHeader'
 import RegisterBtn from '~/components/molecules/Btn/RegisterBtn'
-// import BreadCrumb from '~/components/BreadCrumb.vue'
-// import NavTab from '~/components/home/NavTab.vue'
 import FoodImage from '~/components/FoodImage.vue'
 import AddFoodForm from '~/components/AddFoodForm.vue'
 import RecipeRegisterTable from '~/components/RecipeRegisterTable.vue'
@@ -201,8 +200,6 @@ export default {
   components: {
     SubHeader,
     RegisterBtn,
-    // BreadCrumb,
-    // NavTab,
     FoodImage,
     CommentForm,
     AddFoodForm,

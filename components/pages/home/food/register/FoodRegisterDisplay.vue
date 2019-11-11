@@ -13,6 +13,7 @@
           >
             <register-btn
               slot="btn"
+              class="content_header_btn"
               :is-click-btn="isClickBtn"
               @registerFood="registerFood"
             />
@@ -291,7 +292,6 @@ export default {
 </script>
 
 <style scoped>
-/* サブヘッダー */
 .content_image {
   margin: 0 auto 20px 0;
 }

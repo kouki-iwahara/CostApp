@@ -3,6 +3,7 @@
     :valu="value"
     type="text"
     :placeholder="placeholder"
+    class="form-control"
     @input="updateValue"
   />
 </template>

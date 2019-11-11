@@ -12,6 +12,7 @@
           >
             <update-btn
               slot="btn"
+              class="content_header_btn"
               :is-click-btn="isClickBtn"
               @updateFood="updateFood"
             />
@@ -363,6 +364,10 @@ export default {
 </script>
 
 <style scoped>
+.content_header_btn {
+  margin: 0 0 0 auto;
+}
+
 .content_image {
   margin: 0 auto 20px 0;
 }
