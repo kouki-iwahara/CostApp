@@ -8,25 +8,25 @@
     <!-- ナビゲーション -->
     <div class="col-sm-12">
       <nav-component
-        :is-food-inactive="{ inactive: isFoodInactive }"
-        :is-recipe-active="{
-          active: isRecipeActive
+        :is-food-active="{ active: isFoodActive }"
+        :is-recipe-inactive="{
+          inactive: isRecipeInactive
         }"
       />
     </div>
 
     <!-- 検索バー -->
     <div class="search-bar col-sm-6">
-      <text-input v-model="searchText" placeholder="レシピを検索" />
+      <text-input v-model="searchText" placeholder="食材を検索" />
     </div>
 
     <!-- テーブル上部のメッセージ -->
     <div class="col-sm-12 d-flex justify-content-between">
       <div>
         <strong-text>
-          {{ recipes.length }}
+          {{ foods.length }}
         </strong-text>
-        個のレシピを登録しています
+        個の食材を登録しています
       </div>
       <!-- 新規作成ボタン -->
       <new-create-btn link="/home/recipe/register" />
@@ -34,15 +34,15 @@
 
     <!-- テーブル -->
     <div class="col-sm-12">
-      <recipe-table
+      <food-table
         class="window-table"
-        :recipes="recipes"
-        @toRecipePage="toRecipePage"
+        :foods="foods"
+        @toFoodPage="toFoodPage"
       />
-      <mobile-recipe-table
+      <mobile-food-table
         class="mobile-table"
-        :recipes="recipes"
-        @toRecipePage="toRecipePage"
+        :foods="foods"
+        @toFoodPage="toFoodPage"
       />
     </div>
   </div>
@@ -54,8 +54,8 @@ import NavComponent from '~/components/molecules/Nav/NavComponent'
 import TextInput from '~/components/atoms/TextBox/TextInput'
 import StrongText from '~/components/atoms/Text/StrongText'
 import NewCreateBtn from '~/components/molecules/Btn/NewCreateBtn'
-import RecipeTable from '~/components/organisms/Table/RecipeTable'
-import MobileRecipeTable from '~/components/organisms/MobileTable/MobileRecipeTable'
+import FoodTable from '~/components/organisms/Table/FoodTable'
+import MobileFoodTable from '~/components/organisms/MobileTable/MobileFoodTable'
 
 export default {
   components: {
@@ -64,40 +64,40 @@ export default {
     NavComponent,
     StrongText,
     NewCreateBtn,
-    RecipeTable,
-    MobileRecipeTable
+    FoodTable,
+    MobileFoodTable
   },
   data() {
     return {
-      isFoodInactive: true,
-      isRecipeActive: true,
+      isFoodActive: true,
+      isRecipeInactive: true,
       searchText: ''
     }
   },
   computed: {
     // 食材の検索をリアルタイムで表示
-    recipes() {
-      const filterRecipes = []
-      const recipes = this.$store.getters['recipe/recipes']
+    foods() {
+      const filterFoods = []
+      const foods = this.$store.getters['food/foods']
       // 検索していなければ全ての食材を表示
       if (!this.searchText) {
-        return recipes
+        return foods
       }
       // 検索のテキストを含む名前を表示する
-      recipes.forEach((recipe) => {
-        if (recipe.name.includes(this.searchText)) {
-          filterRecipes.push(recipe)
+      foods.forEach((food) => {
+        if (food.name.includes(this.searchText)) {
+          filterFoods.push(food)
         }
       })
-      return filterRecipes
+      return filterFoods
     }
   },
   methods: {
     // 画面遷移時にfoodIdを渡す
-    toRecipePage(index) {
-      const recipe = this.recipes[index]
-      console.log(recipe)
-      this.$router.push({ path: `/home/recipe/${recipe.id}` })
+    toFoodPage(index) {
+      const food = this.foods[index]
+      console.log(food)
+      this.$router.push({ path: `/home/food/${food.id}` })
     }
   }
 }

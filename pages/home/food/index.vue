@@ -3,11 +3,7 @@
     <client-only>
       <Header />
       <div class="wrapper">
-        <!-- 読み込む順番でサイドバーが動かないことがある -->
-        <!-- <my-page-display>
-          <my-food-table slot="my-table" />
-        </my-page-display> -->
-        <!-- <my-food-list-display /> -->
+        <my-food-list-display />
       </div>
       <Footer />
     </client-only>
@@ -16,13 +12,13 @@
 
 <script>
 import Header from '~/components/top/Header.vue'
-// import MyFoodListDisplay from '~/components/organisms/MyPage/MyFoodListDisplay.vue'
+import MyFoodListDisplay from '~/components/organisms/MyPage/MyFoodListDisplay.vue'
 import Footer from '~/components/common/Footer.vue'
 
 export default {
   components: {
     Header,
-    // MyFoodListDisplay,
+    MyFoodListDisplay,
     Footer
   },
   async fetch({ store, redirect }) {
@@ -35,12 +31,6 @@ export default {
       redirect('/signin')
     }
   }
-  // async created() {
-  //   await this.$store.dispatch('food/getFoodData').catch((error) => {
-  //     console.log(error)
-  //   })
-  //   // ユーザー認証がなかったらsigninへ遷移
-  // }
 }
 </script>
 

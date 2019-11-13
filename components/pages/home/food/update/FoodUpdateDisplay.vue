@@ -329,7 +329,6 @@ export default {
       this.isClickBtn = false
       // ユーザー認証が切れていたらsigninに遷移
       if (res.error) {
-        alert(res.error)
         this.$router.push({ path: '/signin' })
         return
       }
@@ -345,12 +344,10 @@ export default {
       console.log(res)
       // ユーザー認証が切れていたらsigninに遷移
       if (res.error) {
-        alert(res.error)
         this.$router.push({ path: '/signin' })
         return
       }
       if (res.result) {
-        alert(res.message)
         this.$router.push({ path: '/home/food' })
       }
     },
