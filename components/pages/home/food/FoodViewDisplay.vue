@@ -259,7 +259,6 @@ export default {
 }
 .table td {
   cursor: pointer;
-  border-color: #ffc107;
 }
 .table-message {
   margin-top: 20px;

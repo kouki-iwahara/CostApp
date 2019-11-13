@@ -32,7 +32,7 @@
               <strong>食材名</strong>
               <input-form
                 v-model="food.name"
-                placeholder="小麦粉"
+                placeholder="食材名を入力"
                 type="text"
                 class="content_form_input"
               />
@@ -40,7 +40,7 @@
               <strong>仕入価格</strong>
               <input-form
                 v-model="food.value"
-                placeholder="100"
+                placeholder="数値を入力"
                 type="number"
                 class="content_form_input"
               >
@@ -54,10 +54,10 @@
                 </div>
               </input-form>
               <span class="requireMark">＊</span>
-              <strong>食材量</strong>
+              <strong>食材量と単位</strong>
               <input-form
                 v-model="food.amount"
-                placeholder="100"
+                placeholder="数値を入力"
                 type="number"
                 class="content_form_input"
               >

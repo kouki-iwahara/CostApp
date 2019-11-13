@@ -40,7 +40,7 @@
               <strong>レシピ名</strong>
               <input-form
                 v-model="recipe.name"
-                placeholder="カルボナーラ"
+                placeholder="レシピ名を入力"
                 type="text"
                 class="content_form_input"
               />
@@ -48,7 +48,7 @@
               <strong>売価格<small>(公開されません)</small></strong>
               <input-form
                 v-model="recipe.value"
-                placeholder="100"
+                placeholder="数値を入力"
                 type="number"
                 class="content_form_input"
               >
@@ -92,18 +92,6 @@
 
       <!-- 食材登録始まり -->
       <div class="row offset-3">
-        <!--食材登録の＋ボタン min-width: 768pxまで非表示 -->
-        <div class="plus-btn col-sm-12">
-          <button
-            type="button"
-            class="btn btn-success rounded-circle p-0"
-            style="width:1.5rem;height:1.5rem;"
-            @click="toAddFoodPage"
-          >
-            ＋
-          </button>
-          <span>食材を追加</span>
-        </div>
         <!-- 食材登録フォーム min-width: 768pxまで表示 -->
         <div class="food-add-to-menu-form col-sm-10">
           <add-food-form
@@ -113,7 +101,13 @@
             :food-unit="food.unit"
             @addFoodToRecipe="addFoodToRecipe"
             @initializeForm="initializeForm"
-          />
+          >
+            <add-food-modal
+              slot="modal"
+              ref="foodModal"
+              @showSelectedFood="showSelectedFood"
+            />
+          </add-food-form>
         </div>
         <!-- 食材テーブル -->
         <div class="food-table col-sm-10">
@@ -143,7 +137,7 @@
               <button
                 type="button"
                 class="del-btn btn btn-warning rounded-circle p-0"
-                style="width:1.5rem;height:1.5rem;"
+                style="width:1.75rem;height:1.75rem;"
                 @click="deleteFood(recipe.tableFoods.indexOf(tableFood))"
               >
                 {{ tableFood.foodDelBtn }}
@@ -175,24 +169,24 @@
     <!-- /content -->
     <side-bar>
       <div slot="sidebar_search">
-        <search-bar v-model="searchText" placeholder="食材名を検索" />
+        <search-bar v-model="searchText" placeholder="レシピ名を検索" />
       </div>
       <ul
-        v-for="item in sideBarfoods"
-        v-show="sideBarfoods.length"
+        v-for="item in sideBarRecipes"
+        v-show="sideBarRecipes.length"
         slot="content-list"
         :key="item.id"
         class="list-group list-group-flush"
       >
         <li
           class="food-list_item list-group-item border-bottom"
-          @click="selectFood(sideBarfoods.indexOf(item))"
+          @click="toRecipePage(sideBarRecipes.indexOf(item))"
         >
           {{ item.name }}
         </li>
       </ul>
       <div
-        v-show="!sideBarfoods.length"
+        v-show="!sideBarRecipes.length"
         slot="content-list"
         class="no-result-message"
       >
@@ -213,6 +207,7 @@ import InputFile from '~/components/InputFile.vue'
 import InputForm from '~/components/InputForm.vue'
 import SideBar from '~/components/SideBar.vue'
 import searchBar from '~/components/common/searchBar.vue'
+import AddFoodModal from '~/components/organisms/Modal/AddFoodModal'
 
 export default {
   components: {
@@ -225,7 +220,8 @@ export default {
     InputFile,
     InputForm,
     SideBar,
-    searchBar
+    searchBar,
+    AddFoodModal
   },
   data() {
     return {
@@ -263,21 +259,19 @@ export default {
       }
       return '表示されます'
     },
-    // サイドバーの食材（検索バーとレンダリングしている）
-    sideBarfoods() {
-      const filterFoods = []
-      const foods = this.$store.getters['food/foods'].slice()
-      // 検索バーにテキストが無ければ全ての食材を表示
+    // サイドバーに表示するレシピ
+    sideBarRecipes() {
+      const filterRecipes = []
+      const recipes = this.$store.getters['recipe/recipes'].slice()
       if (!this.searchText) {
-        return foods
+        return recipes
       }
-      // 検索バーに入力されたテキストを含む食材を表示
-      foods.forEach((food) => {
-        if (food.name.includes(this.searchText)) {
-          filterFoods.push(food)
+      recipes.forEach((recipe) => {
+        if (recipe.name.includes(this.searchText)) {
+          filterRecipes.push(recipe)
         }
       })
-      return filterFoods
+      return filterRecipes
     },
     // 食材の使用量に対しての原価
     amountCost() {
@@ -310,17 +304,6 @@ export default {
     this.recipe.value = recipe.value
     this.recipe.comment = recipe.comment
     this.recipe.image = recipe.image
-    // 食材を選んでいない場合、登録されている初期の食材データをテーブルに表示（食材を選んでいればthis.addFoodToMobileForm()で食材がテーブルに表示される）
-    if (!this.$route.query.tableFoods)
-      // 食材テーブルにレシピに登録されている食材を表示
-      recipe.foods.forEach((food) => {
-        food.foodDelBtn = 'ー'
-        this.recipe.tableFoods.push(food)
-      })
-    // 追加する食材データがクエリに格納されていればフォームに食材を表示
-    if (this.$route.query.recipeFood) {
-      this.addFoodToMobileForm()
-    }
   },
   methods: {
     // イメージ画像データを取得し、プレビューを作成
@@ -368,9 +351,8 @@ export default {
         })
       return url
     },
-    // サイドバーから食材を選択して表示する
-    selectFood(index) {
-      const food = this.$store.getters['food/foods'][index]
+    // 食材を選択して表示する
+    showSelectedFood(food) {
       // 食材の重複禁止の為、idが重複しているか調べる
       const overlapId = this.recipe.tableFoods.find((tableFood) => {
         return tableFood.foodId === food.id
@@ -380,41 +362,12 @@ export default {
         alert('その食材は使われています')
         return
       }
+      this.$refs.foodModal.closeModal()
       this.food.amount = ''
       this.food.id = food.id
       this.food.name = food.name
       this.food.unit = food.unit
       this.food.cost = food.cost
-    },
-    // スマホ画面の食材追加フォームの表示
-    addFoodToMobileForm() {
-      // 追加する食材データが無ければ返す
-      if (!this.$route.query.recipeFood.id) {
-        return
-      }
-      // フォームに表示
-      const food = this.$route.query.recipeFood
-      this.food.amount = ''
-      this.food.id = food.id
-      this.food.name = food.name
-      this.food.unit = food.unit
-      this.food.cost = food.cost
-      // 食材テーブルのクエリが無い場合（スマホの画面スライドにより無くなる場合有り）
-      if (!this.$route.query.tableFoods) {
-        return
-      }
-      const tableFoods = this.$route.query.tableFoods.slice()
-      // 食材テーブルの配列に食材が追加されていればテーブルに表示する
-      if (tableFoods.length !== 0) {
-        console.log('query.tableFoods', tableFoods)
-        // 画面横スライドで、データはあるが読み取れなくなるのでidの所持で分岐した
-        if (tableFoods[0].foodId) {
-          this.$route.query.tableFoods.forEach((food) => {
-            console.log(food)
-            this.recipe.tableFoods.push(food)
-          })
-        }
-      }
     },
     // 食材追加フォームの初期化
     initializeForm() {
@@ -506,15 +459,11 @@ export default {
         this.$router.push({ path: '/home/recipe' })
       }
     },
-    // スマホ画面の食材追加ページへ遷移
-    toAddFoodPage() {
-      this.$router.push({
-        path: '/home/recipe/register/addFood',
-        query: {
-          tableFoods: this.recipe.tableFoods,
-          isUpdateId: this.$route.params.recipeId
-        }
-      })
+    // 選択されたレシピのページへ遷移
+    toRecipePage(index) {
+      const recipe = this.sideBarRecipes[index]
+      console.log(recipe)
+      this.$router.push({ path: `/home/recipe/${recipe.id}` })
     }
   }
 }
@@ -572,13 +521,14 @@ export default {
 /* /入力フォーム */
 
 /* 食材登録フォーム */
-/* .food-add-to-menu-form {
-  display: none;
-} */
+.food-add-to-menu-form {
+  margin: 0 auto 20px;
+  display: flex;
+}
 
 .plus-btn {
   display: block;
-  margin: 20px 0;
+  margin: 20px auto;
 }
 
 .food-table {
@@ -601,13 +551,17 @@ export default {
 .mobile-table button {
   display: block;
 }
+
+.del-btn {
+  color: rgb(72, 72, 72);
+  border-radius: 0.25em;
+  background-color: #f1e05a;
+  background-image: linear-gradient(-180deg, #f1e05a, #d8c114 90%);
+}
+
 @media screen and (min-width: 768px) {
   .plus-btn {
     display: none;
-  }
-  .food-add-to-menu-form {
-    margin: 0 auto 20px;
-    display: flex;
   }
 
   .food-table {

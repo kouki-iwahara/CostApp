@@ -85,10 +85,6 @@ export default {
   white-space: nowrap;
 }
 
-.border-bottom {
-  border-color: #f7b733;
-}
-
 .no-result-message {
   text-align: center;
 }

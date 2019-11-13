@@ -45,7 +45,7 @@
                 v-model="food.value"
                 require-mark="＊"
                 label-name="仕入価格"
-                placeholder="仕入価格を入力"
+                placeholder="数値を入力"
                 :is-food-value="true"
                 class="content_form_input"
               >
@@ -61,8 +61,8 @@
               <number-box-with-label
                 v-model="food.amount"
                 require-mark="＊"
-                label-name="食材量"
-                placeholder="食材量を入力"
+                label-name="食材量と単位"
+                placeholder="数値を入力"
                 :is-food-amount="true"
                 class="content_form_input"
               >

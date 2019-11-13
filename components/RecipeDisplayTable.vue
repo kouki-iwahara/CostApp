@@ -69,9 +69,5 @@ export default {
   cursor: pointer;
 }
 
-.table td {
-  border-color: #ffc107;
-}
-
 /* /食材テーブル */
 </style>

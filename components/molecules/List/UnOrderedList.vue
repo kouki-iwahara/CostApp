@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import UnOrdered from '~/components/atoms/List/UnOrdered'
+import UnOrdered from '~/components/atoms/List/UnOrderedList'
 import ListItem from '~/components/atoms/List/ListItem'
 
 export default {
