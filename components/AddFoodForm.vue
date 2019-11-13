@@ -1,26 +1,23 @@
 <template>
   <div class="col-sm-12">
     <div class="row">
+      <div class="label">
+        <strong>食材の登録</strong>
+      </div>
       <div class="add-form col-sm-12 border rounded">
-        <!-- pc用のメッセージ  min-width: 768pxまで表示-->
         <div class="message col-sm-12 border-bottom">
-          <strong>食材をレシピに追加</strong>
-        </div>
-        <div class="message col-sm-12">
           <p>
-            追加したい食材を左の食材リストからクリックすると食材名が表示されます。<br />
+            食材を選択すると食材名が表示されます。<br />
             使用量を入力し追加して下さい。
           </p>
         </div>
-        <!-- スマホ用メッセージmin-width: 768pxから表示 -->
-
-        <p class="mobile-message">
-          ＋ボタンから食材を選択すると食材名が表示されます。使用量を入力し追加して下さい。
-        </p>
 
         <div class="row">
+          <div class="col-sm-12">
+            <slot name="modal" />
+          </div>
           <!-- 食材名 -->
-          <div class="food-content col-sm-4">
+          <div class="food-content col-sm-3">
             <strong>食材名</strong>
             <div>
               <span>
@@ -59,9 +56,8 @@
             </div>
           </div>
           <!-- ボタン -->
-          <div class="col-sm-3">
+          <div class="btn-area col-sm-4">
             <button
-              slot="btn"
               type="button"
               class="add-btn btn btn-success btn-sm"
               @click="addFoodToRecipe"
@@ -69,7 +65,6 @@
               <span>追加</span>
             </button>
             <button
-              slot="btn"
               type="button"
               class="cancel-btn btn btn-warning btn-sm"
               @click="initializeForm"
@@ -103,11 +98,6 @@ export default {
       required: true
     }
   },
-  mounted() {
-    if (this.$route.query.recipeFood) {
-      this.$refs.addFood.focus()
-    }
-  },
   methods: {
     // input入力値の更新
     updateValue(e) {
@@ -127,6 +117,10 @@ export default {
 </script>
 
 <style scoped>
+.label {
+  margin-bottom: 8px;
+}
+
 .add-form {
   padding: 15px;
   background-color: #fff;
@@ -138,7 +132,7 @@ export default {
 }
 
 .food-content {
-  padding: 8px 12px;
+  padding: 8px 15px;
 }
 
 .food-content .input-group {
@@ -146,6 +140,7 @@ export default {
 }
 
 .add-btn {
+  height: 31px;
   width: 60px;
   font-weight: 600;
   color: #fff;
@@ -155,6 +150,8 @@ export default {
 }
 
 .cancel-btn {
+  margin-right: 20px;
+  height: 31px;
   width: 60px;
   font-weight: 600;
   color: rgb(72, 72, 72);
@@ -163,24 +160,16 @@ export default {
   background-image: linear-gradient(-180deg, #f1e05a, #d8c114 90%);
 }
 
-.message {
-  display: none;
+@media screen and (min-width: 576px) {
+  .btn-area {
+    padding-top: 31px;
+  }
 }
 
-.mobile-message {
-  display: block;
-}
 @media screen and (min-width: 768px) {
-  .message {
-    display: block;
-  }
-
-  .mobile-message {
-    display: none;
-  }
-
-  .add-btn {
-    margin-bottom: 15px;
+  .btn-area {
+    display: flex;
+    justify-content: space-between;
   }
 
   .food-content .input-group {

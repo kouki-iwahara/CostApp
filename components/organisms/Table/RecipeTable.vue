@@ -43,8 +43,7 @@ export default {
 </script>
 
 <style scoped>
-.table td {
+td {
   cursor: pointer;
-  border-color: #c2c2c2;
 }
 </style>
