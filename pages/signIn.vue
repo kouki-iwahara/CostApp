@@ -86,7 +86,6 @@ export default {
       const res = await this.$store.dispatch('user/signIn', reqUserInfo)
       // 成功でresにuserIdが格納されている
       if (res.userId) {
-        alert(res.message)
         return this.$router.push({ path: '/home/food' })
       }
       // userIdが格納されていなかった＝ emailかpwdの入力ミスなのでその旨を表示する

@@ -31,6 +31,10 @@ body {
   margin: 20px 0;
 }
 
+.content_header_btn {
+  margin: 0 0 0 auto;
+}
+
 /* スピナー */
 .spinner-border {
   width: 1.25rem;
@@ -71,5 +75,17 @@ body {
   /* 謎の空白があり、offset-3のmarginを調節した */
   .offset-3 {
     margin-left: 24.3%;
+  }
+}
+
+.window-table {
+  display: none;
+}
+@media screen and (min-width: 576px) {
+  .window-table {
+    display: table;
+  }
+  .mobile-table {
+    display: none;
   }
 }

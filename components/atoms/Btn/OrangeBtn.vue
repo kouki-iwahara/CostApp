@@ -11,7 +11,6 @@ export default {}
 <style scoped>
 .nav-btn {
   display: block;
-  margin: 0 0 0 auto;
   font-weight: 600;
   border-radius: 0.25em;
   border-color: #ffc107;

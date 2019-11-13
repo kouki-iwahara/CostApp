@@ -14,6 +14,7 @@
           >
             <register-btn
               slot="btn"
+              class="content_header_btn"
               :is-click-btn="isClickBtn"
               @registerRecipe="registerRecipe"
             />
@@ -186,8 +187,6 @@
 <script>
 import SubHeader from '~/components/organisms/SubHeader/SubHeader'
 import RegisterBtn from '~/components/molecules/Btn/RegisterBtn'
-// import BreadCrumb from '~/components/BreadCrumb.vue'
-// import NavTab from '~/components/home/NavTab.vue'
 import FoodImage from '~/components/FoodImage.vue'
 import AddFoodForm from '~/components/AddFoodForm.vue'
 import RecipeRegisterTable from '~/components/RecipeRegisterTable.vue'
@@ -201,8 +200,6 @@ export default {
   components: {
     SubHeader,
     RegisterBtn,
-    // BreadCrumb,
-    // NavTab,
     FoodImage,
     CommentForm,
     AddFoodForm,
@@ -452,13 +449,11 @@ export default {
       this.isClickBtn = false
       // ユーザー認証が切れていたらsigninに遷移
       if (res.error) {
-        alert(res.error)
         this.$router.push({ path: '/signin' })
         return
       }
       // 成功すれば画面遷移
       if (res.result) {
-        alert(res.message)
         const recipe = res.result
         this.$router.push({ path: `/home/recipe/${recipe.id}` })
       }

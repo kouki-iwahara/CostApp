@@ -13,6 +13,7 @@
           >
             <change-btn
               slot="btn"
+              class="content_header_btn"
               :link="`/home/food/update/${food.paramId}`"
             />
           </sub-header>

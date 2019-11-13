@@ -14,6 +14,7 @@
           >
             <change-btn
               slot="btn"
+              class="content_header_btn"
               :link="`/home/recipe/update/${recipe.paramId}`"
             />
           </sub-header>

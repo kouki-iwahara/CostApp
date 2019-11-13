@@ -13,6 +13,7 @@
           >
             <register-btn
               slot="btn"
+              class="content_header_btn"
               :is-click-btn="isClickBtn"
               @registerFood="registerFood"
             />
@@ -274,14 +275,12 @@ export default {
       this.isClickBtn = false
       // ユーザー認証が切れていたらsigninに遷移
       if (res.error) {
-        alert(res.error)
         this.$router.push({ path: '/signin' })
         return
       }
       console.log(res.result)
       // 登録成功で表示ページへ遷移
       if (res.result) {
-        alert(res.message)
         const food = res.result
         this.$router.push({ path: `/home/food/${food.id}` })
       }
@@ -291,7 +290,6 @@ export default {
 </script>
 
 <style scoped>
-/* サブヘッダー */
 .content_image {
   margin: 0 auto 20px 0;
 }

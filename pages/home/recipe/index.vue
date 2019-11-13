@@ -3,9 +3,7 @@
     <client-only>
       <Header />
       <div class="wrapper">
-        <my-page-display>
-          <my-recipe-table slot="my-table" />
-        </my-page-display>
+        <my-recipe-list-display />
       </div>
       <Footer />
     </client-only>
@@ -14,15 +12,13 @@
 
 <script>
 import Header from '~/components/top/Header.vue'
-import MyPageDisplay from '~/components/home/MyPageDisplay.vue'
-import MyRecipeTable from '~/components/home/MyRecipeTable.vue'
+import MyRecipeListDisplay from '~/components/organisms/MyPage/MyRecipeListDisplay'
 import Footer from '~/components/common/Footer.vue'
 
 export default {
   components: {
     Header,
-    MyPageDisplay,
-    MyRecipeTable,
+    MyRecipeListDisplay,
     Footer
   },
   async fetch({ store, redirect }) {

@@ -35,7 +35,6 @@ export default {
 <style scoped>
 .nav-btn {
   display: block;
-  margin: 0 0 0 auto;
   width: 58px;
   font-weight: 600;
   color: #fff;
