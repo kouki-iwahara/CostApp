@@ -42,6 +42,16 @@
               >
                 ログイン
               </button>
+
+              <button
+                class="login-form_btn btn btn-lg btn-block"
+                name="Submit"
+                value="Login"
+                type="button"
+                @click="simpleSignIn"
+              >
+                簡単ログイン
+              </button>
               <div class="nav">
                 <nuxt-link to="/" class="nav-link">
                   トップ
@@ -81,6 +91,20 @@ export default {
       const reqUserInfo = {
         email: this.email,
         password: this.password
+      }
+      // 入力されたデータで認証処理
+      const res = await this.$store.dispatch('user/signIn', reqUserInfo)
+      // 成功でresにuserIdが格納されている
+      if (res.userId) {
+        return this.$router.push({ path: '/home/food' })
+      }
+      // userIdが格納されていなかった＝ emailかpwdの入力ミスなのでその旨を表示する
+      alert(res.message)
+    },
+    async simpleSignIn() {
+      const reqUserInfo = {
+        email: 'test@test.com',
+        password: 123456
       }
       // 入力されたデータで認証処理
       const res = await this.$store.dispatch('user/signIn', reqUserInfo)
