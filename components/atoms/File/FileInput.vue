@@ -4,6 +4,7 @@
       id="inputGroupFile"
       type="file"
       class="custom-file-input"
+      accept="image/*"
       @input="getFileData"
     />
     <label
