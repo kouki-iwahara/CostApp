@@ -3,6 +3,7 @@
     <div class="content_image_file custom-file">
       <input
         id="inputGroupFile02"
+        accept="image/*"
         type="file"
         class="custom-file-input"
         aria-describedby="inputGroupFileAddon02"

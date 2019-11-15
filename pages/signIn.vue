@@ -125,7 +125,7 @@ export default {
 }
 /* フォーム */
 .login-form {
-  padding-top: 100px;
+  padding-top: 60px;
 }
 .form-signin {
   max-width: 420px;
