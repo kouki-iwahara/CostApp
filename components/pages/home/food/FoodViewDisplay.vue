@@ -6,9 +6,7 @@
           <!-- パンくずリストとナビタブ -->
           <sub-header
             list-name="食材"
-            :param-id-page="
-              `/home/food/${food.paramId}/?matchedRecipes=${matchedRecipes.length}`
-            "
+            :param-id-page="`/home/food/${food.paramId}/`"
             :register-page="`/home/food/register`"
             :is-values="$store.getters['food/foods']"
             :is-view-active="isViewActive"
@@ -16,7 +14,9 @@
             <change-btn
               slot="btn"
               class="content_header_btn"
-              :link="`/home/food/update/${food.paramId}`"
+              :link="
+                `/home/food/update/${food.paramId}?matchedRecipes=${matchedRecipes.length}`
+              "
             />
           </sub-header>
         </div>
