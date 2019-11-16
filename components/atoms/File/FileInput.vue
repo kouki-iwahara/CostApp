@@ -5,7 +5,7 @@
       type="file"
       class="custom-file-input"
       accept="image/*"
-      @input="getFileData"
+      @change="getFileData"
     />
     <label
       class="custom-file-label"
@@ -20,7 +20,8 @@
 export default {
   methods: {
     getFileData(e) {
-      const file = e.target.files[0]
+      const file = e.srcElement.files[0]
+      console.log(file)
       this.$emit('getFileData', file)
     }
   }

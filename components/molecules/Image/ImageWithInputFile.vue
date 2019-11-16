@@ -25,6 +25,7 @@ export default {
   },
   methods: {
     getFileData(file) {
+      console.log(file)
       this.$emit('getFileData', file)
     }
   }

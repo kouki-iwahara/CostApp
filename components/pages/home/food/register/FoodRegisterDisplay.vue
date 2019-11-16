@@ -221,6 +221,7 @@ export default {
       }
       const reader = new FileReader()
       reader.onload = (fileData) => {
+        console.log(fileData.target)
         this.food.image = fileData.target.result
       }
       reader.readAsDataURL(selectedFile)

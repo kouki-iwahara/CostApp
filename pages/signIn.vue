@@ -121,7 +121,7 @@ export default {
 
 <style scoped>
 .wrapper {
-  padding-top: 60px;
+  padding-top: 30px;
 }
 /* フォーム */
 .login-form {

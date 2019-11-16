@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img class="img-fluid img-thumbnail" :src="image" alt="" />
+    <img class="img-fluid img-thumbnail mx-auto d-block" :src="image" alt="" />
     <slot name="input-file" />
   </div>
 </template>
