@@ -206,11 +206,9 @@ export default {
       this.selectedFile = fileData
       // ファイルを選んでなければ初期値に戻す
       if (!this.selectedFile) {
-        alert('選択していない')
         this.food.image = require('~/assets/pasta.jpg')
         return
       }
-      alert('選択')
       // プレビューを作成
       this.previewImage(this.selectedFile)
     },
@@ -221,7 +219,6 @@ export default {
         alert('表示できません')
         return
       }
-      alert('プレビュー')
       const reader = new FileReader()
       reader.onload = (fileData) => {
         console.log(fileData.target)

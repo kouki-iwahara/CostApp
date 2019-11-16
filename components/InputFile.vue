@@ -7,7 +7,7 @@
         type="file"
         class="custom-file-input"
         aria-describedby="inputGroupFileAddon02"
-        @input="updateValue"
+        @change="updateValue"
       />
       <label
         class="custom-file-label"
