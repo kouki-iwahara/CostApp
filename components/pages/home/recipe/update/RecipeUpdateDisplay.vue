@@ -63,11 +63,11 @@
               </input-form>
               <!-- 原価 -->
               <div class="content_form_label">
-                <strong>原価： {{ recipeCost }}</strong>
+                <strong>原価(円)： {{ recipeCost }}</strong>
               </div>
               <!-- 原価率 -->
               <div class="content_form_label">
-                <strong>原価率: {{ recipeCostRate }}</strong>
+                <strong>原価率(％): {{ recipeCostRate }}</strong>
               </div>
             </div>
           </div>
@@ -126,9 +126,7 @@
             <div>
               <strong>{{ tableFood.foodName }}</strong>
 
-              <small
-                >{{ tableFood.foodAmountCost }}/{{ tableFood.foodUnit }}</small
-              >
+              <small>{{ tableFood.foodAmountCost }}円</small>
             </div>
             <div>
               <strong
@@ -257,7 +255,7 @@ export default {
       if (isFinite(costRate)) {
         return Math.round(costRate * 10) / 10
       }
-      return '表示されます'
+      return '未設定'
     },
     // サイドバーに表示するレシピ
     sideBarRecipes() {

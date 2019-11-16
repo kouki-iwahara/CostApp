@@ -3,7 +3,7 @@
     <thead class="thead-dark">
       <tr>
         <th scope="col">レシピ名</th>
-        <th class="text-right" scope="col">原価(円)</th>
+        <th class="text-right" scope="col">原価</th>
       </tr>
     </thead>
     <tbody>
@@ -13,7 +13,7 @@
         @click="toRecipePage(recipes.indexOf(recipe))"
       >
         <td>{{ recipe.name }}</td>
-        <td class="text-right">{{ recipe.cost }}</td>
+        <td class="text-right">{{ recipe.cost }}円</td>
       </tr>
     </tbody>
   </table>
