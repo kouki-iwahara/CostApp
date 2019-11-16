@@ -20,7 +20,8 @@
 export default {
   methods: {
     getFileData(e) {
-      const file = e.target.files[0]
+      const file = e.srcElement.files[0]
+      console.log(file)
       this.$emit('getFileData', file)
     }
   }

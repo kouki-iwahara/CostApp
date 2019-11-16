@@ -29,7 +29,7 @@
         個の食材を登録しています
       </div>
       <!-- 新規作成ボタン -->
-      <new-create-btn link="/home/recipe/register" />
+      <new-create-btn link="/home/food/register" />
     </div>
 
     <!-- テーブル -->
