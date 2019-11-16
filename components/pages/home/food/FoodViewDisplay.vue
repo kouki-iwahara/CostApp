@@ -82,8 +82,8 @@
             <thead class="thead-dark">
               <tr>
                 <th scope="col">レシピ名</th>
-                <th scope="col">原価(円)</th>
-                <th scope="col">原価率(％)</th>
+                <th scope="col">原価</th>
+                <th scope="col">原価率</th>
               </tr>
             </thead>
             <tbody>
@@ -93,8 +93,8 @@
                 @click="toRecipePage(matchedRecipes.indexOf(recipe))"
               >
                 <td>{{ recipe.name }}</td>
-                <td>{{ recipe.cost }}</td>
-                <td>{{ recipe.costRate }}</td>
+                <td>{{ recipe.cost }}円</td>
+                <td>{{ recipe.costRate }}％</td>
               </tr>
             </tbody>
           </table>

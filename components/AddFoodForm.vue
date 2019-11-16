@@ -25,8 +25,9 @@
               </span>
             </div>
             <div>
-              <small> {{ foodCost }} </small>
-              <small>円/{{ foodUnit }}</small>
+              <small v-if="foodName !== '表示されます'">
+                {{ foodCost }}円
+              </small>
             </div>
           </div>
           <!-- 使用量 -->

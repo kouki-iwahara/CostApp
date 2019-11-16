@@ -4,7 +4,7 @@
       <tr>
         <th scope="col">食材名</th>
         <th scope="col">使用量</th>
-        <th scope="col">原価(円/単位)</th>
+        <th scope="col">使用原価</th>
         <th scope="col">取消</th>
       </tr>
     </thead>
@@ -15,7 +15,7 @@
           {{ food.foodAmount }}
           {{ food.foodUnit }}
         </td>
-        <td>{{ food.foodAmountCost }}/{{ food.foodUnit }}</td>
+        <td>{{ food.foodAmountCost }}円</td>
         <td>
           <button
             type="button"

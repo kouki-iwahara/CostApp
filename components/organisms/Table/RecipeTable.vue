@@ -3,7 +3,7 @@
     <thead class="thead-dark">
       <tr>
         <th scope="col">レシピ名</th>
-        <th scope="col">原価(円)</th>
+        <th scope="col">原価</th>
         <slot name="th" />
         <th scope="col">作成日</th>
         <th scope="col">最終更新</th>
@@ -16,7 +16,7 @@
         @click="toRecipePage(recipes.indexOf(recipe))"
       >
         <td>{{ recipe.name }}</td>
-        <td>{{ recipe.cost }}</td>
+        <td>{{ recipe.cost }}円</td>
         <slot name="td" />
         <td>{{ recipe.createdAt.substring(0, 10) }}</td>
         <td>{{ recipe.updatedAt.substring(0, 10) }}</td>
