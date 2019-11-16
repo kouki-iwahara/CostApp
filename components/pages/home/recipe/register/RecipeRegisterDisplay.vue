@@ -238,7 +238,7 @@ export default {
       if (isFinite(costRate)) {
         return Math.round(costRate * 10) / 10
       }
-      return '表示されます'
+      return ''
     },
     // サイドバーに表示するレシピ
     sideBarRecipes() {

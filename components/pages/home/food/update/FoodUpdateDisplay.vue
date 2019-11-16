@@ -238,6 +238,7 @@ export default {
   },
   created() {
     // 使われているレシピの数
+    console.log(this.$route.query.matchedRecipes)
     this.matchedRecipeslength = this.$route.query.matchedRecipes
     // 受け取ったparamsを代入（更新する食材のID）
     this.food.paramId = parseInt(this.$route.params.updateFoodId)
