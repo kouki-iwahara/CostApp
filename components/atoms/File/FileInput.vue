@@ -5,7 +5,7 @@
       type="file"
       class="custom-file-input"
       accept="image/*"
-      @input="getFileData"
+      @change="getFileData"
     />
     <label
       class="custom-file-label"
