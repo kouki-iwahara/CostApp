@@ -12,8 +12,6 @@
     >
       レシピ
     </nav-item>
-    <b-nav-item disabled class="inactive" to="#">メニュー(準備中)</b-nav-item>
-    <b-nav-item disabled class="inactive" to="#">コース(準備中)</b-nav-item>
   </nav-tag>
 </template>
 

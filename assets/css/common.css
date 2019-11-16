@@ -9,7 +9,6 @@ body {
 }
 
 .wrapper {
-  height: 100vh;
   padding-top: 60px;
   position: relative;
   max-width: 1024px;
@@ -18,12 +17,7 @@ body {
 
 /* 画面を固定してスクロールする */
 .content {
-  position: absolute;
-  top: 60px;
-  bottom: 15px;
-  right: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
+  padding-bottom: 20px;
 }
 
 /* サブのヘッダー */
@@ -75,6 +69,23 @@ body {
   /* 謎の空白があり、offset-3のmarginを調節した */
   .offset-3 {
     margin-left: 24.3%;
+  }
+
+  .wrapper {
+    height: 100vh;
+    padding-top: 60px;
+    position: relative;
+    max-width: 1024px;
+    margin: 0 auto;
+  }
+
+  .content {
+    position: absolute;
+    top: 60px;
+    bottom: 15px;
+    right: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 }
 
