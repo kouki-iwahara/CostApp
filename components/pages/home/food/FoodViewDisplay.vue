@@ -6,7 +6,9 @@
           <!-- パンくずリストとナビタブ -->
           <sub-header
             list-name="食材"
-            :param-id-page="`/home/food/${food.paramId}`"
+            :param-id-page="
+              `/home/food/${food.paramId}/?matchedRecipes=${matchedRecipes.length}`
+            "
             :register-page="`/home/food/register`"
             :is-values="$store.getters['food/foods']"
             :is-view-active="isViewActive"
@@ -208,12 +210,6 @@ export default {
       const food = this.sideBarfoods[index]
       console.log(food)
       this.$router.push({ path: `/home/food/${food.id}` })
-    },
-    // 更新ページへ遷移
-    toUpdatePage() {
-      this.$router.push({
-        path: `/home/food/update/${this.food.paramId}/?matchedRecipes=${this.matchedRecipes.length}`
-      })
     },
     // 選択されたレシピのページへ遷移
     toRecipePage(index) {
