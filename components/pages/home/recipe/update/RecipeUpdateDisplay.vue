@@ -8,7 +8,7 @@
             list-name="レシピ"
             :is-values="$store.getters['recipe/recipes']"
             :is-view-active="isViewActive"
-            :param-id-page="`/home/recipe/${recipe.paramId}`"
+            :param-id-page="`/home/recipe/${recipe.id}`"
             :register-page="`/home/recipe/register`"
           >
             <update-btn
@@ -304,6 +304,10 @@ export default {
     this.recipe.value = recipe.value
     this.recipe.comment = recipe.comment
     this.recipe.image = recipe.image
+    recipe.foods.forEach((food) => {
+      food.foodDelBtn = 'ー'
+      this.recipe.tableFoods.push(food)
+    })
   },
   methods: {
     // イメージ画像データを取得し、プレビューを作成
