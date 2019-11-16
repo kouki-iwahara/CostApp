@@ -89,11 +89,12 @@ export default {
 
 <style scoped>
 .wrapper {
-  border: none;
+  padding-top: 30px;
 }
 
 .login-form {
-  padding-top: 100px;
+  padding-top: 60px;
+  padding-bottom: 30px;
 }
 
 .form-signin {
