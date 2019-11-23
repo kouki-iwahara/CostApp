@@ -3,7 +3,7 @@
     "username": "cost_app_db_user",
     "password": "kouki0712",
     "database": "cost_app_db",
-    "host": "127.0.0.1",
+    "host": "mysql",
     "dialect": "mysql",
     "operatorsAliases": false
   },

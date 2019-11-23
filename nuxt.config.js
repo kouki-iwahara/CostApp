@@ -8,7 +8,7 @@ if (env === 'development' || env === 'test') {
 }
 
 module.exports = {
-  mode: 'universal',
+  mode: 'spa',
   /*
    ** Headers zof the page
    */

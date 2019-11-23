@@ -1,0 +1,34 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
+    stdin_open: true
+    tty: true
+
+  mysql:
+    # // DBのVERSIONを決める
+    image: mysql:5.7
+    restart: always
+    # // DBのデータをセットアップする
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: cost_app_db
+      MYSQL_USER: cost_app_db_user
+      MYSQL_PASSWORD: kouki0712
+      TZ: 'Asia/Tokyo'
+    ports:
+      # <Port exposed> : < MySQL Port running inside container>
+      - '3306:3306'
+    expose:
+      # Opens port 3306 on the container
+      - '3306'
+      # Where our data will be persisted
+    volumes:
+      - my-db:/var/lib/mysql
+volumes:
+  my-db:
+   driver: local
