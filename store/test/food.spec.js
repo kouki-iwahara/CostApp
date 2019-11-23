@@ -49,12 +49,12 @@ describe('store/user.js', () => {
         expect(res).toEqual(food1)
         done()
       })
-      test('getters.foodsに値が反映されるか ', async (done) => {
-        expect(store.getters.foods).not.toContainEqual(food1)
-        await store.dispatch('registerFood')
-        expect(store.getters.foods).toContainEqual(food1)
-        done()
-      })
+      // test('getters.foodsに値が反映されるか ', async (done) => {
+      //   expect(store.getters.foods).not.toContainEqual(food1)
+      //   await store.dispatch('registerFood')
+      //   expect(store.getters.foods).toContainEqual(food1)
+      //   done()
+      // })
     })
   })
 })
