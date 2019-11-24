@@ -1,22 +1,100 @@
-# CostManagementApp
+# 職務経歴書
 
-> My delightful Nuxt.js project
+## 基本情報
 
-## Build Setup
+|key|value|
+|---|-----|
+|年齢|33|
+|現住所|東京都|
+|家族構成|独身|
+|Twitter|[@iwaharasan](https://twitter.com/iwaharasan)|
 
-``` bash
-# install dependencies
-$ npm run install
 
-# serve with hot reload at localhost:3000
-$ npm run dev
 
-# build for production and launch server
-$ npm run build
-$ npm run start
+## 学習,使用したスキル
 
-# generate static project
-$ npm run generate
-```
+### 言語
+- JavaScript
+- HTML
+- CSS
 
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+### フレームワーク
+- Vue.js
+- Nuxt.js
+- Node.js
+- Express.js
+
+### データベース
+- Mysql(sequelizeでの操作)
+
+### 環境
+- 開発環境　Docker
+- テスト    CircleCI
+- 本番環境　Heroku
+
+### OS・ツール・他
+- Git,Github(git-flow)
+
+
+
+## ポートフォリオ
+
+### ポートフォリオ 食材原価管理アプリ
+|key|value|
+|---|-----|
+|アプリ名|constManagementApp|
+|ログイン　URL|https://cost-management-app.herokuapp.com/signin  簡単ログインボタンからすぐにログインできます|
+|概要|食材とレシピのデータを登録し、原価や利益を管理できるアプリ|
+|開発環境|OS: macOS Catalina -v10.15.1|
+|主な機能|食材とレシピのデータ（画像含む）の新規登録、表示、更新、削除。検索バーで食材やレシピの名前を検索しページ遷移。ログイン認証機能。デザインはbootstrap4を使用。|
+|ソースコード|https://github.com/kashitaku/ramen711|
+
+
+
+## 職務経歴 要約
+
+### 2017/2 - 2019/8 :飲食業界(ベンチャー企業)
+ 職務: 店長
+#### 職務内容
+- 新規店舗の立ち上げや
+- 予算、スタッフマネージメント（月一のミーティング、個人面談）
+- 季節ごとの新メーニュー考案、作成
+- 幹部クラス対象の経営に関するセミナーに参加（[株式会社武蔵野](https://www.musashino.co.jp/)　[株式会社繁盛塾](https://hanjyoujyuku.co.jp/)）
+- 介護施設を対象にした出店ボランティア活動([らぁ祭](http://rasai.jp/))
+
+### 2012/12 - 2017/1 :個人事業主として飲食店を経営
+ 職務: 事業主
+#### 職務内容
+- 月一回のメニュー切り替え
+- お客様からいただいたアドバイスを取り入れたお店作り
+- 予算、スタッフマネージメント
+
+### 2010/4 - 2012/11 :飲食業界　居酒屋
+ 職務: 接客と調理を担当
+#### 職務内容
+- 季節ごとの新メーニュー考案、作成
+- 社内（デザイナー、プランナー）社外ディレクション
+
+飲食店で培った幅広い年齢層とのスタッフコミュニケーションや、状況に応じ臨機応変に対応、提案できる能力、新メニュー考案の為に常に料理の勉強をしてきた経験は、必ずｗｅｂ業界にも貢献できると思います。
+
+より詳細な職務経歴はTwitterのDMでご連絡いただいた方に送らせていただきます。
+
+
+
+## 希望内容
+
+|key|value|
+|---|-----|
+|職種|フロントエンドエンジニア(必要ならバックエンドエンジニアも興味あります)|
+|雇用形態|正社員(正社員登用有の別形態含む)|
+|言語|JavaSCript(未取得言語についてもチャレンジします)|
+|勤務地|東京|
+|年収|300万〜|
+|時期|すぐにでも|
+
+
+ご覧いただきありがとうございました。
+少しでもご興味がお持ちいただきましたら、TwitterのDMにてご連絡をお待ちしております。
+よろしくお願いいたします。
+|Twitter|[@iwaharasan](https://twitter.com/iwaharasan)|
+
