@@ -9,29 +9,6 @@
 |家族構成|独身|
 |Twitter|[@iwaharasan](https://twitter.com/iwaharasan)|
 
-
-
-## 学習,使用したスキル
-
-### 言語
-- HTML
-- CSS
-- JavaScript: 3ヶ月
-- Vue.js: 2ヶ月
-- Nuxt.js 1ヶ月
-- Node.js 1ヶ月
-- Express.js 1ヶ月
-（その他）
-- git
-- FireBase
-- Docker
-- CircleCI
-- AWS(まだ勉強中で未実装)
-
-### データベース
-- Mysql(sequelizeでの操作)
-
-
 ## ポートフォリオ
 環境
 - OS: macOS Catalina -v10.15.1
@@ -55,6 +32,27 @@
 |主な機能|食材とレシピのデータ（画像含む）の新規登録、表示、更新、削除。検索バーで食材やレシピの名前を検索しページ遷移。ログイン認証機能。デザインはbootstrap4を使用。|
 |ソースコード|https://github.com/kouki-iwahara/CostApp|
 
+
+
+## 学習,使用したスキル
+
+### 言語
+- HTML
+- CSS
+- JavaScript: 3ヶ月
+- Vue.js: 2ヶ月
+- Nuxt.js 1ヶ月
+- Node.js 1ヶ月
+- Express.js 1ヶ月
+（その他）
+- git
+- FireBase
+- Docker
+- CircleCI
+- AWS(まだ勉強中で未実装)
+
+### データベース
+- Mysql(sequelizeでの操作)
 
 
 ## 職務経歴 要約
