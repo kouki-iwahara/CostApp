@@ -10,6 +10,7 @@
 |Twitter|[@iwaharasan](https://twitter.com/iwaharasan)|
 
 ## ポートフォリオ
+URL: https://cost-management-app.herokuapp.com/
 環境
 - OS: macOS Catalina -v10.15.1
 - フロント: Nuxt.js -v2.0
