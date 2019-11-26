@@ -14,30 +14,33 @@
 ## 学習,使用したスキル
 
 ### 言語
-- JavaScript
 - HTML
 - CSS
-
-### フレームワーク
-- Vue.js
-- Nuxt.js
-- Node.js
-- Express.js
+- JavaScript: 3ヶ月
+- Vue.js: 2ヶ月
+- Nuxt.js 1ヶ月
+- Node.js 1ヶ月
+- Express.js 1ヶ月
+（その他）
+- git
+- FireBase
+- Docker
+- CircleCI
+- AWS(まだ勉強中で未実装)
 
 ### データベース
 - Mysql(sequelizeでの操作)
 
-### 環境
-- 開発環境　Docker
-- テスト    CircleCI
-- 本番環境　Heroku
-
-### OS・ツール・他
-- Git,Github(git-flow)
-
-
 
 ## ポートフォリオ
+環境
+- OS: macOS Catalina -v10.15.1
+- フロント: Nuxt.js -v2.0
+- バック:  Express -v4.16.4
+- DB:：MySQL2 -v1.7.0
+- インフラ: Docker -v19.03.5
+- テスト: CircleCI
+- チーム開発を意識してgit-flowで開発
 
 ### ポートフォリオ 食材原価管理アプリ
 |key|value|
